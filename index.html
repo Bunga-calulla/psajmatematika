@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matematika di Dunia Nyata</title>
+  <meta name="description" content="Website edukasi matematika interaktif untuk siswa SMA/SMK.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="blob blob-a"></div><div class="blob blob-b"></div>
+  <header class="topbar">
+    <a class="brand" href="#" data-panel="home"><span class="brand-mark">∑</span><span>Matematika di Dunia Nyata</span></a>
+    <nav class="topnav">
+      <button data-panel="home">Beranda</button>
+      <button data-panel="modules">6 Modul</button>
+      <button data-panel="game">🎮 Main Game</button><button data-panel="loginPage">🔐 Akun</button>
+    </nav>
+    <div id="authArea">
+      <button class="pill-btn" id="openLogin">Masuk / Daftar</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="panel active">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">BELAJAR • COBA • MAIN • PROGRES</span>
+          <h1>Matematika ternyata<br><span>ada di mana-mana.</span></h1>
+          <p>Pelajari konsep matematika lewat situasi yang dekat dengan kehidupan sehari-hari. Interaktif, santai, dan cocok untuk siswa SMA/SMK.</p>
+          <div class="hero-actions">
+            <button class="gradient-btn" data-panel="modules">Mulai Belajar →</button>
+            <button class="soft-btn" data-panel="game">🎮 Main Kuis</button>
+          </div>
+          <div class="hero-mini">
+            <div><strong>6</strong><span>modul nyata</span></div>
+            <div><strong>36+</strong><span>latihan soal</span></div>
+            <div><strong>∞</strong><span>soal game acak</span></div>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="math-card card-1">20% OFF</div>
+          <div class="math-card card-2">a² + b² = c²</div>
+          <div class="math-card card-3">P(A) = ½</div>
+          <div class="hero-orb">π</div>
+          <div class="doodle">+</div><div class="doodle d2">×</div><div class="doodle d3">%</div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <div><span class="eyebrow">DASHBOARD</span><h2>Perjalanan belajarmu</h2></div>
+        <span id="rankBadge" class="rank-badge">🌱 Pemula</span>
+      </div>
+      <div id="progressGrid" class="progress-grid"></div>
+    </section>
+
+    <section id="loginPage" class="panel">
+      <div class="login-page">
+        <div class="login-visual">
+          <span class="eyebrow">MATEMATIKA DI DUNIA NYATA</span>
+          <h1>Belajar lebih teratur,<br><span>progres tetap tersimpan.</span></h1>
+          <p>Masuk atau buat akun untuk menyimpan materi yang sudah dibaca, simulasi yang sudah dicoba, skor latihan, dan riwayat game.</p>
+          <div class="login-benefits">
+            <div><b>✓</b><span>Progres tersimpan per akun</span></div>
+            <div><b>✓</b><span>Bisa dilanjutkan dari perangkat lain</span></div>
+            <div><b>✓</b><span>Tetap bisa belajar sebagai tamu</span></div>
+          </div>
+        </div>
+        <div class="login-form-card">
+          <div class="login-tabs"><button id="pageLoginTab" class="active">Masuk</button><button id="pageRegisterTab">Daftar</button></div>
+          <h2 id="pageAuthTitle">Selamat datang 👋</h2>
+          <p id="pageAuthSubtitle">Masuk untuk melanjutkan progres belajarmu.</p>
+          <form id="pageAuthForm">
+            <label>Email<input id="pageAuthEmail" type="email" required placeholder="nama@email.com"></label>
+            <label>Password<input id="pageAuthPassword" type="password" minlength="6" required placeholder="Minimal 6 karakter"></label>
+            <div id="pageAuthError" class="form-error"></div>
+            <button class="gradient-btn wide" type="submit" id="pageAuthSubmit">Masuk ke Akun</button>
+          </form>
+          <button class="google-btn" id="pageGoogleLogin" type="button">G &nbsp; Lanjut dengan Google</button>
+          <div class="login-divider"><span>atau</span></div>
+          <button class="guest-btn" id="pageGuestLogin" type="button">Lanjut sebagai Tamu</button>
+          <p class="login-note">Tidak wajib login untuk membuka materi. Login hanya diperlukan jika kamu ingin sinkronisasi progres ke akun.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules" class="panel">
+      <div class="section-heading">
+        <div><span class="eyebrow">BELAJAR LEWAT CERITA</span><h2>Pilih modul matematika</h2><p>Setiap modul punya materi, simulasi, dan latihan.</p></div>
+      </div>
+      <div id="moduleCards" class="module-cards"></div>
+    </section>
+
+    <section id="moduleView" class="panel">
+      <div id="moduleHeader"></div>
+      <div class="tabs">
+        <button class="tab active" data-tab="materi">📖 Materi</button>
+        <button class="tab" data-tab="coba">🧪 Coba Interaktif</button>
+        <button class="tab" data-tab="latihan">📝 Latihan Soal</button>
+      </div>
+      <div id="tab-materi" class="tab-panel active"></div>
+      <div id="tab-coba" class="tab-panel"></div>
+      <div id="tab-latihan" class="tab-panel"></div>
+    </section>
+
+    <section id="game" class="panel">
+      <div class="section-heading game-heading">
+        <div><span class="eyebrow">ARENA KUIS MATEMATIKA</span><h2>Uji refleks & logikamu 🎮</h2><p>8 soal kontekstual, timer berjalan, poin makin besar di level tinggi.</p></div>
+        <button class="mute-btn" id="muteBtn">🔊 Suara ON</button>
+      </div>
+      <div id="gameSetup" class="game-box">
+        <div class="game-icon">🎯</div>
+        <h3>Siap masuk arena?</h3>
+        <div class="setup-grid">
+          <label>Nama pemain<input id="playerName" maxlength="24" placeholder="Contoh: Calulla"></label>
+          <label>Materi<select id="gameTopic"></select></label>
+          <label>Level<select id="gameLevel"><option value="pemula">Pemula · 20 detik · 100 poin</option><option value="menengah">Menengah · 12 detik · 150 poin</option><option value="jagoan">Jagoan · 8 detik · 220 poin</option></select></label>
+        </div>
+        <button class="gradient-btn wide" id="startGame">Mulai Game 🚀</button>
+      </div>
+      <div id="gamePlay" class="game-box hidden"></div>
+      <div id="gameResult" class="game-box hidden"></div>
+      <div class="leaderboard-box">
+        <div class="section-heading compact"><div><span class="eyebrow">TOP 10</span><h3>Leaderboard</h3></div></div>
+        <div id="leaderboard"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="authModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="modal-close" id="closeLogin">×</button>
+      <span class="eyebrow">AKUN BELAJAR</span>
+      <h2 id="authTitle">Masuk ke akun</h2>
+      <p id="authSubtitle">Simpan progresmu agar bisa dilanjutkan dari perangkat lain.</p>
+      <form id="authForm">
+        <label>Email<input id="authEmail" type="email" required placeholder="nama@email.com"></label>
+        <label>Password<input id="authPassword" type="password" minlength="6" required placeholder="Minimal 6 karakter"></label>
+        <div id="authError" class="form-error"></div>
+        <button class="gradient-btn wide" type="submit" id="authSubmit">Masuk</button>
+      </form>
+      <div class="auth-switch"><span id="switchText">Belum punya akun?</span> <button id="switchAuth" type="button">Daftar</button></div>
+      <button class="google-btn" id="googleLogin" type="button">G&nbsp; Lanjut dengan Google</button>
+      <button class="guest-btn" id="guestLogin" type="button">Lanjut sebagai Tamu</button>
+    </div>
+  </div>
+
+  <footer><p>© 2026 Matematika di Dunia Nyata · Belajar matematika dengan cara yang dekat dengan kehidupan.</p></footer>
+
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/percentage.js"></script>
+  <script src="js/equation.js"></script>
+  <script src="js/geometry.js"></script>
+  <script src="js/statistics.js"></script>
+  <script src="js/trigonometry.js"></script>
+  <script src="js/probability.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

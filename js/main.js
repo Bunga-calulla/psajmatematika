@@ -1,0 +1,70 @@
+(function(){
+const modules=[
+{id:'persentase',name:'Persentase',case:'Diskon Kilat',accent:'#FF9F1C',icon:'🏷️',desc:'Hitung diskon, kenaikan harga, dan persentase yang sering muncul saat belanja.'},
+{id:'persamaan',name:'Persamaan',case:'Biaya Perjalanan',accent:'#3B82F6',icon:'🚌',desc:'Gunakan variabel dan persamaan untuk menghitung ongkos perjalanan.'},
+{id:'geometri',name:'Geometri',case:'Studio Desain Rumah',accent:'#7C3AED',icon:'📐',desc:'Pakai luas, keliling, dan volume saat merancang ruang dan benda.'},
+{id:'statistik',name:'Statistik',case:'Data Pertandingan',accent:'#17C3B2',icon:'📊',desc:'Baca data pertandingan lewat mean, median, modus, dan range.'},
+{id:'trigonometri',name:'Trigonometri',case:'Tinggi Gedung',accent:'#F2C94C',icon:'🏙️',desc:'Perkirakan tinggi gedung dengan sudut dan perbandingan sisi.'},
+{id:'peluang',name:'Peluang',case:'Simulator Peluang',accent:'#E33E57',icon:'🎲',desc:'Kenali peluang dari dadu, koin, dan pengambilan benda.'}];
+window.MODULES=modules;window.currentModule=null;
+document.addEventListener('DOMContentLoaded',()=>{
+const cards=document.getElementById('moduleCards');cards.innerHTML=modules.map(m=>`<article class="module-card" style="--accent:${m.accent}"><div class="module-num">${m.icon} MODUL</div><h3>${m.name}</h3><strong>${m.case}</strong><p>${m.desc}</p><button data-open="${m.id}">Buka modul →</button></article>`).join('');
+document.getElementById('gameTopic').innerHTML=modules.map(m=>`<option value="${m.id}">${m.name} · ${m.case}</option>`).join('');
+cards.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openModule(b.dataset.open));
+document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>showPanel(b.dataset.panel));
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+});
+window.showPanel=function(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(id==='home'&&window.Progress)Progress.render();};
+function switchTab(tab){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+tab));if(tab==='materi'&&currentModule)Progress.setMateri(currentModule.id)}
+window.openModule=function(id){const m=modules.find(x=>x.id===id);currentModule=m;showPanel('moduleView');document.getElementById('moduleHeader').innerHTML=`<div class="module-head" style="--accent:${m.accent}"><div><div class="eyebrow">${m.icon} ${m.case.toUpperCase()}</div><h2>${m.name}</h2><p>${m.desc}</p></div><button class="back-btn" onclick="showPanel('modules')">← Kembali</button></div>`;document.getElementById('tab-materi').innerHTML=window.getModuleMaterial(id);document.getElementById('tab-coba').innerHTML=window.getModuleSimulator(id);window.bindSimulator(id);window.renderQuiz(id);Progress.setMateri(id);document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='materi'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-materi'))}
+window.getModuleMaterial=function(id){
+const accent=modules.find(m=>m.id===id).accent;
+const lessons={
+persentase:{
+intro:`<h3>📌 Apa itu persentase?</h3><p>Persentase adalah cara menyatakan suatu bagian dari keseluruhan dalam <b>100 bagian</b>. Kata “persen” berarti “per seratus”. Jadi 25% artinya 25 dari setiap 100 bagian, atau 25/100 = 0,25.</p><p>Dalam kehidupan nyata, persentase muncul saat melihat <b>diskon, pajak, keuntungan, kenaikan harga, nilai ujian, cashback, dan statistik</b>. Karena itu, memahami persentase bukan cuma untuk mengerjakan soal, tetapi juga supaya kita tidak salah menghitung uang atau membaca informasi.</p>`,
+concept:`<div class="concept-grid"><div class="concept-box"><h4>Persen → desimal</h4><p>Geser koma dua tempat ke kiri.</p><b>25% = 0,25</b><br><b>8% = 0,08</b></div><div class="concept-box"><h4>Desimal → persen</h4><p>Kalikan dengan 100%.</p><b>0,4 = 40%</b><br><b>0,075 = 7,5%</b></div></div>`,
+formula:`<div class="formula-stack"><div class="formula">Persentase = (bagian ÷ keseluruhan) × 100%</div><div class="formula">Nilai persen = persentase × nilai awal</div><div class="formula">Harga akhir setelah diskon = harga awal − diskon</div></div>`,
+example:`<h3>🛍️ Contoh: Diskon di toko</h3><p>Harga sepatu Rp400.000 dan mendapat diskon 25%. Berapa yang harus dibayar?</p><ol class="step-list"><li>Ubah 25% menjadi 0,25.</li><li>Hitung besar diskon: 0,25 × Rp400.000 = <b>Rp100.000</b>.</li><li>Kurangi harga awal: Rp400.000 − Rp100.000 = <b>Rp300.000</b>.</li></ol>`,
+extra:`<div class="real-life" style="--accent:${accent}"><b>Kalau ada pajak?</b><p>Misalnya harga Rp300.000 dikenai pajak 10%. Pajaknya Rp30.000 sehingga totalnya Rp330.000. Bedakan “diskon” yang mengurangi harga dengan “pajak” yang menambah harga.</p></div>`,
+tip:`💡 <b>Tips anti salah:</b> tulis dulu “harga awal”, “persentase”, dan “yang ditanyakan”. Jangan langsung mengurangi 25 dari Rp400.000 karena 25% bukan Rp25.000.`},
+persamaan:{
+intro:`<h3>📌 Apa itu persamaan?</h3><p>Persamaan adalah kalimat matematika yang menyatakan bahwa dua nilai <b>sama</b>. Biasanya ada nilai yang belum diketahui dan kita wakili dengan variabel, misalnya <b>x</b>.</p><p>Di dunia nyata, persamaan sangat berguna untuk mencari biaya, jarak, waktu, jumlah barang, atau nilai lain yang belum diketahui. Kuncinya adalah menerjemahkan cerita menjadi hubungan matematika.</p>`,
+concept:`<div class="concept-grid"><div class="concept-box"><h4>Variabel</h4><p>Huruf yang mewakili nilai yang belum diketahui.</p><b>x = jarak perjalanan</b></div><div class="concept-box"><h4>Koefisien</h4><p>Angka yang mengalikan variabel.</p><b>3.000x → tarif per km</b></div></div>`,
+formula:`<div class="formula-stack"><div class="formula">Biaya total = biaya tetap + (tarif × jumlah)</div><div class="formula">ax + b = c → x = (c − b) ÷ a</div></div>`,
+example:`<h3>🚌 Contoh: Biaya perjalanan</h3><p>Biaya awal bus Rp10.000. Setiap kilometer menambah Rp2.500. Jika kamu membayar Rp25.000, berapa kilometer perjalananmu?</p><ol class="step-list"><li>Misalkan jarak = <b>x</b> km.</li><li>Buat persamaan: 10.000 + 2.500x = 25.000.</li><li>Kurangi 10.000 dari kedua sisi: 2.500x = 15.000.</li><li>Bagi 2.500: <b>x = 6 km</b>.</li></ol>`,
+extra:`<div class="real-life" style="--accent:${accent}"><b>Cara mengecek jawaban:</b><p>Masukkan x = 6 ke rumus: 10.000 + (2.500 × 6) = 25.000. Karena hasilnya sesuai, jawaban kita masuk akal.</p></div>`,
+tip:`💡 <b>Tips:</b> jangan takut dengan x. Anggap x hanya sebagai “kotak kosong” yang harus ditemukan. Tulis informasi dari cerita sebelum membuat persamaan.`},
+geometri:{
+intro:`<h3>📌 Geometri ada di ruang yang kita pakai</h3><p>Geometri mempelajari bentuk, ukuran, jarak, luas, keliling, dan volume. Saat kamu mendesain kamar, menghitung jumlah keramik, mengecat dinding, atau membuat kemasan, kamu sebenarnya sedang menggunakan geometri.</p><p>Pilih rumus berdasarkan pertanyaannya: <b>keliling</b> untuk panjang sisi luar, <b>luas</b> untuk permukaan, dan <b>volume</b> untuk ruang yang dapat diisi.</p>`,
+concept:`<table class="mini-table"><tr><th>Bentuk</th><th>Luas</th><th>Keliling</th></tr><tr><td>Persegi</td><td>s²</td><td>4s</td></tr><tr><td>Persegi panjang</td><td>p × l</td><td>2(p+l)</td></tr><tr><td>Segitiga</td><td>½ × a × t</td><td>jumlah semua sisi</td></tr><tr><td>Lingkaran</td><td>πr²</td><td>2πr</td></tr></table>`,
+formula:`<div class="formula-stack"><div class="formula">Persegi panjang: L = p × l</div><div class="formula">Balok: V = p × l × t</div><div class="formula">Lingkaran: L = πr²</div></div>`,
+example:`<h3>🏠 Contoh: Keramik kamar</h3><p>Sebuah kamar berukuran 5 m × 4 m. Jika satu dus keramik menutup 2 m², berapa dus minimal yang dibutuhkan?</p><ol class="step-list"><li>Luas kamar = 5 × 4 = <b>20 m²</b>.</li><li>Jumlah dus = 20 ÷ 2 = <b>10 dus</b>.</li><li>Dalam pembelian nyata, tambahkan cadangan untuk potongan atau kerusakan.</li></ol>`,
+extra:`<div class="real-life" style="--accent:${accent}"><b>Perhatikan satuan!</b><p>Jika panjang dalam meter, luas menjadi m². Jangan mencampur cm dengan m tanpa konversi terlebih dahulu.</p></div>`,
+tip:`💡 <b>Tips:</b> gambar bentuknya dan tulis ukuran yang diketahui di dekat sisinya. Visual sederhana sering membuat soal geometri jauh lebih mudah.`},
+statistik:{
+intro:`<h3>📌 Mengapa statistik diperlukan?</h3><p>Dalam pertandingan, ada banyak angka: skor pemain, jumlah tembakan, waktu, dan sebagainya. Statistik membantu kita merangkum angka tersebut menjadi informasi yang mudah dipahami.</p><p>Tiga ukuran yang sering digunakan adalah <b>mean (rata-rata), median (nilai tengah), dan modus (yang paling sering muncul)</b>. Ada juga range untuk melihat rentang data.</p>`,
+concept:`<div class="concept-grid"><div class="concept-box"><h4>Mean</h4><p>Jumlah semua data dibagi banyak data.</p><b>Σx ÷ n</b></div><div class="concept-box"><h4>Median</h4><p>Nilai yang berada di tengah setelah data diurutkan.</p><b>Urutkan dulu!</b></div><div class="concept-box"><h4>Modus</h4><p>Nilai yang paling sering muncul.</p><b>Bisa lebih dari satu.</b></div><div class="concept-box"><h4>Range</h4><p>Jarak antara nilai terbesar dan terkecil.</p><b>maks − min</b></div></div>`,
+formula:`<div class="formula-stack"><div class="formula">Mean = jumlah data ÷ banyak data</div><div class="formula">Range = nilai terbesar − nilai terkecil</div></div>`,
+example:`<h3>🏆 Contoh: Skor pertandingan</h3><p>Skor lima pemain adalah 8, 12, 10, 6, 14.</p><ol class="step-list"><li>Jumlahkan: 8 + 12 + 10 + 6 + 14 = <b>50</b>.</li><li>Mean = 50 ÷ 5 = <b>10</b>.</li><li>Urutkan: 6, 8, 10, 12, 14. Median = <b>10</b>.</li><li>Range = 14 − 6 = <b>8</b>.</li></ol>`,
+extra:`<div class="real-life" style="--accent:${accent}"><b>Kapan memakai apa?</b><p>Mean cocok untuk gambaran umum. Median berguna saat ada nilai ekstrem. Modus berguna untuk mencari pilihan yang paling sering terjadi.</p></div>`,
+tip:`💡 <b>Tips:</b> kesalahan paling sering terjadi saat mencari median. Selalu urutkan data terlebih dahulu dari kecil ke besar.`},
+trigonometri:{
+intro:`<h3>📌 Trigonometri dan pengukuran tinggi</h3><p>Trigonometri membahas hubungan antara sudut dan sisi pada segitiga, terutama segitiga siku-siku. Dengan konsep ini, kita bisa memperkirakan tinggi objek yang sulit diukur langsung.</p><p>Untuk siswa, tiga rasio penting adalah <b>sin, cos, dan tan</b>. Ingat pola sederhana: <b>SOH–CAH–TOA</b>.</p>`,
+concept:`<div class="concept-grid"><div class="concept-box"><h4>SOH</h4><p>Sin = Opposite / Hypotenuse</p><b>sin θ = depan / miring</b></div><div class="concept-box"><h4>CAH</h4><p>Cos = Adjacent / Hypotenuse</p><b>cos θ = samping / miring</b></div><div class="concept-box"><h4>TOA</h4><p>Tan = Opposite / Adjacent</p><b>tan θ = depan / samping</b></div><div class="concept-box"><h4>Pythagoras</h4><p>Untuk segitiga siku-siku.</p><b>a² + b² = c²</b></div></div>`,
+formula:`<div class="formula-stack"><div class="formula">sin θ = depan ÷ miring</div><div class="formula">cos θ = samping ÷ miring</div><div class="formula">tan θ = depan ÷ samping</div></div>`,
+example:`<h3>🏙️ Contoh: Tinggi gedung</h3><p>Kamu berdiri 12 m dari kaki gedung dan mengukur sudut elevasi ke puncak sebesar 45°. Abaikan tinggi mata untuk model sederhana.</p><ol class="step-list"><li>Yang dicari adalah sisi depan (tinggi).</li><li>Yang diketahui sisi samping = 12 m.</li><li>Gunakan tan: tan 45° = tinggi ÷ 12.</li><li>Karena tan 45° = 1, tinggi = <b>12 m</b>.</li></ol>`,
+extra:`<div class="real-life" style="--accent:${accent}"><b>Catatan dunia nyata:</b><p>Pengukuran sebenarnya perlu memperhitungkan tinggi mata, kemiringan tanah, ketelitian alat, dan posisi pengamat. Contoh di atas adalah model sederhana untuk memahami konsep.</p></div>`,
+tip:`💡 <b>Tips mengingat:</b> gambar segitiga dulu. Tandai sudut, sisi depan, sisi samping, dan sisi miring sebelum memilih rumus.`},
+peluang:{
+intro:`<h3>📌 Peluang = seberapa mungkin sesuatu terjadi</h3><p>Peluang digunakan saat hasil belum pasti, misalnya lempar dadu, koin, undian, atau permainan. Nilai peluang berada dari <b>0 sampai 1</b>, atau 0% sampai 100%.</p><p>Peluang 0 berarti mustahil, sedangkan peluang 1 berarti pasti. Semakin dekat ke 1, semakin besar kemungkinan peristiwa tersebut terjadi.</p>`,
+concept:`<div class="concept-grid"><div class="concept-box"><h4>Ruang sampel</h4><p>Semua hasil yang mungkin terjadi.</p><b>Dadu → {1,2,3,4,5,6}</b></div><div class="concept-box"><h4>Kejadian</h4><p>Hasil yang kita inginkan.</p><b>Genap → {2,4,6}</b></div></div>`,
+formula:`<div class="formula-stack"><div class="formula">P(A) = banyak hasil yang diinginkan ÷ banyak seluruh hasil</div><div class="formula">0 ≤ P(A) ≤ 1</div><div class="formula">P(A) dalam persen = P(A) × 100%</div></div>`,
+example:`<h3>🎲 Contoh: Lempar dadu</h3><p>Sebuah dadu fair dilempar sekali. Berapa peluang muncul angka genap?</p><ol class="step-list"><li>Semua hasil: 1, 2, 3, 4, 5, 6 → ada <b>6</b>.</li><li>Hasil genap: 2, 4, 6 → ada <b>3</b>.</li><li>P(genap) = 3 ÷ 6 = <b>½ = 50%</b>.</li></ol>`,
+extra:`<div class="real-life" style="--accent:${accent}"><b>Kenapa “fair” penting?</b><p>Rumus sederhana ini menganggap setiap hasil memiliki kesempatan yang sama. Dadu yang berat sebelah atau koin yang tidak seimbang tidak memenuhi asumsi tersebut.</p></div>`,
+tip:`💡 <b>Tips:</b> tulis ruang sampel sebelum menghitung. Jangan langsung menebak peluang hanya dari perasaan.`}
+};
+const x=lessons[id];
+return `<div class="lesson-sections"><div class="content-card">${x.intro}</div><div class="content-card">${x.concept}</div><div class="content-card"><h3>📐 Rumus penting</h3>${x.formula}</div><div class="content-card">${x.example}</div><div class="content-card">${x.extra}<div class="tip" style="margin-top:14px">${x.tip}</div></div></div>`;
+};
+
+})();

@@ -1,0 +1,1 @@
+/* Trigonometri simulator ada di equation.js agar file tetap ringan. */
