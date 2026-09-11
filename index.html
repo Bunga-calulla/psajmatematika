@@ -17,7 +17,7 @@
     <nav class="topnav">
       <button data-panel="home">Beranda</button>
       <button data-panel="modules">6 Modul</button>
-      <button data-panel="game">🎮 Main Game</button><button data-panel="loginPage">🔐 Akun</button>
+      <button onclick="location.href='game.html'">🕵️ Main Game</button><button data-panel="loginPage">🔐 Akun</button>
     </nav>
     <div id="authArea">
       <button class="pill-btn" id="openLogin">Masuk / Daftar</button>
@@ -33,12 +33,12 @@
           <p>Pelajari konsep matematika lewat situasi yang dekat dengan kehidupan sehari-hari. Interaktif, santai, dan cocok untuk siswa SMA/SMK.</p>
           <div class="hero-actions">
             <button class="gradient-btn" data-panel="modules">Mulai Belajar →</button>
-            <button class="soft-btn" data-panel="game">🎮 Main Kuis</button>
+            <button class="soft-btn" onclick="location.href='game.html'">🕵️ Main Kuis</button>
           </div>
           <div class="hero-mini">
             <div><strong>6</strong><span>modul nyata</span></div>
             <div><strong>36+</strong><span>latihan soal</span></div>
-            <div><strong>∞</strong><span>soal game acak</span></div>
+            <div><strong>3</strong><span>kasus detektif</span></div>
           </div>
         </div>
         <div class="hero-art">
@@ -106,28 +106,6 @@
       <div id="tab-latihan" class="tab-panel"></div>
     </section>
 
-    <section id="game" class="panel">
-      <div class="section-heading game-heading">
-        <div><span class="eyebrow">ARENA KUIS MATEMATIKA</span><h2>Uji refleks & logikamu 🎮</h2><p>8 soal kontekstual, timer berjalan, poin makin besar di level tinggi.</p></div>
-        <button class="mute-btn" id="muteBtn">🔊 Suara ON</button>
-      </div>
-      <div id="gameSetup" class="game-box">
-        <div class="game-icon">🎯</div>
-        <h3>Siap masuk arena?</h3>
-        <div class="setup-grid">
-          <label>Nama pemain<input id="playerName" maxlength="24" placeholder="Contoh: Calulla"></label>
-          <label>Materi<select id="gameTopic"></select></label>
-          <label>Level<select id="gameLevel"><option value="pemula">Pemula · 20 detik · 100 poin</option><option value="menengah">Menengah · 12 detik · 150 poin</option><option value="jagoan">Jagoan · 8 detik · 220 poin</option></select></label>
-        </div>
-        <button class="gradient-btn wide" id="startGame">Mulai Game 🚀</button>
-      </div>
-      <div id="gamePlay" class="game-box hidden"></div>
-      <div id="gameResult" class="game-box hidden"></div>
-      <div class="leaderboard-box">
-        <div class="section-heading compact"><div><span class="eyebrow">TOP 10</span><h3>Leaderboard</h3></div></div>
-        <div id="leaderboard"></div>
-      </div>
-    </section>
   </main>
 
   <div id="authModal" class="modal hidden">
@@ -160,6 +138,5 @@
   <script src="js/statistics.js"></script>
   <script src="js/trigonometry.js"></script>
   <script src="js/probability.js"></script>
-  <script src="js/game.js"></script>
 </body>
 </html>

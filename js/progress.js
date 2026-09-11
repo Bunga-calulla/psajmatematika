@@ -21,7 +21,7 @@ const colors={persentase:'#FF9F1C',persamaan:'#3B82F6',geometri:'#7C3AED',statis
 const grid=document.getElementById('progressGrid'); if(!grid)return;
 grid.innerHTML=Object.entries(data).map(([k,v])=>{let p=Math.round(((v.materi?1:0)+(v.coba?1:0)+(v.latihan.score>0?1:0))/3*100);return `<div class="progress-card"><div class="title">${names[k]}</div><div class="progress-meta"><span>${p}% selesai</span><span>${v.latihan.score}/${v.latihan.total} latihan</span></div><div class="bar"><span style="width:${p}%;background:${colors[k]}"></span></div></div>`}).join('');
 const total=Object.values(data).reduce((s,v)=>s+v.latihan.score,0),max=Object.values(data).reduce((s,v)=>s+v.latihan.total,0);
-let rank=overall()===1?'🏆 Master Matematika':overall()>=.72?'🔥 Rajin Belajar':overall()>=.38?'🚀 Explorer':'🌱 Pemula';
+let rank=window.Progress.overall()===1?'🏆 Master Matematika':window.Progress.overall()>=.72?'🔥 Rajin Belajar':window.Progress.overall()>=.38?'🚀 Explorer':'🌱 Pemula';
 document.getElementById('rankBadge').textContent=rank;
 }
 async function sync(){if(window.saveProgressToCloud) await window.saveProgressToCloud(data)}

@@ -9,7 +9,6 @@ const modules=[
 window.MODULES=modules;window.currentModule=null;
 document.addEventListener('DOMContentLoaded',()=>{
 const cards=document.getElementById('moduleCards');cards.innerHTML=modules.map(m=>`<article class="module-card" style="--accent:${m.accent}"><div class="module-num">${m.icon} MODUL</div><h3>${m.name}</h3><strong>${m.case}</strong><p>${m.desc}</p><button data-open="${m.id}">Buka modul →</button></article>`).join('');
-document.getElementById('gameTopic').innerHTML=modules.map(m=>`<option value="${m.id}">${m.name} · ${m.case}</option>`).join('');
 cards.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openModule(b.dataset.open));
 document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>showPanel(b.dataset.panel));
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
