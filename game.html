@@ -3,215 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Math Detective — Matematika di Dunia Nyata</title>
-<link rel="stylesheet" href="css/detective.css">
+<title>Math Break: The Infinite Tower</title>
+<link rel="stylesheet" href="css/tower.css">
 </head>
 <body>
-<div class="app-shell" id="appShell">
+<div class="tower-app" id="towerApp">
 
-  <!-- SIDEBAR (only visible on hub screens: Beranda & Prestasi) -->
-  <aside class="sidebar">
-    <div class="sidebar-plus">✦</div>
-    <nav class="sidebar-nav">
-      <button class="sidebar-item" id="navHome" data-goto="home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-        Beranda
-      </button>
-      <button class="sidebar-item" id="navLevel" data-goto="cases">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="7" height="7" rx="1"/><rect x="14" y="4" width="7" height="7" rx="1"/><rect x="3" y="15" width="7" height="5" rx="1"/><rect x="14" y="15" width="7" height="5" rx="1"/></svg>
-        Level
-      </button>
-      <button class="sidebar-item" id="navPrestasi" data-goto="achievements">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M5 6H3v1a4 4 0 0 0 4 3.8M19 6h2v1a4 4 0 0 1-4 3.8"/><path d="M12 14v3M9 21h6M9.5 20l.7-3M14.5 20l-.7-3"/></svg>
-        Prestasi
-      </button>
-      <button class="sidebar-item" id="navProfil" data-goto="home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
-        Profil
-      </button>
-      <button class="sidebar-item" id="navPengaturan" data-goto="home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.14.36.5.9 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z"/></svg>
-        Pengaturan
-      </button>
-    </nav>
-    <div class="sidebar-spacer"></div>
-    <div class="sidebar-plus">✦</div>
-  </aside>
+  <!-- ============ START SCREEN ============ -->
+  <div class="screen start-screen" id="screenStart">
+    <div class="start-bg-glow"></div>
+    <div class="start-card">
+      <h1 class="game-title">MATH BREAK<span>The Infinite Tower</span></h1>
+      <p class="game-tagline">Panjat menara, hancurkan Pintu Bersegel dengan kekuatan matematika!</p>
 
-  <div class="main-col">
-
-    <!-- ============ SCREEN 1: BERANDA ============ -->
-    <section class="screen active" id="screenHome">
-      <div class="hero-noir">
-        <div class="hero-lamp-glow"></div>
-        <div class="hero-content">
-          <div class="hero-eyebrow"><span class="hat">🎩</span></div>
-          <h1 class="hero-title">MATH<br>DETECTIVE<span class="magnify">🔍</span></h1>
-          <p class="hero-sub">Gunakan logika, pecahkan angka, ungkap kebenaran.</p>
-          <button class="btn-gold" data-goto="cases">▶ Mulai Investigasi</button>
-          <p class="hero-quote">"Matematika bukan hanya angka,<br>tapi juga cara berpikir."</p>
+      <div class="start-stats">
+        <div class="stat-box">
+          <span class="stat-label">Lantai Tertinggi</span>
+          <span class="stat-value" id="statHighestFloor">1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Total Bintang</span>
+          <span class="stat-value" id="statTotalStars">⭐ 0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Achievement</span>
+          <span class="stat-value" id="statAchCount">0 / 3</span>
         </div>
       </div>
-    </section>
 
-    <!-- ============ SCREEN 2: PILIH KASUS ============ -->
-    <section class="screen" id="screenCases">
-      <div class="cases-bg">
-        <div class="topbar">
-          <div class="topbar-left">
-            <button class="back-link" data-goto="home">←</button>
-            <div class="topbar-title">
-              <h1>Pilih Kasus</h1>
-              <p>Setiap kasus memiliki tingkat kesulitan dan materi yang berbeda.</p>
-            </div>
-          </div>
-          <div class="profile-chip">
-            <div class="profile-avatar">🕵️</div>
-            <div class="profile-meta"><strong id="profName1">Fairuz Hidayat</strong><span>Detektif Pemula</span></div>
-            <div class="profile-score">⭐ <span id="profScore1">1250</span></div>
-          </div>
-        </div>
-        <div class="cases-body">
-          <div id="caseRow" class="case-row"></div>
-          <div class="compass-deco">🧭</div>
-        </div>
+      <button class="btn-primary btn-glow" id="btnStartGame">▶ Mulai Memanjat</button>
+
+      <div class="start-actions">
+        <button class="btn-secondary" id="btnOpenAchievements">🏆 Achievement</button>
+        <button class="btn-secondary" id="btnOpenHighscore">📊 High Score</button>
       </div>
-    </section>
-
-    <!-- ============ SCREEN 3: INVESTIGASI (GAMEPLAY) ============ -->
-    <section class="screen" id="screenPlay">
-      <div class="play-bg">
-        <div class="topbar">
-          <div class="topbar-left">
-            <button class="back-link" data-goto="cases">← Kembali</button>
-            <div class="topbar-title"><h1 id="playCaseTitle">Kasus #001 – Barang Hilang</h1></div>
-          </div>
-          <div class="step-track" id="stepTrack"></div>
-          <div class="status-row">
-            <span class="status-chip">⏱ <span id="playTimer">08:45</span></span>
-            <span class="status-chip">🪙</span>
-            <span class="status-chip lives" id="livesRow">❤️❤️❤️</span>
-          </div>
-        </div>
-        <div class="play-body">
-          <div class="witness-card">
-            <div class="witness-portrait">🕵️</div>
-            <div class="bubble" id="storyText">Sebuah barang berharga hilang dari ruang penyimpanan.</div>
-            <button class="hint-btn" id="hintBtn">💡 Baca Petunjuk</button>
-          </div>
-          <div class="question-panel">
-            <p class="question-text" id="questionText">Pertanyaan investigasi akan muncul di sini.</p>
-            <div class="answer-list" id="answerList"></div>
-            <div class="play-footer">
-              <button class="skip-link" id="skipBtn">Lewati 🏃</button>
-              <button class="check-btn" id="submitBtn">Periksa Jawaban →</button>
-            </div>
-            <p class="feedback-line" id="feedbackText"></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SCREEN 4: BUKTI & ANALISIS ============ -->
-    <section class="screen" id="screenEvidence">
-      <div class="evidence-bg">
-        <div class="topbar">
-          <div class="topbar-left">
-            <button class="back-link" data-goto="play">← Kembali</button>
-            <div class="topbar-title"><h1>Bukti &amp; Analisis</h1></div>
-          </div>
-        </div>
-        <div class="evidence-body">
-          <div class="evidence-card">
-            <div class="evi-tabs">
-              <button class="evi-tab active">Data Tersangka</button>
-              <button class="evi-tab">Barang Bukti</button>
-              <button class="evi-tab">Catatan Kasus</button>
-            </div>
-            <div class="evi-grid">
-              <div class="suspect-list" id="suspectList"></div>
-              <div class="alibi-panel" id="alibiPanel"></div>
-            </div>
-          </div>
-          <aside class="sticky-aside">
-            <div class="sticky-note">
-              <h4>Catatan:</h4>
-              <p id="stickyNote">Jika jarak 12 km ditempuh dalam 10 menit, maka kecepatan yang dibutuhkan adalah 72 km/jam.</p>
-            </div>
-            <div class="formula-note">
-              <div>Kecepatan = <span class="frac"><span>Jarak</span><span class="bar"></span><span>Waktu</span></span></div>
-              <div class="formula-triangle">
-                <svg viewBox="0 0 110 90"><polygon points="55,6 100,84 10,84" fill="none" stroke="#2b2410" stroke-width="3"/><line x1="10" y1="84" x2="100" y2="84" stroke="#2b2410" stroke-width="3"/><text x="55" y="42" font-size="16" font-weight="800" text-anchor="middle" fill="#2b2410">J</text><text x="30" y="76" font-size="15" font-weight="800" text-anchor="middle" fill="#2b2410">V</text><text x="80" y="76" font-size="15" font-weight="800" text-anchor="middle" fill="#2b2410">t</text><line x1="10" y1="84" x2="100" y2="6" stroke="none"/><line x1="55" y1="84" x2="55" y2="45" stroke="#2b2410" stroke-width="2"/></svg>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SCREEN 5: HASIL ============ -->
-    <section class="screen" id="screenResult">
-      <div class="result-bg">
-        <div class="result-silhouette"><div class="hat"></div><div class="head"></div><div class="body"></div></div>
-        <div class="result-grid">
-          <div class="result-card">
-            <div class="result-head"><span class="icon">🔍</span><h1>Kasus Berhasil Dipecahkan!</h1></div>
-            <p class="result-desc">Kamu berhasil mengungkap kebenaran di balik kasus ini. Logika dan perhitunganmu sangat baik!</p>
-            <div class="reward-row">
-              <div class="reward-item">⭐ +<span id="rewardPoin">150</span> Poin</div>
-              <div class="reward-item">🛡️ +1 Achievement</div>
-            </div>
-            <div class="level-row"><span id="levelLabel">Lv. 2</span><span id="levelFrac">320 / 500</span></div>
-            <div class="level-bar"><span id="levelBarFill" style="width:64%"></span></div>
-            <button class="btn-gold" data-goto="cases">Lanjut ke Kasus Berikutnya</button>
-          </div>
-          <div class="case-file">
-            <div class="case-file-paper">
-              <div class="stamp">TERBUKTI</div>
-              <div class="case-file-photo">🏚️</div>
-              <div class="case-file-text">Tersangka:<b id="suspectResult">Andi</b>(Alibi tidak masuk akal)</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SCREEN 6: PRESTASI ============ -->
-    <section class="screen" id="screenAchievements">
-      <div class="ach-bg">
-        <div class="topbar">
-          <div class="topbar-left">
-            <button class="back-link" data-goto="home">←</button>
-          </div>
-          <div class="profile-chip">
-            <div class="profile-avatar">🕵️</div>
-            <div class="profile-meta"><strong id="profName2">Fairuz Hidayat</strong><span>Detektif Pemula</span></div>
-            <div class="profile-score">⭐ <span id="profScore2">1250</span></div>
-            <button class="gear-btn">⚙️</button>
-          </div>
-        </div>
-        <div class="ach-body">
-          <div class="ach-heading">
-            <div><h1>Prestasi</h1><p>Selesaikan tantangan dan kumpulkan semua achievement!</p></div>
-          </div>
-          <div class="ach-layout">
-            <div class="ach-grid" id="achGrid"></div>
-            <div class="total-ach-card">
-              <h4>TOTAL ACHIEVEMENT</h4>
-              <div class="ring-wrap">
-                <svg width="130" height="130"><circle cx="65" cy="65" r="56" fill="none" stroke="#1a2338" stroke-width="10"/><circle cx="65" cy="65" r="56" fill="none" stroke="#e3b567" stroke-width="10" stroke-dasharray="352" stroke-dashoffset="293" stroke-linecap="round"/></svg>
-                <div class="ring-icon">👑</div>
-              </div>
-              <div class="total-ach-num">6 / 36</div>
-              <div class="total-ach-quote">"Bukan hanya siapa yang paling pintar, tapi siapa yang paling teliti."</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    </div>
   </div>
+
+  <!-- ============ GAME SCREEN (3-COLUMN DASHBOARD) ============ -->
+  <div class="screen game-screen" id="screenGame" style="display:none;">
+    <div class="dashboard-grid">
+
+      <!-- ===== LEFT SIDEBAR ===== -->
+      <aside class="side-panel side-left">
+        <div class="panel-block">
+          <h3 class="panel-title">📈 Progression</h3>
+          <div class="progression-mini">
+            <div class="prog-row"><span>Lantai</span><strong id="sbFloor">1</strong></div>
+            <div class="prog-row"><span>Total Bintang</span><strong id="sbStars">⭐ 0</strong></div>
+            <div class="prog-row"><span>Combo Terbaik</span><strong id="sbBestCombo">x0</strong></div>
+          </div>
+        </div>
+        <div class="panel-block">
+          <h3 class="panel-title">🏆 Achievements</h3>
+          <div class="mini-ach-list" id="sbAchList"></div>
+        </div>
+        <div class="panel-block">
+          <h3 class="panel-title">📅 Leaderboard Harian</h3>
+          <p class="panel-note">Rekor lokal di perangkat ini</p>
+          <div class="leaderboard-list" id="sbLeaderboard"></div>
+        </div>
+      </aside>
+
+      <!-- ===== CENTER: MAIN GAME ===== -->
+      <main class="center-panel">
+        <div class="hud-top">
+          <button class="btn-icon" id="btnMenu" title="Kembali ke Menu">☰</button>
+          <div class="floor-indicator">
+            <span class="floor-label">LANTAI</span>
+            <span class="floor-number" id="floorNum">1</span>
+            <span class="floor-total">/ 100</span>
+          </div>
+          <div class="combo-indicator" id="comboIndicator">🔥 x1</div>
+        </div>
+
+        <div class="boss-panel">
+          <div class="boss-name" id="bossName">Pintu Bersegel #1</div>
+          <div class="hp-bar-wrap">
+            <div class="hp-bar-fill" id="bossHpFill"></div>
+            <span class="hp-bar-text" id="bossHpText">100 / 100</span>
+          </div>
+        </div>
+
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" width="640" height="360"></canvas>
+        </div>
+
+        <div class="lives-row" id="livesRow">
+          <span class="life-star">⭐</span><span class="life-star">⭐</span><span class="life-star">⭐</span>
+        </div>
+
+        <div class="answer-panel">
+          <div class="timer-bar-wrap"><div class="timer-bar-fill" id="timerBarFill"></div></div>
+          <p class="question-category" id="questionCategory">Trigonometri</p>
+          <p class="question-text" id="questionText">Berapa nilai sin(30°)?</p>
+          <div class="answer-grid" id="answerGrid"></div>
+        </div>
+      </main>
+
+      <!-- ===== RIGHT SIDEBAR ===== -->
+      <aside class="side-panel side-right">
+        <div class="panel-block">
+          <h3 class="panel-title">🎯 Rewards & Goals</h3>
+          <div class="goal-box">
+            <p class="goal-text" id="goalText">Capai Lantai 10 untuk membuka Rune Emas.</p>
+            <div class="goal-progress-wrap"><div class="goal-progress-fill" id="goalProgressFill"></div></div>
+          </div>
+        </div>
+        <div class="panel-block">
+          <h3 class="panel-title">✨ Cosmetics</h3>
+          <div class="cosmetic-grid" id="cosmeticGrid"></div>
+        </div>
+        <div class="panel-block">
+          <h3 class="panel-title">🎖️ Badges</h3>
+          <div class="badge-grid" id="badgeGrid"></div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- ============ MODAL: FLOOR COMPLETE ============ -->
+  <div class="modal-overlay" id="modalFloorComplete" style="display:none;">
+    <div class="modal-box modal-celebrate">
+      <h2>Lantai Ditaklukkan! 🎉</h2>
+      <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
+      <p id="floorCompleteText">Lantai 1 berhasil diselesaikan!</p>
+      <div class="achievement-popup" id="achievementPopup" style="display:none;"></div>
+      <button class="btn-primary" id="btnNextFloor">Lanjut ke Lantai Berikutnya →</button>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: GAME OVER (FLOOR FAILED) ============ -->
+  <div class="modal-overlay" id="modalGameOver" style="display:none;">
+    <div class="modal-box">
+      <h2>Pintu Terlalu Kuat 💀</h2>
+      <p id="gameOverText">Bintangmu habis di lantai ini.</p>
+      <button class="btn-primary" id="btnRetryFloor">🔄 Coba Lagi</button>
+      <button class="btn-secondary" id="btnBackToMenuFromOver">Kembali ke Menu</button>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: TOWER CLEARED ============ -->
+  <div class="modal-overlay" id="modalTowerCleared" style="display:none;">
+    <div class="modal-box modal-celebrate">
+      <h2>👑 Menara Ditaklukkan!</h2>
+      <p>Kamu berhasil mencapai puncak lantai 100! Kamu adalah Sang Penakluk Menara Matematika.</p>
+      <button class="btn-primary" id="btnBackToMenuFromClear">Kembali ke Menu</button>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: ACHIEVEMENTS ============ -->
+  <div class="modal-overlay" id="modalAchievements" style="display:none;">
+    <div class="modal-box">
+      <h2>🏆 Achievement</h2>
+      <div class="achievement-list" id="achievementList"></div>
+      <button class="btn-secondary btn-close-modal" data-close="modalAchievements">Tutup</button>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: HIGH SCORE ============ -->
+  <div class="modal-overlay" id="modalHighscore" style="display:none;">
+    <div class="modal-box">
+      <h2>📊 High Score</h2>
+      <div class="highscore-list" id="highscoreList"></div>
+      <button class="btn-secondary btn-close-modal" data-close="modalHighscore">Tutup</button>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: PAUSE / MENU ============ -->
+  <div class="modal-overlay" id="modalPause" style="display:none;">
+    <div class="modal-box">
+      <h2>⏸ Jeda</h2>
+      <p>Progres lantai saat ini akan hilang jika kamu kembali ke menu.</p>
+      <button class="btn-primary" id="btnResumeGame">▶ Lanjutkan</button>
+      <button class="btn-secondary" id="btnQuitToMenu">Kembali ke Menu</button>
+    </div>
+  </div>
+
 </div>
-<script src="js/detective.js"></script>
+<script src="js/tower.js"></script>
 </body>
 </html>
