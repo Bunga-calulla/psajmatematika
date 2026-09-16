@@ -1,187 +1,2715 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Math Break: The Infinite Tower</title>
-<link rel="stylesheet" href="css/tower.css">
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Math Break — The Infinite Tower</title>
+
+    <link
+        rel="stylesheet"
+        href="css/tower.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 </head>
+
 <body>
-<div class="tower-app" id="towerApp">
 
-  <!-- ============ START SCREEN ============ -->
-  <div class="screen start-screen" id="screenStart">
-    <div class="start-bg-glow"></div>
-    <div class="start-card">
-      <h1 class="game-title">MATH BREAK<span>The Infinite Tower</span></h1>
-      <p class="game-tagline">Panjat menara, hancurkan Pintu Bersegel dengan kekuatan matematika!</p>
+<!-- =====================================================
+     GLOBAL BACKGROUND
+===================================================== -->
 
-      <div class="start-stats">
-        <div class="stat-box">
-          <span class="stat-label">Lantai Tertinggi</span>
-          <span class="stat-value" id="statHighestFloor">1</span>
+<div class="game-background">
+    <div class="stars-layer"></div>
+    <div class="fog-layer"></div>
+    <div class="tower-silhouette"></div>
+</div>
+
+
+<!-- =====================================================
+     GAME WRAPPER
+===================================================== -->
+
+<main class="game-wrapper">
+
+
+<!-- =====================================================
+     1. MAIN MENU
+===================================================== -->
+
+<section
+    id="startScreen"
+    class="screen start-screen"
+>
+
+    <div class="start-overlay"></div>
+
+    <div class="start-content">
+
+        <div class="game-logo">
+
+            <span class="logo-small">
+                THE INFINITE
+            </span>
+
+            <h1>
+                MATH
+                <br>
+                TOWER
+            </h1>
+
+            <span class="logo-subtitle">
+                CLIMB • SOLVE • CONQUER
+            </span>
+
         </div>
-        <div class="stat-box">
-          <span class="stat-label">Total Bintang</span>
-          <span class="stat-value" id="statTotalStars">⭐ 0</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-label">Achievement</span>
-          <span class="stat-value" id="statAchCount">0 / 3</span>
-        </div>
-      </div>
 
-      <button class="btn-primary btn-glow" id="btnStartGame">▶ Mulai Memanjat</button>
 
-      <div class="start-actions">
-        <button class="btn-secondary" id="btnOpenAchievements">🏆 Achievement</button>
-        <button class="btn-secondary" id="btnOpenHighscore">📊 High Score</button>
-      </div>
+        <p class="start-description">
+            Matematika bukan hanya tentang angka,
+            tetapi tentang perjalanan menuju puncak.
+        </p>
+
+
+        <!-- MAIN MENU -->
+
+        <div class="main-menu">
+
+            <button
+                id="startGameBtn"
+                class="menu-button primary"
+                type="button"
+            >
+                <span class="button-icon">▶</span>
+                <span>Mulai</span>
+            </button>
+
+
+            <button
+                class="menu-button"
+                type="button"
+                data-open-screen="areaScreen"
+            >
+                <span class="button-icon">🗺</span>
+                <span>Pilih Area</span>
+            </button>
+
+
+            <button
+                id="achievementBtn"
+                class="menu-button"
+                type="button"
+            >
+                <span class="button-icon">🏆</span>
+                <span>Achievement</span>
+            </button>
+
+
+            <button
+                id="highScoreBtn"
+                class="menu-button"
+                type="button"
+            >
+                <span class="button-icon">👑</span>
+                <span>Leaderboard</span>
+            </button>
+
+        </div>
+
+
+        <!-- START STATS -->
+
+        <div class="start-stats">
+
+            <div class="start-stat">
+                <span class="stat-icon">🏰</span>
+
+                <div>
+                    <small>Lantai Tertinggi</small>
+                    <strong id="startHighestFloor">1</strong>
+                </div>
+            </div>
+
+
+            <div class="start-stat">
+                <span class="stat-icon">⭐</span>
+
+                <div>
+                    <small>Total Bintang</small>
+                    <strong id="startTotalStars">0</strong>
+                </div>
+            </div>
+
+
+            <div class="start-stat">
+                <span class="stat-icon">🏆</span>
+
+                <div>
+                    <small>Achievement</small>
+                    <strong id="startAchievementCount">0</strong>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- TOWER PROGRESS -->
+
+        <div class="start-progress">
+
+            <div class="progress-header">
+                <span>PROGRESS MENARA</span>
+                <span id="startProgressText">1%</span>
+            </div>
+
+            <div class="progress-track">
+                <div
+                    id="startProgressBar"
+                    class="progress-fill"
+                ></div>
+            </div>
+
+        </div>
+
+
+        <p class="save-info">
+            💾 Progress tersimpan otomatis
+        </p>
+
     </div>
-  </div>
 
-  <!-- ============ GAME SCREEN (3-COLUMN DASHBOARD) ============ -->
-  <div class="screen game-screen" id="screenGame" style="display:none;">
-    <div class="dashboard-grid">
+</section>
 
-      <!-- ===== LEFT SIDEBAR ===== -->
-      <aside class="side-panel side-left">
-        <div class="panel-block">
-          <h3 class="panel-title">📈 Progression</h3>
-          <div class="progression-mini">
-            <div class="prog-row"><span>Lantai</span><strong id="sbFloor">1</strong></div>
-            <div class="prog-row"><span>Total Bintang</span><strong id="sbStars">⭐ 0</strong></div>
-            <div class="prog-row"><span>Combo Terbaik</span><strong id="sbBestCombo">x0</strong></div>
-          </div>
-        </div>
-        <div class="panel-block">
-          <h3 class="panel-title">🏆 Achievements</h3>
-          <div class="mini-ach-list" id="sbAchList"></div>
-        </div>
-        <div class="panel-block">
-          <h3 class="panel-title">📅 Leaderboard Harian</h3>
-          <p class="panel-note">Rekor lokal di perangkat ini</p>
-          <div class="leaderboard-list" id="sbLeaderboard"></div>
-        </div>
-      </aside>
 
-      <!-- ===== CENTER: MAIN GAME ===== -->
-      <main class="center-panel">
-        <div class="hud-top">
-          <button class="btn-icon" id="btnMenu" title="Kembali ke Menu">☰</button>
-          <div class="floor-indicator">
-            <span class="floor-label">LANTAI</span>
-            <span class="floor-number" id="floorNum">1</span>
-            <span class="floor-total">/ 100</span>
-          </div>
-          <div class="combo-indicator" id="comboIndicator">🔥 x1</div>
-        </div>
 
-        <div class="boss-panel">
-          <div class="boss-name" id="bossName">Pintu Bersegel #1</div>
-          <div class="hp-bar-wrap">
-            <div class="hp-bar-fill" id="bossHpFill"></div>
-            <span class="hp-bar-text" id="bossHpText">100 / 100</span>
-          </div>
-        </div>
+<!-- =====================================================
+     2. AREA SELECT
+===================================================== -->
 
-        <div class="canvas-wrap">
-          <canvas id="gameCanvas" width="640" height="360"></canvas>
-        </div>
+<section
+    id="areaScreen"
+    class="screen hidden area-screen"
+>
 
-        <div class="lives-row" id="livesRow">
-          <span class="life-star">⭐</span><span class="life-star">⭐</span><span class="life-star">⭐</span>
-        </div>
+    <div class="screen-header">
 
-        <div class="answer-panel">
-          <div class="timer-bar-wrap"><div class="timer-bar-fill" id="timerBarFill"></div></div>
-          <p class="question-category" id="questionCategory">Trigonometri</p>
-          <p class="question-text" id="questionText">Berapa nilai sin(30°)?</p>
-          <div class="answer-grid" id="answerGrid"></div>
-        </div>
-      </main>
+        <button
+            class="back-button"
+            type="button"
+            data-back-screen="startScreen"
+        >
+            ←
+        </button>
 
-      <!-- ===== RIGHT SIDEBAR ===== -->
-      <aside class="side-panel side-right">
-        <div class="panel-block">
-          <h3 class="panel-title">🎯 Rewards & Goals</h3>
-          <div class="goal-box">
-            <p class="goal-text" id="goalText">Capai Lantai 10 untuk membuka Rune Emas.</p>
-            <div class="goal-progress-wrap"><div class="goal-progress-fill" id="goalProgressFill"></div></div>
-          </div>
+        <div>
+            <span class="eyebrow">
+                PETUALANGAN
+            </span>
+
+            <h2>
+                Pilih Materi / Area
+            </h2>
         </div>
-        <div class="panel-block">
-          <h3 class="panel-title">✨ Cosmetics</h3>
-          <div class="cosmetic-grid" id="cosmeticGrid"></div>
-        </div>
-        <div class="panel-block">
-          <h3 class="panel-title">🎖️ Badges</h3>
-          <div class="badge-grid" id="badgeGrid"></div>
-        </div>
-      </aside>
 
     </div>
-  </div>
 
-  <!-- ============ MODAL: FLOOR COMPLETE ============ -->
-  <div class="modal-overlay" id="modalFloorComplete" style="display:none;">
-    <div class="modal-box modal-celebrate">
-      <h2>Lantai Ditaklukkan! 🎉</h2>
-      <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
-      <p id="floorCompleteText">Lantai 1 berhasil diselesaikan!</p>
-      <div class="achievement-popup" id="achievementPopup" style="display:none;"></div>
-      <button class="btn-primary" id="btnNextFloor">Lanjut ke Lantai Berikutnya →</button>
-    </div>
-  </div>
 
-  <!-- ============ MODAL: GAME OVER (FLOOR FAILED) ============ -->
-  <div class="modal-overlay" id="modalGameOver" style="display:none;">
-    <div class="modal-box">
-      <h2>Pintu Terlalu Kuat 💀</h2>
-      <p id="gameOverText">Bintangmu habis di lantai ini.</p>
-      <button class="btn-primary" id="btnRetryFloor">🔄 Coba Lagi</button>
-      <button class="btn-secondary" id="btnBackToMenuFromOver">Kembali ke Menu</button>
-    </div>
-  </div>
+    <div class="section-title">
 
-  <!-- ============ MODAL: TOWER CLEARED ============ -->
-  <div class="modal-overlay" id="modalTowerCleared" style="display:none;">
-    <div class="modal-box modal-celebrate">
-      <h2>👑 Menara Ditaklukkan!</h2>
-      <p>Kamu berhasil mencapai puncak lantai 100! Kamu adalah Sang Penakluk Menara Matematika.</p>
-      <button class="btn-primary" id="btnBackToMenuFromClear">Kembali ke Menu</button>
-    </div>
-  </div>
+        <span class="title-icon">✦</span>
 
-  <!-- ============ MODAL: ACHIEVEMENTS ============ -->
-  <div class="modal-overlay" id="modalAchievements" style="display:none;">
-    <div class="modal-box">
-      <h2>🏆 Achievement</h2>
-      <div class="achievement-list" id="achievementList"></div>
-      <button class="btn-secondary btn-close-modal" data-close="modalAchievements">Tutup</button>
-    </div>
-  </div>
+        <div>
+            <h3>
+                Pilih Area untuk Memulai Petualangan
+            </h3>
 
-  <!-- ============ MODAL: HIGH SCORE ============ -->
-  <div class="modal-overlay" id="modalHighscore" style="display:none;">
-    <div class="modal-box">
-      <h2>📊 High Score</h2>
-      <div class="highscore-list" id="highscoreList"></div>
-      <button class="btn-secondary btn-close-modal" data-close="modalHighscore">Tutup</button>
-    </div>
-  </div>
+            <p>
+                Setiap area memiliki materi,
+                tantangan, guardian, dan boss yang berbeda.
+            </p>
+        </div>
 
-  <!-- ============ MODAL: PAUSE / MENU ============ -->
-  <div class="modal-overlay" id="modalPause" style="display:none;">
-    <div class="modal-box">
-      <h2>⏸ Jeda</h2>
-      <p>Progres lantai saat ini akan hilang jika kamu kembali ke menu.</p>
-      <button class="btn-primary" id="btnResumeGame">▶ Lanjutkan</button>
-      <button class="btn-secondary" id="btnQuitToMenu">Kembali ke Menu</button>
     </div>
-  </div>
+
+
+    <div class="area-grid">
+
+
+        <!-- AREA 1 -->
+
+        <article
+            class="area-card active"
+            data-area="trigonometri"
+        >
+
+            <div class="area-image trigonometry-bg">
+                <span class="area-symbol">△</span>
+            </div>
+
+            <div class="area-content">
+
+                <span class="area-number">
+                    AREA 01
+                </span>
+
+                <h3>
+                    Trigonometri
+                </h3>
+
+                <p>
+                    The Angle Temple
+                </p>
+
+                <span class="area-floor">
+                    Lantai 1 — 15
+                </span>
+
+                <button
+                    class="area-button"
+                    type="button"
+                    data-area-start="trigonometri"
+                >
+                    Masuk
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- AREA 2 -->
+
+        <article
+            class="area-card locked"
+            data-area="matriks"
+        >
+
+            <div class="area-image matrix-bg">
+                <span class="area-symbol">▦</span>
+            </div>
+
+            <div class="area-content">
+
+                <span class="area-number">
+                    AREA 02
+                </span>
+
+                <h3>
+                    Matriks
+                </h3>
+
+                <p>
+                    Matrix Factory
+                </p>
+
+                <span class="area-floor">
+                    Lantai 16 — 25
+                </span>
+
+                <button
+                    class="area-button"
+                    type="button"
+                    disabled
+                >
+                    🔒 Terkunci
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- AREA 3 -->
+
+        <article
+            class="area-card locked"
+            data-area="program-linear"
+        >
+
+            <div class="area-image linear-bg">
+                <span class="area-symbol">∑</span>
+            </div>
+
+            <div class="area-content">
+
+                <span class="area-number">
+                    AREA 03
+                </span>
+
+                <h3>
+                    Program Linear
+                </h3>
+
+                <p>
+                    Linear City
+                </p>
+
+                <span class="area-floor">
+                    Lantai 26 — 35
+                </span>
+
+                <button
+                    class="area-button"
+                    type="button"
+                    disabled
+                >
+                    🔒 Terkunci
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- AREA 4 -->
+
+        <article
+            class="area-card locked"
+            data-area="statistika"
+        >
+
+            <div class="area-image statistics-bg">
+                <span class="area-symbol">▥</span>
+            </div>
+
+            <div class="area-content">
+
+                <span class="area-number">
+                    AREA 04
+                </span>
+
+                <h3>
+                    Statistika
+                </h3>
+
+                <p>
+                    Data Lab
+                </p>
+
+                <span class="area-floor">
+                    Lantai 36 — 45
+                </span>
+
+                <button
+                    class="area-button"
+                    type="button"
+                    disabled
+                >
+                    🔒 Terkunci
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- AREA 5 -->
+
+        <article
+            class="area-card locked"
+            data-area="peluang"
+        >
+
+            <div class="area-image probability-bg">
+                <span class="area-symbol">?</span>
+            </div>
+
+            <div class="area-content">
+
+                <span class="area-number">
+                    AREA 05
+                </span>
+
+                <h3>
+                    Peluang
+                </h3>
+
+                <p>
+                    Probability Arena
+                </p>
+
+                <span class="area-floor">
+                    Lantai 46 — 55
+                </span>
+
+                <button
+                    class="area-button"
+                    type="button"
+                    disabled
+                >
+                    🔒 Terkunci
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- AREA 6 -->
+
+        <article
+            class="area-card locked"
+            data-area="fungsi"
+        >
+
+            <div class="area-image function-bg">
+                <span class="area-symbol">ƒ</span>
+            </div>
+
+            <div class="area-content">
+
+                <span class="area-number">
+                    AREA 06
+                </span>
+
+                <h3>
+                    Fungsi
+                </h3>
+
+                <p>
+                    Function Dimension
+                </p>
+
+                <span class="area-floor">
+                    Lantai 56 — 65
+                </span>
+
+                <button
+                    class="area-button"
+                    type="button"
+                    disabled
+                >
+                    🔒 Terkunci
+                </button>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <div class="area-footer">
+
+        <span>
+            🔒 Area berikutnya terbuka setelah
+            menyelesaikan area sebelumnya.
+        </span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     3. TOWER MAP
+===================================================== -->
+
+<section
+    id="mapScreen"
+    class="screen hidden map-screen"
+>
+
+    <div class="screen-header">
+
+        <button
+            class="back-button"
+            type="button"
+            data-back-screen="areaScreen"
+        >
+            ←
+        </button>
+
+        <div>
+
+            <span class="eyebrow">
+                AREA 01 • TRIGONOMETRI
+            </span>
+
+            <h2>
+                The Angle Temple
+            </h2>
+
+        </div>
+
+        <div class="map-progress">
+            <span>Lantai</span>
+            <strong>
+                <span id="mapCurrentFloor">1</span>
+                / 15
+            </strong>
+        </div>
+
+    </div>
+
+
+    <div class="tower-map-container">
+
+        <div class="map-intro">
+
+            <span class="map-icon">🏰</span>
+
+            <div>
+
+                <h3>
+                    Peta Menara
+                </h3>
+
+                <p>
+                    Naik satu lantai demi satu lantai
+                    dan taklukkan setiap penjaga.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="tower-path">
+
+
+            <div
+                class="floor-node completed"
+                data-floor="1"
+            >
+                <span>1</span>
+                <small>START</small>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node"
+                data-floor="2"
+            >
+                <span>2</span>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node"
+                data-floor="3"
+            >
+                <span>3</span>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node"
+                data-floor="4"
+            >
+                <span>4</span>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node boss-node"
+                data-floor="5"
+            >
+                <span>👹</span>
+                <small>MINI BOSS</small>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node locked"
+                data-floor="6"
+            >
+                <span>6</span>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node locked"
+                data-floor="7"
+            >
+                <span>7</span>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node locked"
+                data-floor="8"
+            >
+                <span>8</span>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node locked"
+                data-floor="9"
+            >
+                <span>9</span>
+            </div>
+
+
+            <div class="path-line"></div>
+
+
+            <div
+                class="floor-node boss-node locked"
+                data-floor="10"
+            >
+                <span>👑</span>
+                <small>BOSS</small>
+            </div>
+
+        </div>
+
+
+        <div class="map-legend">
+
+            <span>
+                <i class="legend-dot completed"></i>
+                Selesai
+            </span>
+
+            <span>
+                <i class="legend-dot current"></i>
+                Saat Ini
+            </span>
+
+            <span>
+                <i class="legend-dot locked"></i>
+                Terkunci
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     4. MISSION SCREEN
+===================================================== -->
+
+<section
+    id="missionScreen"
+    class="screen hidden mission-screen"
+>
+
+    <div class="mission-header">
+
+        <div>
+
+            <span class="eyebrow">
+                AREA 01 • THE ANGLE TEMPLE
+            </span>
+
+            <h2>
+                Lantai
+                <span id="missionFloorNumber">1</span>
+            </h2>
+
+            <p>
+                The First Step
+            </p>
+
+        </div>
+
+        <span class="difficulty normal">
+            ✦ NORMAL
+        </span>
+
+    </div>
+
+
+    <div class="mission-hero">
+
+        <div class="mission-art">
+
+            <div class="floating-crystal">
+                ✦
+            </div>
+
+            <div class="mission-tower">
+                🏰
+            </div>
+
+        </div>
+
+
+        <div class="mission-info">
+
+            <div class="mission-card">
+
+                <span class="card-label">
+                    🎯 TUJUAN MISI
+                </span>
+
+                <h3>
+                    Aktifkan Kristal Pertama
+                </h3>
+
+                <p>
+                    Selesaikan tantangan matematika
+                    untuk mengaktifkan kristal dan
+                    membuka gerbang menuju lantai berikutnya.
+                </p>
+
+            </div>
+
+
+            <div class="mission-card">
+
+                <span class="card-label">
+                    📜 INFORMASI
+                </span>
+
+                <ul>
+                    <li>
+                        Selesaikan 3 tantangan
+                    </li>
+
+                    <li>
+                        Pertahankan nyawa
+                    </li>
+
+                    <li>
+                        Kumpulkan bintang sebanyak mungkin
+                    </li>
+                </ul>
+
+            </div>
+
+
+            <div class="mission-reward">
+
+                <span>
+                    🎁 HADIAH
+                </span>
+
+                <div class="reward-preview">
+
+                    <div>
+                        ⭐
+                        <strong>+1</strong>
+                        <small>Star</small>
+                    </div>
+
+                    <div>
+                        🪙
+                        <strong>+100</strong>
+                        <small>Coins</small>
+                    </div>
+
+                    <div>
+                        ✨
+                        <strong>+50</strong>
+                        <small>XP</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="startMissionBtn"
+                class="large-game-button"
+                type="button"
+            >
+                <span>⚔</span>
+                Mulai Tantangan
+                <span>→</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     5. GAMEPLAY
+===================================================== -->
+
+<section
+    id="gameScreen"
+    class="screen hidden gameplay-screen"
+>
+
+
+    <!-- GAME HEADER -->
+
+    <header class="game-header">
+
+        <div class="game-brand">
+
+            <span>
+                MATH BREAK
+            </span>
+
+            <small>
+                THE INFINITE TOWER
+            </small>
+
+        </div>
+
+
+        <div class="game-floor-title">
+
+            <span>
+                LANTAI
+            </span>
+
+            <strong id="floorNumber">
+                1
+            </strong>
+
+        </div>
+
+
+        <button
+            id="pauseBtn"
+            class="pause-button"
+            type="button"
+        >
+            ⏸
+        </button>
+
+    </header>
+
+
+
+    <!-- GAME CONTENT -->
+
+    <div class="game-layout">
+
+
+        <!-- LEFT SIDEBAR -->
+
+        <aside class="game-sidebar left-sidebar">
+
+
+            <!-- PROGRESSION -->
+
+            <div class="side-card">
+
+                <div class="side-card-title">
+                    📈 PROGRESSION
+                </div>
+
+
+                <div class="side-stat-row">
+
+                    <span>
+                        Lantai
+                    </span>
+
+                    <strong id="sideFloor">
+                        1
+                    </strong>
+
+                </div>
+
+
+                <div class="side-stat-row">
+
+                    <span>
+                        ⭐ Bintang
+                    </span>
+
+                    <strong id="sideStars">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="side-stat-row">
+
+                    <span>
+                        🔥 Combo Terbaik
+                    </span>
+
+                    <strong id="sideBestCombo">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="tower-progress-side">
+
+                    <div class="progress-header">
+
+                        <span>
+                            Menara
+                        </span>
+
+                        <span id="towerProgressText">
+                            Lantai 1 / 100
+                        </span>
+
+                    </div>
+
+                    <div class="progress-track">
+
+                        <div
+                            id="towerProgressBar"
+                            class="progress-fill"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACHIEVEMENTS -->
+
+            <div class="side-card">
+
+                <div class="side-card-title">
+                    🏆 ACHIEVEMENTS
+                </div>
+
+                <div
+                    id="sideAchievements"
+                    class="side-achievements"
+                >
+                    <div class="empty-state">
+                        Belum ada achievement.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- DAILY -->
+
+            <div class="side-card">
+
+                <div class="side-card-title">
+                    🗓 DAILY PROGRESS
+                </div>
+
+                <p class="side-description">
+                    Selesaikan tantangan untuk
+                    meningkatkan progress harianmu.
+                </p>
+
+                <div class="daily-progress-row">
+
+                    <span id="dailyProgress">
+                        1%
+                    </span>
+
+                </div>
+
+                <div class="progress-track">
+
+                    <div
+                        id="dailyProgressBar"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- CENTER -->
+
+        <section class="game-center">
+
+
+            <!-- MISSION BANNER -->
+
+            <div class="mission-banner">
+
+                <div class="floor-badge">
+
+                    <span>
+                        FLOOR
+                    </span>
+
+                    <strong id="floorNumber">
+                        1
+                    </strong>
+
+                </div>
+
+
+                <div class="mission-banner-info">
+
+                    <span
+                        id="missionArea"
+                        class="eyebrow"
+                    >
+                        AREA 01 • THE BEGINNING
+                    </span>
+
+                    <h2 id="missionTitle">
+                        The First Step
+                    </h2>
+
+                    <p id="missionDescription">
+                        Aktifkan kristal pertama
+                        dan buka gerbang menuju
+                        lantai berikutnya.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BOSS -->
+
+            <div class="guardian-card">
+
+                <div class="guardian-avatar">
+                    👹
+                </div>
+
+                <div class="guardian-info">
+
+                    <span>
+                        PENJAGA
+                    </span>
+
+                    <strong id="bossName">
+                        The First Gate
+                    </strong>
+
+                </div>
+
+
+                <div class="boss-health">
+
+                    <div class="boss-health-label">
+
+                        <span>
+                            HP
+                        </span>
+
+                        <strong id="bossHpText">
+                            100 / 100
+                        </strong>
+
+                    </div>
+
+                    <div class="boss-health-track">
+
+                        <div
+                            id="bossHpBar"
+                            class="boss-health-fill"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CANVAS / BATTLE AREA -->
+
+            <div class="battle-arena">
+
+                <canvas
+                    id="gameCanvas"
+                    width="900"
+                    height="500"
+                ></canvas>
+
+
+                <div
+                    id="canvasMessage"
+                    class="canvas-message"
+                >
+
+                    <span id="canvasMessageIcon">
+                        ⚔️
+                    </span>
+
+                    <span id="canvasMessageText">
+                        Siapkan jawabanmu!
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PLAYER STATUS -->
+
+            <div class="battle-status">
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        KESEMPATAN
+                    </span>
+
+                    <div class="lives">
+
+                        <span class="life active">
+                            ♥
+                        </span>
+
+                        <span class="life active">
+                            ♥
+                        </span>
+
+                        <span class="life active">
+                            ♥
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        🔥 COMBO
+                    </span>
+
+                    <strong id="comboValue">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        ⭐ SCORE
+                    </span>
+
+                    <strong id="scoreValue">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="status-box timer-box">
+
+                    <span class="status-label">
+                        ⏱ WAKTU
+                    </span>
+
+                    <strong id="timerValue">
+                        14
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- QUESTION -->
+
+            <div class="question-card">
+
+                <div class="question-header">
+
+                    <div>
+
+                        <span
+                            id="questionCategory"
+                            class="question-category"
+                        >
+                            TRIGONOMETRI
+                        </span>
+
+                        <span
+                            id="questionNumber"
+                            class="question-number"
+                        >
+                            Tantangan 1
+                        </span>
+
+                    </div>
+
+
+                    <div class="challenge-counter">
+
+                        <span id="challengeNumber">
+                            1
+                        </span>
+
+                        /
+
+                        <span id="challengeTotal">
+                            3
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <h2 id="questionText">
+                    Sebuah segitiga siku-siku
+                    memiliki sisi depan 6 cm
+                    dan sisi miring 10 cm.
+                    Berapakah nilai sin θ?
+                </h2>
+
+
+                <div
+                    id="answerContainer"
+                    class="answer-grid"
+                >
+
+                    <!-- JS AKAN MENGISI JAWABAN -->
+
+                </div>
+
+
+                <!-- FEEDBACK -->
+
+                <div
+                    id="answerFeedback"
+                    class="answer-feedback hidden"
+                >
+
+                    <div
+                        id="feedbackIcon"
+                        class="feedback-icon"
+                    >
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3 id="feedbackTitle">
+                            Jawaban Benar!
+                        </h3>
+
+                        <p id="feedbackText">
+                            Gerbang terkena damage.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RIGHT SIDEBAR -->
+
+        <aside class="game-sidebar right-sidebar">
+
+
+            <!-- OBJECTIVE -->
+
+            <div class="side-card">
+
+                <div class="side-card-title">
+                    🎯 OBJECTIVE
+                </div>
+
+
+                <div
+                    id="objectiveChallenge1"
+                    class="objective-item"
+                >
+
+                    <span class="objective-icon">
+                        ○
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Challenge 1
+                        </strong>
+
+                        <small>
+                            Mulai tantangan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="objectiveChallenge2"
+                    class="objective-item"
+                >
+
+                    <span class="objective-icon">
+                        ○
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Challenge 2
+                        </strong>
+
+                        <small>
+                            Selesaikan tantangan kedua
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="objectiveChallenge3"
+                    class="objective-item"
+                >
+
+                    <span class="objective-icon">
+                        ○
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Challenge 3
+                        </strong>
+
+                        <small>
+                            Selesaikan tantangan terakhir
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- REWARDS -->
+
+            <div class="side-card">
+
+                <div class="side-card-title">
+                    🎁 REWARDS
+                </div>
+
+
+                <div class="reward-grid">
+
+                    <div class="reward-item">
+
+                        <span>⭐</span>
+
+                        <strong id="rewardStars">
+                            3
+                        </strong>
+
+                        <small>
+                            Stars
+                        </small>
+
+                    </div>
+
+
+                    <div class="reward-item">
+
+                        <span>🪙</span>
+
+                        <strong id="rewardCoins">
+                            0
+                        </strong>
+
+                        <small>
+                            Coins
+                        </small>
+
+                    </div>
+
+
+                    <div class="reward-item">
+
+                        <span>✨</span>
+
+                        <strong id="rewardXp">
+                            0
+                        </strong>
+
+                        <small>
+                            XP
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NEXT UNLOCK -->
+
+            <div class="side-card unlock-card">
+
+                <div class="side-card-title">
+                    🔓 NEXT UNLOCK
+                </div>
+
+
+                <div class="unlock-icon">
+                    🔒
+                </div>
+
+
+                <strong id="nextUnlockTitle">
+                    Lantai 2
+                </strong>
+
+
+                <p id="nextUnlockDescription">
+                    Selesaikan lantai 1
+                    untuk membuka lantai 2.
+                </p>
+
+            </div>
+
+
+
+            <!-- COSMETICS -->
+
+            <div class="side-card">
+
+                <div class="side-card-title">
+                    🎨 COSMETICS
+                </div>
+
+
+                <div
+                    id="cosmeticsList"
+                    class="mini-item-grid"
+                >
+                </div>
+
+            </div>
+
+
+
+            <!-- BADGES -->
+
+            <div class="side-card">
+
+                <div class="side-card-title">
+                    🏅 BADGES
+                </div>
+
+
+                <div
+                    id="badgesList"
+                    class="mini-item-grid"
+                >
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     6. BOSS SCREEN
+===================================================== -->
+
+<section
+    id="bossScreen"
+    class="screen hidden boss-screen"
+>
+
+    <div class="boss-screen-header">
+
+        <span class="eyebrow">
+            ⚔ FINAL CHALLENGE
+        </span>
+
+        <h2>
+            Boss Fight
+        </h2>
+
+        <p>
+            Guardian terakhir menghadang perjalananmu.
+        </p>
+
+    </div>
+
+
+    <div class="boss-battle-layout">
+
+
+        <div class="boss-character">
+
+            <div class="boss-glow"></div>
+
+            <div class="boss-art">
+                👹
+            </div>
+
+            <h3>
+                The Angle Guardian
+            </h3>
+
+            <div class="boss-big-health">
+
+                <div
+                    class="boss-big-health-fill"
+                    id="bossBigHp"
+                ></div>
+
+            </div>
+
+            <span>
+                HP
+                <strong id="bossBigHpText">
+                    3200 / 3200
+                </strong>
+            </span>
+
+        </div>
+
+
+        <div class="boss-question-panel">
+
+            <span class="boss-phase">
+                PHASE 1 • BASIC
+            </span>
+
+            <h3>
+                Boss Challenge
+            </h3>
+
+            <p id="bossQuestionText">
+                Jika sin θ = 1/2
+                dan 0° &lt; θ &lt; 90°,
+                tentukan nilai θ.
+            </p>
+
+
+            <div
+                id="bossAnswerContainer"
+                class="boss-answer-grid"
+            >
+
+                <button type="button">
+                    A — 30°
+                </button>
+
+                <button type="button">
+                    B — 45°
+                </button>
+
+                <button type="button">
+                    C — 60°
+                </button>
+
+                <button type="button">
+                    D — 90°
+                </button>
+
+            </div>
+
+
+            <button
+                id="bossAttackBtn"
+                class="attack-button"
+                type="button"
+            >
+                ⚔ SERANG
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     7. REWARD / VICTORY
+===================================================== -->
+
+<section
+    id="rewardScreen"
+    class="screen hidden reward-screen"
+>
+
+    <div class="victory-container">
+
+        <span class="victory-small">
+            ✦ MISSION COMPLETE ✦
+        </span>
+
+        <h1>
+            VICTORY!
+        </h1>
+
+        <p>
+            Kamu berhasil menyelesaikan tantangan!
+        </p>
+
+
+        <div class="big-reward-grid">
+
+            <div class="big-reward">
+
+                <span>⭐</span>
+
+                <strong id="victoryXp">
+                    +500
+                </strong>
+
+                <small>
+                    XP
+                </small>
+
+            </div>
+
+
+            <div class="big-reward">
+
+                <span>🪙</span>
+
+                <strong id="victoryCoins">
+                    +300
+                </strong>
+
+                <small>
+                    Coins
+                </small>
+
+            </div>
+
+
+            <div class="big-reward">
+
+                <span>💎</span>
+
+                <strong id="victoryCrystal">
+                    +2
+                </strong>
+
+                <small>
+                    Crystal
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="level-progress">
+
+            <div class="level-header">
+
+                <strong>
+                    Level 1
+                </strong>
+
+                <span>
+                    280 / 500 XP
+                </span>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    style="width: 56%;"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="rewardContinueBtn"
+            class="large-game-button"
+            type="button"
+        >
+            Lanjut →
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     8. ACHIEVEMENT SCREEN
+===================================================== -->
+
+<section
+    id="achievementScreen"
+    class="screen hidden achievement-screen"
+>
+
+    <div class="screen-header">
+
+        <button
+            class="back-button"
+            type="button"
+            data-back-screen="startScreen"
+        >
+            ←
+        </button>
+
+        <div>
+
+            <span class="eyebrow">
+                COLLECTION
+            </span>
+
+            <h2>
+                Achievement
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="achievement-tabs">
+
+        <button class="active">
+            Semua
+        </button>
+
+        <button>
+            Progress
+        </button>
+
+        <button>
+            Terkunci
+        </button>
+
+    </div>
+
+
+    <div
+        id="achievementPageList"
+        class="achievement-page-list"
+    >
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     9. UPGRADE / SKIN
+===================================================== -->
+
+<section
+    id="upgradeScreen"
+    class="screen hidden upgrade-screen"
+>
+
+    <div class="screen-header">
+
+        <button
+            class="back-button"
+            type="button"
+            data-back-screen="startScreen"
+        >
+            ←
+        </button>
+
+        <div>
+
+            <span class="eyebrow">
+                COLLECTION
+            </span>
+
+            <h2>
+                Upgrade / Skin
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="upgrade-tabs">
+
+        <button class="active">
+            Karakter
+        </button>
+
+        <button>
+            Skin
+        </button>
+
+        <button>
+            Senjata
+        </button>
+
+        <button>
+            Efek
+        </button>
+
+        <button>
+            Title
+        </button>
+
+    </div>
+
+
+    <div class="upgrade-content">
+
+
+        <div class="character-preview">
+
+            <div class="character-platform">
+                ✦
+            </div>
+
+            <div class="character-art">
+                🧙
+            </div>
+
+            <h3>
+                Apprentice
+            </h3>
+
+            <p>
+                Penjelajah baru
+            </p>
+
+        </div>
+
+
+        <div class="skin-panel">
+
+            <span class="eyebrow">
+                SKIN KARAKTER
+            </span>
+
+            <div class="skin-grid">
+
+                <div class="skin-card selected">
+                    🧙
+                    <small>
+                        Default
+                    </small>
+                </div>
+
+                <div class="skin-card locked">
+                    🔒
+                    <small>
+                        Knight
+                    </small>
+                </div>
+
+                <div class="skin-card locked">
+                    🔒
+                    <small>
+                        Guardian
+                    </small>
+                </div>
+
+                <div class="skin-card locked">
+                    🔒
+                    <small>
+                        Inferno
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="buy-row">
+
+                <span>
+                    🪙 1200
+                </span>
+
+                <button>
+                    Beli
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     10. LEADERBOARD
+===================================================== -->
+
+<section
+    id="leaderboardScreen"
+    class="screen hidden leaderboard-screen"
+>
+
+    <div class="screen-header">
+
+        <button
+            class="back-button"
+            type="button"
+            data-back-screen="startScreen"
+        >
+            ←
+        </button>
+
+        <div>
+
+            <span class="eyebrow">
+                COMPETITION
+            </span>
+
+            <h2>
+                Leaderboard
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="leaderboard-tabs">
+
+        <button class="active">
+            Global
+        </button>
+
+        <button>
+            Teman
+        </button>
+
+        <button>
+            Top 100
+        </button>
+
+    </div>
+
+
+    <div class="leaderboard-table">
+
+        <div class="leaderboard-header">
+
+            <span>
+                Rank
+            </span>
+
+            <span>
+                Nama
+            </span>
+
+            <span>
+                Lantai
+            </span>
+
+            <span>
+                Skor
+            </span>
+
+        </div>
+
+
+        <div class="leaderboard-row">
+
+            <span>🥇 1</span>
+            <strong>Zaeyn</strong>
+            <span>100</span>
+            <strong>985.420</strong>
+
+        </div>
+
+
+        <div class="leaderboard-row">
+
+            <span>🥈 2</span>
+            <strong>LunaSR</strong>
+            <span>100</span>
+            <strong>954.320</strong>
+
+        </div>
+
+
+        <div class="leaderboard-row">
+
+            <span>🥉 3</span>
+            <strong>RafiKade</strong>
+            <span>98</span>
+            <strong>912.660</strong>
+
+        </div>
+
+
+        <div class="leaderboard-row">
+
+            <span>4</span>
+            <strong>Nabila24</strong>
+            <span>95</span>
+            <strong>876.210</strong>
+
+        </div>
+
+
+        <div class="leaderboard-row">
+
+            <span>5</span>
+            <strong>AndiX</strong>
+            <span>93</span>
+            <strong>846.770</strong>
+
+        </div>
+
+
+        <div class="leaderboard-row player-row">
+
+            <span>124</span>
+            <strong>Kamu</strong>
+            <span id="leaderboardFloor">1</span>
+            <strong id="leaderboardScore">0</strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     11. FLOOR COMPLETE MODAL
+===================================================== -->
+
+<div
+    id="floorCompleteModal"
+    class="modal hidden"
+>
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-content victory-modal">
+
+        <button
+            class="modal-close"
+            type="button"
+            data-close-modal
+        >
+            ×
+        </button>
+
+
+        <span class="modal-icon">
+            ✦
+        </span>
+
+
+        <span class="eyebrow">
+            FLOOR COMPLETE
+        </span>
+
+
+        <h2>
+            VICTORY!
+        </h2>
+
+
+        <p id="completeMessage">
+            Lantai berhasil ditaklukkan!
+        </p>
+
+
+        <div class="earned-stars">
+
+            <span class="earned-star">⭐</span>
+            <span class="earned-star">⭐</span>
+            <span class="earned-star">⭐</span>
+
+        </div>
+
+
+        <div class="modal-rewards">
+
+            <div>
+                <strong id="completeStars">
+                    3
+                </strong>
+
+                <small>
+                    Stars
+                </small>
+            </div>
+
+
+            <div>
+                <strong id="completeCoins">
+                    100
+                </strong>
+
+                <small>
+                    Coins
+                </small>
+            </div>
+
+
+            <div>
+                <strong id="completeXp">
+                    50
+                </strong>
+
+                <small>
+                    XP
+                </small>
+            </div>
+
+        </div>
+
+
+        <div class="unlock-message">
+
+            🔓
+
+            <strong id="unlockedFloor">
+                Lantai 2
+            </strong>
+
+            <span>
+                terbuka!
+            </span>
+
+        </div>
+
+
+        <button
+            id="nextFloorBtn"
+            class="large-game-button"
+            type="button"
+        >
+            Lanjut ke Lantai Berikutnya →
+        </button>
+
+    </div>
 
 </div>
-<script src="js/tower.js"></script>
+
+
+
+<!-- =====================================================
+     12. GAME OVER MODAL
+===================================================== -->
+
+<div
+    id="gameOverModal"
+    class="modal hidden"
+>
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-content game-over-modal">
+
+        <button
+            class="modal-close"
+            type="button"
+            data-close-modal
+        >
+            ×
+        </button>
+
+
+        <span class="modal-icon danger">
+            💀
+        </span>
+
+
+        <span class="eyebrow">
+            RUN ENDED
+        </span>
+
+
+        <h2>
+            GAME OVER
+        </h2>
+
+
+        <p>
+            Jangan menyerah.
+            Setiap kesalahan adalah bagian dari perjalanan.
+        </p>
+
+
+        <div class="game-over-stats">
+
+            <div>
+
+                <small>
+                    Lantai
+                </small>
+
+                <strong id="gameOverFloor">
+                    1
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Combo Terbaik
+                </small>
+
+                <strong id="gameOverCombo">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Score
+                </small>
+
+                <strong id="gameOverScore">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="retryBtn"
+            class="large-game-button danger-button"
+            type="button"
+        >
+            🔄 Coba Lagi
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     13. TOWER CLEARED MODAL
+===================================================== -->
+
+<div
+    id="towerClearedModal"
+    class="modal hidden"
+>
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-content final-modal">
+
+        <span class="modal-icon">
+            👑
+        </span>
+
+        <span class="eyebrow">
+            THE SUMMIT
+        </span>
+
+        <h2>
+            TOWER CONQUERED!
+        </h2>
+
+        <p>
+            Kamu berhasil mencapai puncak
+            The Infinite Tower.
+        </p>
+
+
+        <div class="final-stats">
+
+            <div>
+
+                <span>
+                    ⭐
+                </span>
+
+                <strong id="finalStars">
+                    0
+                </strong>
+
+                <small>
+                    Total Stars
+                </small>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    🏆
+                </span>
+
+                <strong id="finalAchievements">
+                    0
+                </strong>
+
+                <small>
+                    Achievement
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="towerCompleteBtn"
+            class="large-game-button"
+            type="button"
+        >
+            Kembali ke Menara
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     14. ACHIEVEMENT MODAL
+===================================================== -->
+
+<div
+    id="achievementModal"
+    class="modal hidden"
+>
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-content large-modal">
+
+        <button
+            class="modal-close"
+            type="button"
+            data-close-modal
+        >
+            ×
+        </button>
+
+
+        <span class="eyebrow">
+            COLLECTION
+        </span>
+
+
+        <h2>
+            Achievement
+        </h2>
+
+
+        <div
+            id="achievementModalList"
+            class="modal-achievement-list"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     15. HIGH SCORE MODAL
+===================================================== -->
+
+<div
+    id="highScoreModal"
+    class="modal hidden"
+>
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-content large-modal">
+
+        <button
+            class="modal-close"
+            type="button"
+            data-close-modal
+        >
+            ×
+        </button>
+
+
+        <span class="eyebrow">
+            RECORD
+        </span>
+
+
+        <h2>
+            High Score
+        </h2>
+
+
+        <div class="high-score-summary">
+
+            <div>
+                <small>
+                    Lantai
+                </small>
+
+                <strong id="modalHighestFloor">
+                    1
+                </strong>
+            </div>
+
+
+            <div>
+                <small>
+                    Stars
+                </small>
+
+                <strong id="modalTotalStars">
+                    0
+                </strong>
+            </div>
+
+
+            <div>
+                <small>
+                    Best Combo
+                </small>
+
+                <strong id="modalBestCombo">
+                    0
+                </strong>
+            </div>
+
+
+            <div>
+                <small>
+                    Total Score
+                </small>
+
+                <strong id="modalTotalScore">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <h3 class="history-title">
+            Riwayat Permainan
+        </h3>
+
+
+        <div
+            id="scoreHistoryList"
+            class="score-history-list"
+        >
+            Belum ada riwayat permainan.
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     16. PAUSE MODAL
+===================================================== -->
+
+<div
+    id="pauseModal"
+    class="modal hidden"
+>
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-content pause-modal">
+
+        <span class="modal-icon">
+            ⏸
+        </span>
+
+
+        <span class="eyebrow">
+            GAME PAUSED
+        </span>
+
+
+        <h2>
+            Permainan Dijeda
+        </h2>
+
+
+        <button
+            id="resumeBtn"
+            class="large-game-button"
+            type="button"
+        >
+            ▶ Lanjutkan
+        </button>
+
+
+        <button
+            id="pauseMenuBtn"
+            class="secondary-game-button"
+            type="button"
+        >
+            🏠 Kembali ke Menu
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     17. NOTIFICATION
+===================================================== -->
+
+<div
+    id="gameNotification"
+    class="game-notification hidden"
+>
+
+    <span
+        id="notificationIcon"
+        class="notification-icon"
+    >
+        🏆
+    </span>
+
+
+    <div>
+
+        <strong id="notificationTitle">
+            Achievement Unlocked!
+        </strong>
+
+        <p id="notificationText">
+            First Step
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     18. ENDING QUOTE
+===================================================== -->
+
+<div
+    id="endingQuote"
+    class="ending-quote hidden"
+>
+
+    <div class="quote-art">
+        🏰
+    </div>
+
+    <blockquote>
+        “Bukan hanya tentang seberapa tinggi
+        kamu naik, tapi seberapa besar
+        kamu belajar.”
+    </blockquote>
+
+    <span>
+        — Math Tower
+    </span>
+
+</div>
+
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script
+    src="js/tower.js"
+    defer
+></script>
+
 </body>
 </html>
