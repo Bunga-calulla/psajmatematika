@@ -8,6 +8,15 @@
     >
 
     <title>Math Break — The Infinite Tower</title>
+    <script>
+    // Periksa status login sebelum game ditampilkan
+    const currentUser = localStorage.getItem('mdny_current_user');
+
+    if (!currentUser) {
+        alert('Silakan login terlebih dahulu untuk memainkan game!');
+        window.location.replace('index.html');
+    }
+</script>
 
     <link
         rel="stylesheet"

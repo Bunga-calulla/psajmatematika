@@ -9,10 +9,10 @@ persentase:[
 ["Nilai naik dari 60 menjadi 72. Persentase kenaikannya…",["12%","15%","20%","25%"],2,"Kenaikan 12; 12/60 × 100% = 20%."]],
 persamaan:[
 ["Ongkos ojek Rp5.000 + Rp3.000 tiap km. Untuk 8 km totalnya…",["Rp24.000","Rp27.000","Rp29.000","Rp32.000"],2,"5.000 + 3.000(8) = Rp29.000."],
-["Tiket bus Rp10.000 + Rp2.500/km. Jika total Rp25.000, jaraknya…",["4 km","5 km","6 km","8 km"],1,"10.000 + 2.500x = 25.000 → x = 6 km."],
-["Sewa sepeda Rp20.000 + Rp5.000/jam. Selama 4 jam…",["Rp35.000","Rp40.000","Rp45.000","Rp50.000"],2,"20.000 + 5.000(4) = Rp40.000."],
-["Tabungan awal Rp50.000 ditambah Rp10.000/hari. Setelah 7 hari…",["Rp100.000","Rp110.000","Rp120.000","Rp130.000"],1,"50.000 + 10.000(7) = Rp120.000."],
-["Parkir Rp3.000 + Rp2.000/jam. Total Rp13.000 berarti…",["4 jam","5 jam","6 jam","7 jam"],2,"3.000 + 2.000x = 13.000 → x = 5 jam."],
+["Tiket bus Rp10.000 + Rp2.500/km. Jika total Rp25.000, jaraknya…",["4 km","5 km","6 km","8 km"],2,"10.000 + 2.500x = 25.000 → x = 6 km."],
+["Sewa sepeda Rp20.000 + Rp5.000/jam. Selama 4 jam…",["Rp35.000","Rp40.000","Rp45.000","Rp50.000"],1,"20.000 + 5.000(4) = Rp40.000."],
+["Tabungan awal Rp50.000 ditambah Rp10.000/hari. Setelah 7 hari…",["Rp100.000","Rp110.000","Rp120.000","Rp130.000"],2,"50.000 + 10.000(7) = Rp120.000."],
+["Parkir Rp3.000 + Rp2.000/jam. Total Rp13.000 berarti…",["4 jam","5 jam","6 jam","7 jam"],1,"3.000 + 2.000x = 13.000 → x = 5 jam."],
 ["Rumus y=4x+2. Jika x=6, y=…",["20","22","24","26"],3,"4(6)+2 = 26."]],
 geometri:[
 ["Luas lantai persegi panjang 8 m × 5 m adalah…",["13 m²","26 m²","40 m²","80 m²"],2,"Luas = panjang × lebar = 8 × 5 = 40 m²."],

@@ -10,12 +10,145 @@ window.MODULES=modules;window.currentModule=null;
 document.addEventListener('DOMContentLoaded',()=>{
 const cards=document.getElementById('moduleCards');cards.innerHTML=modules.map(m=>`<article class="module-card" style="--accent:${m.accent}"><div class="module-num">${m.icon} MODUL</div><h3>${m.name}</h3><strong>${m.case}</strong><p>${m.desc}</p><button data-open="${m.id}">Buka modul →</button></article>`).join('');
 cards.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openModule(b.dataset.open));
-document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>showPanel(b.dataset.panel));
+document.querySelectorAll('[data-panel]').forEach(b => {
+    b.onclick = (e) => {
+        e.preventDefault();
+        showPanel(b.dataset.panel);
+    };
+});
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
 });
-window.showPanel=function(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(id==='home'&&window.Progress)Progress.render();};
-function switchTab(tab){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+tab));if(tab==='materi'&&currentModule)Progress.setMateri(currentModule.id)}
-window.openModule=function(id){const m=modules.find(x=>x.id===id);currentModule=m;showPanel('moduleView');document.getElementById('moduleHeader').innerHTML=`<div class="module-head" style="--accent:${m.accent}"><div><div class="eyebrow">${m.icon} ${m.case.toUpperCase()}</div><h2>${m.name}</h2><p>${m.desc}</p></div><button class="back-btn" onclick="showPanel('modules')">← Kembali</button></div>`;document.getElementById('tab-materi').innerHTML=window.getModuleMaterial(id);document.getElementById('tab-coba').innerHTML=window.getModuleSimulator(id);window.bindSimulator(id);window.renderQuiz(id);Progress.setMateri(id);document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='materi'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-materi'))}
+window.showPanel = function(id) {
+
+    const currentUser = localStorage.getItem('mdny_current_user');
+
+    // Halaman selain login hanya boleh dibuka jika sudah login
+    const allowedPanels = ['loginPage'];
+
+    if (!currentUser && !allowedPanels.includes(id)) {
+        id = 'loginPage';
+    }
+
+    const targetPanel = document.getElementById(id);
+
+    if (!targetPanel) return;
+
+    document.querySelectorAll('.panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+
+    targetPanel.classList.add('active');
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+    // Render dashboard jika halaman beranda dibuka
+    if (id === 'home' && window.Progress) {
+        Progress.render();
+    }
+};
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tab);
+    });
+
+    document.querySelectorAll('.tab-panel').forEach(p => {
+        p.classList.toggle('active', p.id === 'tab-' + tab);
+    });
+}
+window.openModule = function(id) {
+
+    // Cek apakah pengguna sudah login
+    if (!localStorage.getItem('mdny_current_user')) {
+        showPanel('loginPage');
+        return;
+    }
+
+    // Cari data modul berdasarkan ID
+    const m = modules.find(x => x.id === id);
+
+    // Jika modul tidak ditemukan, hentikan fungsi
+    if (!m) return;
+
+    currentModule = m;
+
+    // Tampilkan halaman modul
+    showPanel('moduleView');
+
+    // Tampilkan informasi judul modul
+    document.getElementById('moduleHeader').innerHTML = `
+        <div class="module-head" style="--accent:${m.accent}">
+            <div>
+                <div class="eyebrow">${m.icon} ${m.case.toUpperCase()}</div>
+                <h2>${m.name}</h2>
+                <p>${m.desc}</p>
+            </div>
+            <button class="back-btn" onclick="showPanel('modules')">
+                ← Kembali
+            </button>
+        </div>
+    `;
+
+    // Tampilkan materi dan simulasi modul
+    document.getElementById('tab-materi').innerHTML =
+        window.getModuleMaterial(id);
+        // ==========================================
+// TOMBOL PENYELESAIAN MATERI
+// ==========================================
+
+const completeMateriBtn = document.getElementById('completeMateriBtn');
+
+function updateMateriButton() {
+
+    if (!completeMateriBtn) return;
+
+    const isComplete = Progress.data[id].materi;
+
+    if (isComplete) {
+        completeMateriBtn.textContent = '✓ Materi Sudah Selesai';
+        completeMateriBtn.disabled = true;
+    } else {
+        completeMateriBtn.textContent = 'Tandai Sudah Membaca dan Paham';
+        completeMateriBtn.disabled = false;
+    }
+}
+
+// Periksa status materi ketika modul dibuka
+updateMateriButton();
+
+// Simpan progres hanya ketika tombol diklik
+if (completeMateriBtn) {
+
+    completeMateriBtn.addEventListener('click', function () {
+
+        Progress.setMateri(id);
+
+        updateMateriButton();
+
+    });
+
+}
+
+    document.getElementById('tab-coba').innerHTML =
+        window.getModuleSimulator(id);
+
+    // Jalankan fungsi pendukung modul
+    window.bindSimulator(id);
+    window.renderQuiz(id);
+
+
+    // Aktifkan tab Materi
+    document.querySelectorAll('.tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === 'materi');
+    });
+
+    // Tampilkan panel Materi
+    document.querySelectorAll('.tab-panel').forEach(p => {
+        p.classList.toggle('active', p.id === 'tab-materi');
+    });
+};
 window.getModuleMaterial=function(id){
 const accent=modules.find(m=>m.id===id).accent;
 const lessons={
@@ -80,7 +213,60 @@ extra:`<div class="real-life" style="--accent:${accent}"><b>Kenapa “fair” pe
 tip:`💡 <b>Tips:</b> tulis ruang sampel sebelum menghitung. Jangan langsung menebak peluang hanya dari perasaan.`}
 };
 const x=lessons[id];
-return `<div class="lesson-sections"><div class="content-card">${x.intro}</div><div class="content-card">${x.concept}</div><div class="content-card"><h3>📐 Rumus penting</h3>${x.formula}</div><div class="content-card">${x.example}</div><div class="content-card">${x.extra}<div class="tip" style="margin-top:14px">${x.tip}</div></div></div>`;
+return `
+    <div class="lesson-sections">
+
+        <div class="content-card">
+            ${x.intro}
+        </div>
+
+        <div class="content-card">
+            ${x.concept}
+        </div>
+
+        <div class="content-card">
+            <h3>📐 Rumus penting</h3>
+            ${x.formula}
+        </div>
+
+        <div class="content-card">
+            ${x.example}
+        </div>
+
+        <div class="content-card">
+            ${x.extra}
+
+            <div class="tip" style="margin-top:14px">
+                ${x.tip}
+            </div>
+        </div>
+
+        <!-- TOMBOL PENYELESAIAN MATERI -->
+        <div class="content-card" style="text-align:center">
+
+            <h3>🎯 Materi ${modules.find(m => m.id === id).name}</h3>
+
+            <p>
+                Apakah kamu sudah selesai membaca dan memahami
+                seluruh materi ini?
+            </p>
+
+            <button
+                type="button"
+                id="completeMateriBtn"
+                class="gradient-btn"
+            >
+                Tandai Sudah Membaca dan Paham
+            </button>
+
+            <p style="margin-top:12px;font-size:13px;color:#888">
+                Progres akan tersimpan setelah tombol diklik.
+            </p>
+
+        </div>
+
+    </div>
+`;
 };
 
 })();

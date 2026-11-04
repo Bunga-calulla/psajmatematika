@@ -5,46 +5,53 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================
     // MODE LOGIN / DAFTAR
     // =========================
-    function pageMode(m) {
-        authMode = m;
+function pageMode(m) {
+    authMode = m;
 
-        const title = document.getElementById('pageAuthTitle');
-        const subtitle = document.getElementById('pageAuthSubtitle');
-        const submit = document.getElementById('pageAuthSubmit');
+    const title = document.getElementById('pageAuthTitle');
+    const subtitle = document.getElementById('pageAuthSubtitle');
+    const submit = document.getElementById('pageAuthSubmit');
 
-        const loginTab = document.getElementById('pageLoginTab');
-        const registerTab = document.getElementById('pageRegisterTab');
-        const error = document.getElementById('pageAuthError');
+    const loginTab = document.getElementById('pageLoginTab');
+    const registerTab = document.getElementById('pageRegisterTab');
+    const passwordInput = document.getElementById('pageAuthPassword');
+    const error = document.getElementById('pageAuthError');
 
-        if (!title || !subtitle || !submit) return;
+    if (!title || !subtitle || !submit) return;
 
-        title.textContent =
-            m === 'login'
-                ? 'Selamat datang 👋'
-                : 'Buat akun baru ✨';
+    title.textContent =
+        m === 'login'
+            ? 'Selamat datang 👋'
+            : 'Buat akun baru ✨';
 
-        subtitle.textContent =
-            m === 'login'
-                ? 'Masuk untuk melanjutkan progres belajarmu.'
-                : 'Daftar agar progresmu tersimpan di akun.';
+    subtitle.textContent =
+        m === 'login'
+            ? 'Masuk menggunakan email dan password yang sudah didaftarkan.'
+            : 'Daftarkan email dan password untuk membuat akun baru.';
 
-        submit.textContent =
-            m === 'login'
-                ? 'Masuk ke Akun'
-                : 'Buat Akun';
+    submit.textContent =
+        m === 'login'
+            ? 'Masuk ke Akun'
+            : 'Daftar Akun';
 
-        if (loginTab) {
-            loginTab.classList.toggle('active', m === 'login');
-        }
-
-        if (registerTab) {
-            registerTab.classList.toggle('active', m === 'register');
-        }
-
-        if (error) {
-            error.textContent = '';
-        }
+    if (loginTab) {
+        loginTab.classList.toggle('active', m === 'login');
     }
+
+    if (registerTab) {
+        registerTab.classList.toggle('active', m === 'register');
+    }
+
+    if (passwordInput) {
+        passwordInput.autocomplete =
+            m === 'login' ? 'current-password' : 'new-password';
+    }
+
+    if (error) {
+        error.textContent = '';
+        error.style.color = '';
+    }
+}
 
 
     // =========================
@@ -54,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (openLogin) {
         openLogin.onclick = () => {
-            showPanel('loginPage');
             pageMode('login');
+            showPanel('loginPage');
         };
     }
 
@@ -83,31 +90,40 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-
-    // =========================
-    // LOGIN SEBAGAI TAMU
-    // =========================
-    const pageGuestLogin = document.getElementById('pageGuestLogin');
-
-    if (pageGuestLogin) {
-        pageGuestLogin.onclick = () => {
-            localStorage.setItem('mdny_current_user', 'Tamu');
-
-            showPanel('home');
-
-            updateAuthArea();
-        };
-    }
+    
 
 
     // =========================
     // FORM LOGIN / DAFTAR
     // =========================
-    const pageAuthForm = document.getElementById('pageAuthForm');
+   const pageAuthForm = document.getElementById('pageAuthForm');
 
-    if (pageAuthForm) {
-        pageAuthForm.onsubmit = doPageAuth;
+   if (pageAuthForm) {
+    pageAuthForm.onsubmit = doPageAuth;
+}
+
+// Tampilkan halaman berdasarkan status login.
+const currentUser = localStorage.getItem('mdny_current_user');
+
+if (currentUser) {
+
+    // Muat progres sesuai akun yang masih login.
+    if (window.Progress) {
+        window.Progress.loadForUser(currentUser);
     }
+
+    showPanel('home');
+
+} else {
+
+    // Tidak ada akun login, gunakan progres kosong.
+    if (window.Progress) {
+        window.Progress.loadForUser(null);
+    }
+
+    showPanel('loginPage');
+    pageMode('login');
+}
 
 
     // =========================
@@ -120,58 +136,181 @@ document.addEventListener('DOMContentLoaded', () => {
 // =========================
 // LOGIN / DAFTAR DUMMY
 // =========================
-function doPageAuth(e) {
+// =========================
+// MENGAMBIL DATA AKUN
+// =========================
 
+function getRegisteredUsers() {
+    try {
+        return JSON.parse(localStorage.getItem('mdny_users')) || [];
+    } catch (error) {
+        return [];
+    }
+}
+
+
+// =========================
+// HASH PASSWORD
+// =========================
+
+async function hashPassword(password, salt) {
+    if (!window.crypto || !window.crypto.subtle) {
+        throw new Error(
+            'Browser tidak mendukung keamanan password. Gunakan Live Server.'
+        );
+    }
+
+    const data = new TextEncoder().encode(salt + password);
+
+    const hash = await crypto.subtle.digest('SHA-256', data);
+
+    return Array.from(new Uint8Array(hash))
+        .map(byte => byte.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+
+// =========================
+// PROSES LOGIN / DAFTAR
+// =========================
+
+async function doPageAuth(e) {
     e.preventDefault();
 
-    const username = document
+    const email = document
         .getElementById('pageAuthEmail')
         .value
-        .trim();
+        .trim()
+        .toLowerCase();
 
     const password = document
         .getElementById('pageAuthPassword')
-        .value
-        .trim();
+        .value;
 
     const error = document.getElementById('pageAuthError');
 
     error.textContent = '';
+    error.style.color = '';
 
-
-    // Username wajib diisi
-    if (!username) {
-        error.textContent = 'Username wajib diisi.';
+    if (!email || !password) {
+        error.textContent = 'Email dan password wajib diisi.';
         return;
     }
 
-
-    // Password wajib diisi
-    if (!password) {
-        error.textContent = 'Password wajib diisi.';
+    if (password.length < 6) {
+        error.textContent = 'Password minimal 6 karakter.';
         return;
     }
 
+    const users = getRegisteredUsers();
 
-    // Simpan username ke browser
-    localStorage.setItem(
-        'mdny_current_user',
-        username
-    );
+    try {
+
+        // =========================
+        // MODE DAFTAR
+        // =========================
+
+        if (authMode === 'register') {
+
+            const existingUser = users.find(
+                user => user.email === email
+            );
+
+            if (existingUser) {
+                error.textContent =
+                    'Email sudah terdaftar. Silakan masuk.';
+                return;
+            }
+
+            const saltArray = crypto.getRandomValues(
+                new Uint8Array(16)
+            );
+
+            const salt = Array.from(saltArray)
+                .map(byte => byte.toString(16).padStart(2, '0'))
+                .join('');
+
+            const passwordHash = await hashPassword(password, salt);
+
+            users.push({
+                email: email,
+                salt: salt,
+                passwordHash: passwordHash
+            });
+
+            localStorage.setItem(
+                'mdny_users',
+                JSON.stringify(users)
+            );
+
+            document.getElementById('pageAuthPassword').value = '';
+
+            pageMode('login');
+
+            error.style.color = 'green';
+            error.textContent =
+                'Pendaftaran berhasil! Silakan login menggunakan akun kamu.';
+
+            return;
+        }
 
 
-    // Masuk ke halaman utama
-    showPanel('home');
+        // =========================
+        // MODE LOGIN
+        // =========================
 
+        const registeredUser = users.find(
+            user => user.email === email
+        );
 
-    // Update navbar
-    updateAuthArea();
+        if (!registeredUser) {
+            error.textContent =
+                'Email belum terdaftar. Silakan daftar terlebih dahulu.';
+            return;
+        }
+
+        const enteredPasswordHash = await hashPassword(
+            password,
+            registeredUser.salt
+        );
+
+        if (enteredPasswordHash !== registeredUser.passwordHash) {
+            error.textContent =
+                'Password salah. Silakan periksa kembali.';
+            return;
+        }
+
+       // Login berhasil
+localStorage.setItem(
+    'mdny_current_user',
+    registeredUser.email
+);
+
+// Muat progres khusus akun yang berhasil login.
+if (window.Progress) {
+    window.Progress.loadForUser(registeredUser.email);
+}
+
+document.getElementById('pageAuthPassword').value = '';
+
+updateAuthArea();
+
+showPanel('home');
+
+    } catch (err) {
+        error.textContent =
+            err.message || 'Terjadi kesalahan. Silakan coba kembali.';
+    }
 }
 
 
 // =========================
 // UPDATE NAVBAR AKUN
 // =========================
+// =========================
+// UPDATE NAVBAR AKUN
+// =========================
+
 function updateAuthArea() {
 
     const authArea = document.getElementById('authArea');
@@ -180,85 +319,63 @@ function updateAuthArea() {
 
     const username = localStorage.getItem('mdny_current_user');
 
+    authArea.innerHTML = '';
 
-    // =========================
-    // KALAU SUDAH LOGIN
-    // =========================
     if (username) {
 
-        authArea.innerHTML = `
-            <div class="user-menu">
+        const userMenu = document.createElement('div');
+        userMenu.className = 'user-menu';
 
-                <span class="avatar">
-                    ${username.charAt(0).toUpperCase()}
-                </span>
+        const avatar = document.createElement('span');
+        avatar.className = 'avatar';
+        avatar.textContent = username.charAt(0).toUpperCase();
 
-                <span>${username}</span>
+        const userText = document.createElement('span');
+        userText.textContent = username;
 
-                <button
-                    class="logout-btn"
-                    id="logoutBtn"
-                    type="button">
-                    Keluar
-                </button>
+        const logoutBtn = document.createElement('button');
+        logoutBtn.className = 'logout-btn';
+        logoutBtn.id = 'logoutBtn';
+        logoutBtn.type = 'button';
+        logoutBtn.textContent = 'Keluar';
 
-            </div>
-        `;
+        logoutBtn.onclick = () => {
 
+    // Hapus status akun yang sedang login.
+    localStorage.removeItem('mdny_current_user');
 
-        const logoutBtn =
-            document.getElementById('logoutBtn');
+    // Kosongkan progres dari tampilan akun sebelumnya.
+    if (window.Progress) {
+        window.Progress.loadForUser(null);
+    }
 
+    updateAuthArea();
 
-        if (logoutBtn) {
+    showPanel('loginPage');
 
-            logoutBtn.onclick = () => {
+    pageMode('login');
+};
 
-                // Hapus user
-                localStorage.removeItem(
-                    'mdny_current_user'
-                );
+        userMenu.append(avatar, userText, logoutBtn);
 
+        authArea.appendChild(userMenu);
 
-                // Update navbar
-                updateAuthArea();
-
-
-                // Kembali ke login
-                showPanel('loginPage');
-
-                pageMode('login');
-            };
-        }
-
-
-    // =========================
-    // KALAU BELUM LOGIN
-    // =========================
     } else {
 
-        authArea.innerHTML = `
-            <button
-                class="pill-btn"
-                id="openLogin2"
-                type="button">
-                Masuk / Daftar
-            </button>
-        `;
+        const loginBtn = document.createElement('button');
 
+        loginBtn.className = 'pill-btn';
+        loginBtn.id = 'openLogin2';
+        loginBtn.type = 'button';
+        loginBtn.textContent = 'Masuk / Daftar';
 
-        const openLogin2 =
-            document.getElementById('openLogin2');
+        loginBtn.onclick = () => {
 
+            showPanel('loginPage');
 
-        if (openLogin2) {
+            pageMode('login');
+        };
 
-            openLogin2.onclick = () => {
-
-                showPanel('loginPage');
-
-                pageMode('login');
-            };
-        }
+        authArea.appendChild(loginBtn);
     }
 }

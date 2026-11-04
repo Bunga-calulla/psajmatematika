@@ -1125,6 +1125,16 @@ function setupEvents() {
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Periksa apakah pengguna sudah login
+    const currentUser = localStorage.getItem("mdny_current_user");
+
+    if (!currentUser) {
+        alert("Silakan login terlebih dahulu untuk memainkan game!");
+        window.location.replace("index.html");
+        return;
+    }
+
+    // Jika sudah login, jalankan game seperti biasa
     setupEvents();
     loadProgress();
 

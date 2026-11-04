@@ -17,10 +17,11 @@
     <nav class="topnav">
       <button data-panel="home">Beranda</button>
       <button data-panel="modules">6 Modul</button>
-      <button onclick="location.href='game.html'">🕵️ Main Game</button><button data-panel="loginPage">🔐 Akun</button>
+      <button onclick="location.href='game.html'">🕵️ Main Game</button>
+      <button data-panel="loginPage">🔐 Akun</button>
     </nav>
     <div id="authArea">
-      <button class="pill-btn" id="openLogin">Masuk / Daftar</button>
+      <button class="pill-btn" id="openLogin" type="button">Masuk / Daftar</button>
     </div>
   </header>
 
@@ -57,35 +58,103 @@
       <div id="progressGrid" class="progress-grid"></div>
     </section>
 
-    <section id="loginPage" class="panel">
-      <div class="login-page">
-        <div class="login-visual">
-          <span class="eyebrow">MATEMATIKA DI DUNIA NYATA</span>
-          <h1>Belajar lebih teratur,<br><span>progres tetap tersimpan.</span></h1>
-          <p>Masuk atau buat akun untuk menyimpan materi yang sudah dibaca, simulasi yang sudah dicoba, skor latihan, dan riwayat game.</p>
-          <div class="login-benefits">
-            <div><b>✓</b><span>Progres tersimpan per akun</span></div>
-            <div><b>✓</b><span>Bisa dilanjutkan dari perangkat lain</span></div>
-            <div><b>✓</b><span>Tetap bisa belajar sebagai tamu</span></div>
-          </div>
+    <section id="loginPage" class="panel active">
+  <div class="login-page">
+
+    <div class="login-visual">
+      <span class="eyebrow">MATEMATIKA DI DUNIA NYATA</span>
+
+      <h1>Belajar lebih teratur,<br>
+        <span>progres tetap tersimpan.</span>
+      </h1>
+
+      <p>
+        Buat akun terlebih dahulu untuk mulai menjelajahi
+        materi matematika, mencoba simulasi interaktif,
+        mengerjakan latihan, dan memainkan game edukasi.
+      </p>
+
+      <div class="login-benefits">
+        <div>
+          <b>✓</b>
+          <span>Akses 6 modul pembelajaran</span>
         </div>
-        <div class="login-form-card">
-          <div class="login-tabs"><button id="pageLoginTab" class="active">Masuk</button><button id="pageRegisterTab">Daftar</button></div>
-          <h2 id="pageAuthTitle">Selamat datang 👋</h2>
-          <p id="pageAuthSubtitle">Masuk untuk melanjutkan progres belajarmu.</p>
-          <form id="pageAuthForm">
-            <label>Email<input id="pageAuthEmail" type="email" required placeholder="nama@email.com"></label>
-            <label>Password<input id="pageAuthPassword" type="password" minlength="6" required placeholder="Minimal 6 karakter"></label>
-            <div id="pageAuthError" class="form-error"></div>
-            <button class="gradient-btn wide" type="submit" id="pageAuthSubmit">Masuk ke Akun</button>
-          </form>
-          <button class="google-btn" id="pageGoogleLogin" type="button">G &nbsp; Lanjut dengan Google</button>
-          <div class="login-divider"><span>atau</span></div>
-          <button class="guest-btn" id="pageGuestLogin" type="button">Lanjut sebagai Tamu</button>
-          <p class="login-note">Tidak wajib login untuk membuka materi. Login hanya diperlukan jika kamu ingin sinkronisasi progres ke akun.</p>
+
+        <div>
+          <b>✓</b>
+          <span>Pelajari materi dan simulasi interaktif</span>
+        </div>
+
+        <div>
+          <b>✓</b>
+          <span>Simpan progres belajar</span>
         </div>
       </div>
-    </section>
+    </div>
+
+    <div class="login-form-card">
+
+      <div class="login-tabs">
+        <button id="pageLoginTab" class="active" type="button">
+          Masuk
+        </button>
+
+        <button id="pageRegisterTab" type="button">
+          Daftar
+        </button>
+      </div>
+
+      <h2 id="pageAuthTitle">Selamat datang 👋</h2>
+
+      <p id="pageAuthSubtitle">
+        Masuk ke akun untuk melanjutkan pembelajaran.
+      </p>
+
+      <form id="pageAuthForm">
+
+        <label>
+          Email
+          <input
+            id="pageAuthEmail"
+            type="email"
+            required
+            placeholder="nama@email.com"
+            autocomplete="email"
+          >
+        </label>
+
+        <label>
+          Password
+          <input
+            id="pageAuthPassword"
+            type="password"
+            minlength="6"
+            required
+            placeholder="Minimal 6 karakter"
+            autocomplete="current-password"
+          >
+        </label>
+
+        <div id="pageAuthError" class="form-error"></div>
+
+        <button
+          class="gradient-btn wide"
+          type="submit"
+          id="pageAuthSubmit"
+        >
+          Masuk ke Akun
+        </button>
+
+      </form>
+
+      <p class="login-note">
+        Belum memiliki akun? Silakan daftar terlebih dahulu
+        menggunakan email dan password.
+      </p>
+
+    </div>
+  </div>
+</section>
 
     <section id="modules" class="panel">
       <div class="section-heading">
@@ -108,29 +177,13 @@
 
   </main>
 
-  <div id="authModal" class="modal hidden">
-    <div class="modal-card">
-      <button class="modal-close" id="closeLogin">×</button>
-      <span class="eyebrow">AKUN BELAJAR</span>
-      <h2 id="authTitle">Masuk ke akun</h2>
-      <p id="authSubtitle">Simpan progresmu agar bisa dilanjutkan dari perangkat lain.</p>
-      <form id="authForm">
-        <label>Email<input id="authEmail" type="email" required placeholder="nama@email.com"></label>
-        <label>Password<input id="authPassword" type="password" minlength="6" required placeholder="Minimal 6 karakter"></label>
-        <div id="authError" class="form-error"></div>
-        <button class="gradient-btn wide" type="submit" id="authSubmit">Masuk</button>
-      </form>
-      <div class="auth-switch"><span id="switchText">Belum punya akun?</span> <button id="switchAuth" type="button">Daftar</button></div>
-      <button class="google-btn" id="googleLogin" type="button">G&nbsp; Lanjut dengan Google</button>
-      <button class="guest-btn" id="guestLogin" type="button">Lanjut sebagai Tamu</button>
-    </div>
-  </div>
+
 
   <footer><p>© 2026 Matematika di Dunia Nyata · Belajar matematika dengan cara yang dekat dengan kehidupan.</p></footer>
 
-  <script type="module" src="js/auth.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/progress.js"></script>
+  <script src="js/main.js"></script>
   <script src="js/quiz.js"></script>
   <script src="js/percentage.js"></script>
   <script src="js/equation.js"></script>

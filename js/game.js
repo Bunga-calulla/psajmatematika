@@ -10,7 +10,29 @@ peluang:()=>{let sides=[6,8,10][rnd(0,2)],fav=rnd(1,Math.floor(sides/2)),ans=fav
 function rnd(a,b,step=1){let n=Math.floor((b-a)/step)+1;return a+Math.floor(Math.random()*n)*step}function fmt(n){return new Intl.NumberFormat('id-ID').format(n)}
 function make(text,answer,format){let correct=format(answer),nums=new Set([String(correct)]);let options=[correct];while(options.length<4){let delta=(Math.random()<.5?-1:1)*(Math.max(1,Math.round(Math.abs(answer)*[.05,.1,.15,.2][rnd(0,3)])));let v=answer+delta;if(v<0)continue;let s=format(v);if(!nums.has(String(s))){nums.add(String(s));options.push(s)}}for(let i=options.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]]}return {text,options,correct:options.indexOf(correct)}}
 let state={};
-document.addEventListener('DOMContentLoaded',()=>{startGame.onclick=begin;muteBtn.onclick=()=>{state.muted=!state.muted;muteBtn.textContent=state.muted?'🔇 Suara OFF':'🔊 Suara ON'};loadLeaderboard()});
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Periksa apakah pengguna sudah login
+    const currentUser = localStorage.getItem('mdny_current_user');
+
+    if (!currentUser) {
+        alert('Silakan login terlebih dahulu untuk memainkan game!');
+
+        // Arahkan kembali ke halaman login
+        window.location.href = 'index.html';
+        return;
+    }
+
+    // Jalankan fitur game seperti biasa
+    startGame.onclick = begin;
+
+    muteBtn.onclick = () => {
+        state.muted = !state.muted;
+        muteBtn.textContent = state.muted ? '🔇 Suara OFF' : '🔊 Suara ON';
+    };
+
+    loadLeaderboard();
+});
 function sound(name){if(state.muted)return;const a=new Audio('assets/sfx/'+name+'.mp3');a.volume=.35;a.play().catch(()=>{})}
 function begin(){let name=playerName.value.trim()||'Pemain';state={...state,name,topic:gameTopic.value,level:gameLevel.value,n:0,score:0,correct:0,muted:state.muted||false};gameSetup.classList.add('hidden');gameResult.classList.add('hidden');gamePlay.classList.remove('hidden');sound('start');next()}
 function next(){if(state.n>=8)return finish();state.q=generators[state.topic]();state.time={pemula:20,menengah:12,jagoan:8}[state.level];state.max=state.time;renderQuestion();clearInterval(state.timer);state.timer=setInterval(()=>{state.time-=.1;document.querySelector('.timer-fill').style.width=Math.max(0,state.time/state.max*100)+'%';if(state.time<=0){clearInterval(state.timer);answer(-1)}},100)}
