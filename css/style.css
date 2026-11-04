@@ -42,3 +42,94 @@ footer{text-align:center;padding:35px 5%;color:var(--muted);font-size:12px}
 .trig-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.trig-graph-controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.trig-choice,.trig-special-buttons button{border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:10px;padding:9px 14px;cursor:pointer}.trig-choice.active,.trig-special-buttons button:hover{background:#f2c94c}.trig-canvas-wrap{width:100%;overflow:auto;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff}.trig-canvas-wrap canvas{display:block;width:100%;min-width:650px;height:auto}.trig-graph-info{margin-top:12px;padding:12px 14px;background:#f7f7f7;border-radius:12px}
 .trig-quiz-box{padding:18px;border-radius:16px;background:#fafafa;border:1px solid rgba(0,0,0,.07)}.trig-question{font-size:20px;font-weight:700;margin-bottom:14px}.trig-options{display:flex;gap:10px;flex-wrap:wrap}.trig-options button{padding:10px 18px;border:1px solid rgba(0,0,0,.12);border-radius:10px;background:#fff;cursor:pointer}.trig-options button:hover{transform:translateY(-1px)}.trig-feedback{margin-top:14px;min-height:22px;line-height:1.6}.trig-special-buttons{display:flex;gap:10px;flex-wrap:wrap}.trig-special-result{margin-top:14px;padding:15px;border-radius:14px;background:#fff8dc;border:1px solid rgba(242,201,76,.45)}.trig-equation-row{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.trig-equation-row label{display:flex;flex-direction:column;gap:6px;font-weight:700}.trig-equation-row input,.trig-mission-input input{padding:11px 12px;border:1px solid #ccc;border-radius:10px;font:inherit}.trig-mission-card{background:linear-gradient(135deg,rgba(242,201,76,.12),rgba(255,255,255,.98))}.trig-mission{padding:18px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);font-size:16px;line-height:1.7}.trig-mission-input{display:flex;gap:8px;align-items:center;margin-top:16px}.trig-mission-input input{width:180px}.trig-mission-progress{margin-top:12px;font-size:13px;opacity:.7}.trig-mission-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.trig-mission-actions button:disabled{opacity:.5;cursor:not-allowed}.mission-finished{padding:20px;text-align:center;font-size:18px}.trig-topic-map{display:flex;flex-wrap:wrap;gap:8px}.trig-topic-map span{padding:8px 11px;border-radius:999px;background:#f5f5f5;font-size:13px}.muted{opacity:.7}
 @media(max-width:720px){.trig-sim-grid{grid-template-columns:1fr}.trig-values{grid-template-columns:1fr}.trig-triangle-wrap{flex-direction:column;align-items:flex-start}.trig-visual{min-height:230px}.trig-stat-row{grid-template-columns:1fr}}
+
+/* ===== Geometri Ruang interactive ===== */
+.geo-hero-card{background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(255,255,255,.96));}
+.geo-chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.geo-chip-row span{padding:8px 12px;border:1px solid rgba(0,0,0,.08);border-radius:999px;background:#fff;font-size:13px}
+.geo-sim-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,1fr);gap:24px;align-items:center}
+.geo-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.geo-stat-row>div{padding:14px;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;text-align:center}.geo-stat-row small{display:block;font-size:12px;opacity:.65}.geo-stat-row b{display:block;font-size:19px;margin-top:4px;color:var(--violet)}
+.geo-note{margin-top:14px;padding:10px 14px;border-radius:12px;background:rgba(124,58,237,.08);font-size:13px}
+.geo-visual{min-height:230px;border-radius:18px;background:linear-gradient(180deg,#f6f1ff,#fff);display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.06);overflow:hidden;padding:20px}
+
+/* Kubus / balok 3D */
+.geo-box-stage{perspective:900px}
+.geo-cube{position:relative;transform-style:preserve-3d;animation:geoSpin 9s linear infinite}
+.geo-face{position:absolute;top:0;left:0;background:linear-gradient(135deg,var(--violet),var(--pink));opacity:.85;border:1px solid rgba(255,255,255,.5);box-shadow:inset 0 0 25px rgba(255,255,255,.15)}
+.geo-face.geo-top,.geo-face.geo-bottom{opacity:.65}
+.geo-face.geo-right,.geo-face.geo-left{opacity:.75}
+@keyframes geoSpin{from{transform:rotateX(-18deg) rotateY(0deg)}to{transform:rotateX(-18deg) rotateY(360deg)}}
+
+/* Tabung */
+.geo-cylinder{position:relative;display:flex;flex-direction:column;align-items:center}
+.geo-cyl-body{width:100%;flex:1;background:linear-gradient(90deg,#5b21b6,var(--violet) 40%,#c4b5fd 55%,var(--violet) 75%);box-shadow:inset 0 0 20px rgba(0,0,0,.15)}
+.geo-cyl-top{width:100%;border-radius:50%;background:linear-gradient(180deg,#e9d8fd,#c4b5fd);margin-bottom:-8px;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.geo-cyl-bottom{width:100%;border-radius:50%;background:linear-gradient(180deg,#5b21b6,#4c1d95);margin-top:-8px}
+
+/* Kerucut */
+.geo-cone-wrap{display:flex;flex-direction:column;align-items:center}
+.geo-cone{width:0;height:0;border-left:45px solid transparent;border-right:45px solid transparent;border-bottom:108px solid var(--violet);filter:drop-shadow(0 6px 10px rgba(124,58,237,.35))}
+.geo-cone-base{height:14px;border-radius:50%;background:linear-gradient(180deg,#c4b5fd,#8b5cf6);margin-top:-4px}
+
+/* Bola */
+.geo-sphere{border-radius:50%;background:radial-gradient(circle at 32% 28%,#f3e8ff 0%,#c4b5fd 28%,var(--violet) 65%,#4c1d95 100%);box-shadow:0 20px 40px rgba(124,58,237,.35)}
+
+/* Galeri kartu besar (Penerapan dunia nyata & Galeri bangun ruang) */
+.geo-app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:18px}
+.geo-app-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;padding:20px 18px;text-align:center;transition:transform .25s ease, box-shadow .25s ease}
+.geo-app-card:hover{transform:translateY(-5px);box-shadow:0 16px 30px rgba(124,58,237,.16)}
+.geo-app-icon{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;box-shadow:0 8px 18px rgba(0,0,0,.12)}
+.geo-app-card h4{margin:0 0 8px;font-size:15px;font-family:var(--font-display)}
+.geo-app-card p{font-size:12.5px;color:var(--ink-soft,#6b6478);margin:4px 0 0;line-height:1.5}
+.geo-reveal.geo-in .geo-app-card{animation:geoCardIn .5s ease both}
+.geo-reveal.geo-in .geo-app-card:nth-child(1){animation-delay:.04s}
+.geo-reveal.geo-in .geo-app-card:nth-child(2){animation-delay:.11s}
+.geo-reveal.geo-in .geo-app-card:nth-child(3){animation-delay:.18s}
+.geo-reveal.geo-in .geo-app-card:nth-child(4){animation-delay:.25s}
+.geo-reveal.geo-in .geo-app-card:nth-child(5){animation-delay:.32s}
+.geo-reveal.geo-in .geo-app-card:nth-child(6){animation-delay:.39s}
+.geo-reveal.geo-in .geo-app-card:nth-child(7){animation-delay:.46s}
+@keyframes geoCardIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.geo-app-grid.geo-gallery-grid{grid-template-columns:repeat(3,1fr)}
+.geo-gallery-icon{width:100%;max-width:132px;height:112px;margin:0 auto 14px}
+.geo-gallery-icon svg{width:100%;height:100%;filter:drop-shadow(0 10px 16px rgba(0,0,0,.2))}
+@media(max-width:860px){.geo-app-grid.geo-gallery-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.geo-app-grid.geo-gallery-grid{grid-template-columns:1fr}}
+
+/* Ilustrasi & animasi "Gabungan bangun ruang" */
+.geo-combo-grid{display:grid;grid-template-columns:170px 1fr;gap:22px;align-items:center;margin:20px 0}
+.geo-combo-visual{display:flex;justify-content:center;align-items:center;background:var(--surface-2);border-radius:18px;padding:14px}
+.geo-combo-visual svg{width:100%;height:auto;max-width:160px}
+.geo-reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease, transform .6s ease}
+.geo-reveal.geo-in{opacity:1;transform:translateY(0)}
+.geo-reveal.geo-in .step-list li{animation:geoStepIn .45s ease both}
+.geo-reveal.geo-in .step-list li:nth-child(1){animation-delay:.1s}
+.geo-reveal.geo-in .step-list li:nth-child(2){animation-delay:.22s}
+.geo-reveal.geo-in .step-list li:nth-child(3){animation-delay:.34s}
+.geo-reveal .geo-draw{opacity:0}
+.geo-reveal.geo-in .geo-draw{animation:geoDrawIn .55s ease both}
+.geo-reveal.geo-in .geo-draw:nth-of-type(2){animation-delay:.12s}
+.geo-reveal.geo-in .geo-draw:nth-of-type(3){animation-delay:.24s}
+@keyframes geoStepIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes geoDrawIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes geoPanelFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.geo-shape-panel.geo-fade-in{animation:geoPanelFade .35s ease}
+@media(max-width:640px){.geo-combo-grid{grid-template-columns:1fr}.geo-combo-visual svg{max-width:130px}}
+
+/* Pemilih bangun ruang (tab Materi) */
+.geo-shape-picker{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.geo-shape-btn{padding:10px 16px;border-radius:999px;border:1px solid rgba(0,0,0,.1);background:#fff;font-weight:700;font-size:14px;transition:.15s}
+.geo-shape-btn:hover{background:var(--surface-2)}
+.geo-shape-btn.active{background:linear-gradient(100deg,var(--pink),var(--violet));color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(124,58,237,.25)}
+.geo-shape-panel{margin-top:6px;padding:20px;border-radius:16px;background:var(--surface-2)}
+.geo-shape-panel h4{font-family:var(--font-display);margin:16px 0 8px;font-size:18px}
+.geo-shape-panel h4:first-child{margin-top:0}
+
+/* Misi tangki air */
+.geo-mission-card{background:linear-gradient(135deg,rgba(124,58,237,.10),rgba(255,255,255,.98))}
+.geo-mission{padding:18px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);font-size:16px;line-height:1.7}
+.geo-mission-input{display:flex;gap:8px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.geo-mission-input input{width:200px;padding:11px 12px;border:1px solid #ccc;border-radius:10px;font:inherit}
+.geo-mission-feedback{margin-top:14px;min-height:22px;line-height:1.6}
+
+@media(max-width:720px){.geo-sim-grid{grid-template-columns:1fr}.geo-visual{min-height:200px}.geo-stat-row{grid-template-columns:1fr}}
