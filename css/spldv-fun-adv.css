@@ -1,0 +1,200 @@
+/* PETUALANGAN SPLDV bersama Nera. Semua kelas berawalan nr- */
+.nr-adv{--ink:#241B3A;--teal:#17C3B2;--pink:#FF4D8D;--blue:#3B82F6;--orange:#FF9F1C;--violet:#7C3AED;--yellow:#F2C94C;color:var(--ink);margin-bottom:8px}
+.nr-adv *{box-sizing:border-box}
+
+/* ---------- muncul saat di-scroll ---------- */
+.nr-reveal{opacity:0;transform:translateY(26px) scale(.98);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.9,.3,1.2)}
+.nr-reveal.in{opacity:1;transform:none}
+.nr-flash{animation:nrFlash 1.1s ease}
+@keyframes nrFlash{0%,100%{box-shadow:0 10px 28px rgba(36,27,58,.08)}40%{box-shadow:0 0 0 6px rgba(23,195,178,.35),0 10px 28px rgba(36,27,58,.1)}}
+
+/* ---------- hero ---------- */
+.nr-hero{position:relative;overflow:hidden;border-radius:26px;padding:34px 30px 70px;display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:center;background:linear-gradient(135deg,#E9FBF7 0%,#EEF3FF 55%,#FFF1F7 100%);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);margin-bottom:22px}
+.nr-float{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.nr-float span{position:absolute;font:800 30px/1 'JetBrains Mono',monospace;color:var(--c);opacity:.5;position:absolute;animation:nrFloat var(--d) ease-in-out infinite;animation-delay:var(--dl);pointer-events:none}
+@keyframes nrFloat{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-18px) rotate(10deg)}}
+.nr-hero-copy{position:relative;z-index:2}
+.nr-badge{display:inline-block;background:var(--ink);color:#fff;font-weight:800;font-size:12px;letter-spacing:.5px;padding:7px 14px;border-radius:99px}
+.nr-hero h2{font-size:clamp(25px,3.6vw,38px);line-height:1.18;margin:14px 0 10px;color:var(--ink)}
+.nr-hero h2 span{color:var(--teal);background:linear-gradient(transparent 62%,#FFE08A 62%);padding:0 4px}
+.nr-typed{min-height:48px;font-weight:700;color:#4a3f66;margin:0 0 14px}
+.nr-typed:after{content:"|";margin-left:2px;animation:nrBlink 1s steps(2) infinite}
+@keyframes nrBlink{50%{opacity:0}}
+.nr-chips{display:flex;flex-wrap:wrap;gap:8px}
+.nr-chips button{border:2px solid var(--ink);background:#fff;color:var(--ink);font:800 12.5px 'Plus Jakarta Sans',sans-serif;padding:8px 13px;border-radius:99px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);transition:transform .15s,box-shadow .15s,background .15s}
+.nr-chips button:hover{transform:translate(-1px,-2px) rotate(-2deg);box-shadow:4px 4px 0 var(--ink);background:#FFE08A}
+.nr-chips button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+.nr-hero-art{position:relative;z-index:2;cursor:pointer;display:grid;place-items:center}
+.nr-hero-art .nr-nera{width:min(100%,250px);filter:drop-shadow(0 10px 14px rgba(36,27,58,.18))}
+.nr-hero-art.nr-hop .nr-body{animation:nrHop .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes nrHop{0%{transform:translateY(0) scale(1,1)}25%{transform:translateY(6px) scale(1.06,.9)}55%{transform:translateY(-26px) scale(.94,1.08)}100%{transform:translateY(0) scale(1,1)}}
+.nr-wave{position:absolute;left:0;right:0;bottom:0;height:56px;overflow:hidden;pointer-events:none}
+.nr-wave svg{position:absolute;left:0;bottom:0;width:200%;height:100%;animation:nrWave 14s linear infinite}
+.nr-wave svg+svg{animation-duration:9s;animation-direction:reverse;opacity:.8}
+@keyframes nrWave{to{transform:translateX(-50%)}}
+
+/* ---------- Nera (SVG) ---------- */
+.nr-nera{overflow:visible;display:block}
+.nr-nera .nr-body{animation:nrBob 3.2s ease-in-out infinite;transform-box:view-box;transform-origin:100px 190px}
+@keyframes nrBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.nr-nera .nr-shadow{animation:nrShadow 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes nrShadow{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.88)}}
+.nr-nera .nr-beam{transform-box:view-box;transform-origin:100px 62px;animation:nrSway 4s ease-in-out infinite}
+.nr-nera .nr-panL{transform-box:view-box;transform-origin:22px 62px;animation:nrSwayL 4s ease-in-out infinite}
+.nr-nera .nr-panR{transform-box:view-box;transform-origin:178px 62px;animation:nrSwayL 4s ease-in-out infinite}
+@keyframes nrSway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes nrSwayL{0%,100%{transform:rotate(7deg)}50%{transform:rotate(-7deg)}}
+.nr-nera .nr-eye{transform-box:fill-box;transform-origin:center;animation:nrEye 4.5s infinite}
+@keyframes nrEye{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.nr-mascot.talk .nr-mouth{animation:nrTalk .3s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes nrTalk{from{transform:scaleY(1)}to{transform:scaleY(1.7)}}
+
+/* ---------- maskot melayang ---------- */
+.nr-mascot{display:none;position:fixed;right:14px;bottom:14px;z-index:60;align-items:flex-end;flex-direction:column;gap:6px;pointer-events:none}
+body.nr-mode .nr-mascot{display:flex}
+.nr-mascot-btn{pointer-events:auto;width:84px;height:84px;border:0;background:transparent;padding:0;cursor:pointer;filter:drop-shadow(0 6px 10px rgba(36,27,58,.25));transition:transform .2s}
+.nr-mascot-btn:hover{transform:scale(1.1) rotate(-4deg)}
+.nr-bubble{pointer-events:none;max-width:230px;background:#fff;border:2px solid var(--ink);border-radius:16px 16px 4px 16px;padding:9px 12px;font:700 12.5px/1.4 'Plus Jakarta Sans',sans-serif;color:var(--ink);box-shadow:3px 3px 0 var(--ink);opacity:0;transform:translateY(8px) scale(.9);transform-origin:bottom right;transition:opacity .25s,transform .25s;position:absolute;right:6px;bottom:90px}
+.nr-bubble.show{opacity:1;transform:none;animation:nrBubble .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes nrBubble{from{transform:translateY(10px) scale(.7)}to{transform:none}}
+
+/* ---------- seksi ---------- */
+.nr-sec{position:relative;background:#fff;border:2px solid var(--ink);border-radius:22px;padding:26px 22px 22px;margin:0 0 20px;box-shadow:5px 5px 0 var(--ink);overflow:hidden}
+.nr-sec:before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:linear-gradient(90deg,var(--c1),var(--c2))}
+.nr-sec h3{display:flex;align-items:center;gap:11px;font-size:clamp(18px,2.4vw,23px);margin:6px 0 8px;color:var(--ink)}
+.nr-sec h3 em{font-style:normal;margin-left:auto;font-size:28px;animation:nrWig 3s ease-in-out infinite}
+@keyframes nrWig{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(10deg) scale(1.1)}}
+.nr-step{flex:0 0 36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;display:grid;place-items:center;font-weight:900;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.nr-sub{color:#4a3f66;margin:0 0 16px;line-height:1.6}
+.nr-grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:center}
+.nr-stage{background:linear-gradient(180deg,#F3F8FF,#fff);border:2px dashed #b9c4e8;border-radius:18px;padding:8px}
+.nr-stage svg{width:100%;height:auto;display:block}
+.nr-note{background:#FFF8E1;border:2px solid #F2C94C;border-radius:14px;padding:11px 14px;margin:12px 0;font-size:14px;line-height:1.55}
+.nr-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.nr-btn,.nr-mini{border:2px solid var(--ink);background:#fff;color:var(--ink);font:800 13px 'Plus Jakarta Sans',sans-serif;padding:9px 14px;border-radius:12px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.nr-btn.primary{background:var(--teal);color:#fff}
+.nr-btn:hover:not(:disabled),.nr-mini:hover{transform:translate(-1px,-2px);box-shadow:4px 4px 0 var(--ink)}
+.nr-btn:active:not(:disabled),.nr-mini:active{transform:translate(1px,1px);box-shadow:0 0 0 var(--ink)}
+.nr-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+
+/* ---------- 1 timbangan ---------- */
+#nrBeam{transform-box:view-box;transform-origin:180px 70px;transition:transform .8s cubic-bezier(.3,1.5,.5,1)}
+#nrPanL{transform-box:view-box;transform-origin:50px 70px;transition:transform .8s cubic-bezier(.3,1.5,.5,1)}
+#nrPanR{transform-box:view-box;transform-origin:310px 70px;transition:transform .8s cubic-bezier(.3,1.5,.5,1)}
+.nr-blk{transform-box:fill-box;transform-origin:center;transition:transform .45s ease,opacity .45s ease}
+.nr-blk.gone{transform:translateY(-40px) scale(0);opacity:0}
+#nrXBox{transform-box:fill-box;transform-origin:center}
+.nr-bigeq{font:900 clamp(26px,4vw,36px) 'JetBrains Mono',monospace;text-align:center;background:#EEF3FF;border:2px solid var(--ink);border-radius:16px;padding:14px;box-shadow:3px 3px 0 var(--ink)}
+.nr-status{display:inline-block;margin:12px 0 0;font-weight:800;padding:6px 14px;border-radius:99px;border:2px solid var(--ink)}
+.nr-status.ok{background:#CFF6EE}
+.nr-status.bad{background:#FFD3E1;animation:nrShake .5s}
+@keyframes nrShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.nr-pop{animation:nrPop .45s cubic-bezier(.3,1.7,.5,1)}
+@keyframes nrPop{0%{transform:scale(.7)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+/* ---------- 2 detektif ---------- */
+.nr-clues{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.nr-clue{flex:1 1 180px;font:800 22px 'JetBrains Mono',monospace;border:2px solid var(--ink);border-radius:16px;padding:14px;text-align:center;box-shadow:3px 3px 0 var(--ink)}
+.nr-clue i{font-style:normal;display:block;font:700 12px 'Plus Jakarta Sans',sans-serif;opacity:.7}
+.nr-clue.c1{background:#DCE9FF}.nr-clue.c2{background:#FFDDEA}
+.nr-cands{display:flex;flex-wrap:wrap;gap:10px}
+.nr-cand{font:800 16px 'JetBrains Mono',monospace;border:2px solid var(--ink);background:#fff;border-radius:14px;padding:11px 16px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);transition:transform .15s,background .2s}
+.nr-cand:hover{transform:translateY(-3px) rotate(-2deg)}
+.nr-cand.ok{background:#BFF1EA}
+.nr-cand.bad{background:#FFD3E1}
+.nr-verdict{margin-top:14px;border:2px dashed #b9c4e8;border-radius:14px;padding:13px 15px;line-height:1.7;font-family:'JetBrains Mono',monospace;font-size:14px;background:#FAFBFF}
+.nr-verdict.good{background:#DFF8F3;border:2px solid var(--teal)}
+.nr-verdict.wrong{background:#FFF0F5;border:2px solid var(--pink)}
+
+/* ---------- 3 & 4 stepper ---------- */
+.nr-steps{background:linear-gradient(135deg,#F7F3FF,#FFF4F9);border:2px solid var(--ink);border-radius:18px;padding:18px}
+.nr-eqline{font:800 clamp(17px,2.6vw,22px) 'JetBrains Mono',monospace;padding:6px 4px}
+.nr-eqline i{font-style:normal;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;background:var(--ink);color:#fff;border-radius:8px;padding:2px 8px;margin-right:6px}
+.nr-given{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:10px 14px}
+.nr-out{margin-top:10px}
+.nr-out .nr-eqline{color:#4c2fb8}
+.nr-in{animation:nrIn .5s both}
+@keyframes nrIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.nr-explain{margin-top:10px;min-height:44px;font-weight:700;color:#4a3f66;line-height:1.55}
+.nr-y{display:inline-block;color:var(--pink);transition:all .6s ease}
+.nr-y.poof{opacity:0;transform:scale(0) rotate(180deg);width:0;overflow:hidden}
+.nr-puff{display:inline-block;font-size:24px;animation:nrPuff 1s ease-out forwards}
+@keyframes nrPuff{0%{transform:scale(.3);opacity:0}30%{opacity:1}100%{transform:scale(2.2) translateY(-24px);opacity:0}}
+.nr-chip{display:inline-block;background:#FFE08A;border:2px solid var(--ink);border-radius:10px;padding:0 9px}
+.nr-swap{display:inline-block;background:#DCE9FF;border:2px solid var(--ink);border-radius:10px;padding:0 9px}
+.nr-swap.swapped{background:#FFE08A;animation:nrSwapped .7s cubic-bezier(.3,1.7,.5,1)}
+@keyframes nrSwapped{0%{transform:rotateX(90deg) scale(.5)}100%{transform:none}}
+
+/* ---------- 5 grafik ---------- */
+.nr-seg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
+.nr-seg>button:not(.nr-btn){border:2px solid var(--ink);background:#fff;font:800 13px 'Plus Jakarta Sans',sans-serif;padding:8px 14px;border-radius:99px;cursor:pointer;color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.nr-seg>button.active{background:var(--blue);color:#fff}
+.nr-seg .nr-btn{margin-left:auto}
+.nr-g{stroke:#e0e6f5;stroke-width:1}
+.nr-ax{stroke:var(--ink);stroke-width:2}
+.nr-tk{font:700 10px 'JetBrains Mono',monospace;fill:#7a7396}
+.nr-line{fill:none;stroke-width:4;stroke-linecap:round}
+.nr-line.glow{animation:nrGlow 1.2s ease-in-out infinite alternate}
+@keyframes nrGlow{from{stroke-width:4}to{stroke-width:9;opacity:.6}}
+.nr-run{pointer-events:none}
+.nr-dot{fill:#FFE08A;stroke:var(--ink);stroke-width:3}
+.nr-burst{fill:none;stroke:var(--pink);stroke-width:3;transform-box:fill-box;transform-origin:center;animation:nrBurst .9s ease-out forwards}
+@keyframes nrBurst{from{transform:scale(1);opacity:1}to{transform:scale(5);opacity:0}}
+.nr-pop2{transform-box:fill-box;transform-origin:center;animation:nrPop .6s cubic-bezier(.3,1.7,.5,1)}
+.nr-pt{font:800 13px 'JetBrains Mono',monospace;fill:var(--ink)}
+.nr-gcap{background:#F3F8FF;border:2px solid #cfdcf5;border-radius:14px;padding:12px 14px;line-height:1.6;font-size:14px}
+.nr-gres{margin-top:12px;border-radius:14px;padding:0 14px;line-height:1.65;font-size:14px;max-height:0;overflow:hidden;opacity:0;border:2px solid transparent;transition:all .5s ease}
+.nr-gres.show{max-height:220px;opacity:1;padding:12px 14px;background:#FFF8E1;border-color:var(--yellow)}
+
+/* ---------- 6 kartu balik ---------- */
+.nr-flip-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.nr-chipnote{background:#FFE08A;border:2px solid var(--ink);border-radius:99px;padding:5px 14px;font-weight:800;font-size:13px}
+.nr-flips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.nr-flip{perspective:900px;height:190px;cursor:pointer;outline-offset:4px}
+.nr-flip-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1)}
+.nr-flip.flipped .nr-flip-in{transform:rotateY(180deg)}
+.nr-flip:hover:not(.flipped) .nr-flip-in{transform:rotateY(-12deg) translateY(-4px)}
+.nr-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:2px solid var(--ink);border-radius:18px;box-shadow:3px 3px 0 var(--ink);padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px}
+.nr-front{background:linear-gradient(145deg,#FFF1F7,#EEF3FF)}
+.nr-flip:nth-child(2) .nr-front{background:linear-gradient(145deg,#E9FBF7,#FFF8E1)}
+.nr-flip:nth-child(3) .nr-front{background:linear-gradient(145deg,#F2EBFF,#FFE9F1)}
+.nr-flip:nth-child(4) .nr-front{background:linear-gradient(145deg,#E1F8F0,#E8F0FF)}
+.nr-back{transform:rotateY(180deg);background:var(--ink);color:#fff}
+.nr-back p{margin:0;font-size:13px;line-height:1.55;font-weight:600}
+.nr-n{position:absolute;left:10px;top:10px;width:26px;height:26px;border-radius:9px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px}
+.nr-emo{font-size:38px;animation:nrWig 3s ease-in-out infinite}
+.nr-face h4{margin:2px 0 0;font-size:16px;color:var(--ink)}
+.nr-face small{color:#5d5379;font-size:12px;line-height:1.4}
+.nr-mini{padding:6px 12px;font-size:12px;border-radius:99px}
+
+/* ---------- 7 kartu fakta ---------- */
+.nr-fun-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.nr-fun{border:2px solid var(--ink);background:var(--bg-c);border-radius:18px;padding:16px 12px;text-align:center;cursor:pointer;box-shadow:3px 3px 0 var(--ink);font-family:inherit;color:var(--ink);transition:transform .2s,box-shadow .2s}
+.nr-fun:hover{transform:translate(-2px,-4px) rotate(-1.5deg);box-shadow:5px 7px 0 var(--ink)}
+.nr-fun-e{display:block;font-size:34px;animation:nrWig 3.4s ease-in-out infinite}
+.nr-fun h4{margin:6px 0 2px;font-size:15px}
+.nr-fun p{margin:0;font-size:12px;line-height:1.45;opacity:.85}
+
+/* ---------- pemisah ---------- */
+.nr-divider{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:900;font-size:17px;margin:30px 0 14px;color:var(--ink)}
+.nr-divider:before,.nr-divider:after{content:"";flex:1;height:0;border-top:3px dashed #c4b9e0}
+.nr-divider span{display:inline-block;animation:nrWig 3s ease-in-out infinite}
+
+/* ---------- responsif ---------- */
+@media(max-width:820px){
+  .nr-hero{grid-template-columns:1fr;padding:26px 18px 66px;text-align:left}
+  .nr-hero-art{order:-1}.nr-hero-art .nr-nera{width:170px}
+  .nr-grid2{grid-template-columns:1fr}
+  .nr-flips{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nr-fun-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nr-mascot-btn{width:64px;height:64px}
+  .nr-bubble{bottom:68px;max-width:190px}
+}
+@media(max-width:480px){.nr-sec{padding:24px 14px 18px}.nr-seg .nr-btn{margin-left:0}}
+
+/* ---------- kurangi gerak ---------- */
+@media(prefers-reduced-motion:reduce){
+  .nr-adv *,.nr-mascot *,.nr-adv *:before,.nr-adv *:after{animation:none!important;transition:none!important}
+  .nr-reveal{opacity:1;transform:none}
+}
+body.nr-reduce .nr-reveal{opacity:1;transform:none}
