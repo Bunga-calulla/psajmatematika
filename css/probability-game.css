@@ -1,0 +1,94 @@
+/* ===== Game Peluang: "Misi Peluang" (prefix .plg-) ===== */
+.plg{position:relative;overflow:hidden;padding:0!important;border:0!important;color:#fff;background:#1d1537;border-radius:var(--radius-lg);isolation:isolate}
+.plg h3,.plg h4{color:#fff}
+.plg-screen{position:relative;padding:28px;min-height:420px;animation:plgIn .6s ease both}
+@keyframes plgIn{from{opacity:0;transform:scale(.97) translateY(12px)}to{opacity:1;transform:none}}
+.plg-bg{position:absolute;inset:0;z-index:-1;background:var(--bg,linear-gradient(160deg,#2b1a5e,#5b2a86 55%,#c2417d));transition:background .8s}
+.plg-bg::before,.plg-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.9) 0 1.5px,transparent 2px) 0 0/90px 90px,radial-gradient(circle,rgba(255,255,255,.6) 0 1px,transparent 1.5px) 40px 50px/60px 60px;opacity:.35;animation:plgStars 40s linear infinite}
+.plg-bg::after{opacity:.2;animation-duration:70s;animation-direction:reverse}
+@keyframes plgStars{to{background-position:0 900px,40px 950px}}
+
+/* Start & akhir */
+.plg-start{text-align:center;display:grid;place-items:center;gap:6px}
+.plg-title{font:800 clamp(34px,6vw,56px) var(--font-display);margin:6px 0;background:linear-gradient(90deg,#ffd166,#ff6b9a,#9d7bff,#ffd166);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:plgShift 5s linear infinite}
+@keyframes plgShift{to{background-position:300% 0}}
+.plg-hero-big{font-size:76px;animation:plgBob 2.4s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,.4))}
+@keyframes plgBob{50%{transform:translateY(-14px) rotate(4deg)}}
+.plg-orbit{position:absolute;font-size:34px;animation:plgOrbit 7s linear infinite;left:50%;top:44%}
+.plg-orbit:nth-of-type(2){animation-delay:-2.3s;animation-duration:9s}.plg-orbit:nth-of-type(3){animation-delay:-4.6s;animation-duration:11s}
+@keyframes plgOrbit{from{transform:rotate(0) translateX(170px) rotate(0)}to{transform:rotate(360deg) translateX(170px) rotate(-360deg)}}
+.plg-rules{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0;position:relative;z-index:1}
+.plg-rules span{padding:8px 14px;border-radius:99px;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);font-weight:700;font-size:13px}
+.plg-btn{padding:14px 30px;border-radius:99px;font:800 17px var(--font-body);color:#fff;background:linear-gradient(100deg,#ff4d8d,#7c3aed);box-shadow:0 10px 30px rgba(255,77,141,.45);transition:transform .2s,box-shadow .2s;position:relative;z-index:1}
+.plg-btn:hover{transform:translateY(-3px) scale(1.04)}.plg-btn:active{transform:scale(.97)}
+.plg-btn.pulse{animation:plgPulse 1.6s infinite}
+@keyframes plgPulse{0%{box-shadow:0 0 0 0 rgba(255,77,141,.7)}100%{box-shadow:0 0 0 22px rgba(255,77,141,0)}}
+
+/* HUD */
+.plg-hud{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-weight:800;margin-bottom:12px}
+.plg-hud>span,.plg-hud button{padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.14);font-size:14px}
+.plg-hearts.lose{animation:plgShake .5s}
+.plg-combo{color:#ffd166;transition:transform .3s}.plg-combo.up{animation:plgBoom .5s}
+@keyframes plgBoom{40%{transform:scale(1.5)}}
+@keyframes plgShake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+
+/* Arena */
+.plg-arena{position:relative;height:170px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.25));overflow:hidden;margin-bottom:14px}
+.plg-arena::after{content:'';position:absolute;left:0;right:0;bottom:0;height:34px;background:rgba(0,0,0,.3)}
+.plg-hero,.plg-enemy{position:absolute;bottom:26px;font-size:68px;z-index:2;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4))}
+.plg-hero{left:9%;animation:plgBob 2.6s ease-in-out infinite}
+.plg-enemy{right:9%;text-align:center;animation:plgBob 3s ease-in-out infinite reverse}
+.plg-enemy.hit{animation:plgHit .6s}.plg-enemy.die{animation:plgDie 1s forwards}.plg-hero.hurt{animation:plgHit .6s}
+@keyframes plgHit{20%{transform:translateX(14px) rotate(8deg);filter:brightness(2.5)}50%{transform:translateX(-12px)}80%{transform:translateX(8px)}}
+@keyframes plgDie{to{transform:translateY(60px) rotate(120deg) scale(.2);opacity:0}}
+.plg-hp{display:flex;gap:4px;margin-bottom:2px}.plg-hp b{width:26px;height:8px;border-radius:4px;background:#4ade80;transition:background .4s,transform .4s}.plg-hp b.off{background:#475569;transform:scaleX(.6)}
+.plg-enemy small{display:block;font:700 12px var(--font-body)}
+.plg-fx{position:absolute;inset:0;z-index:3;pointer-events:none}
+.plg-shot{position:absolute;left:20%;bottom:70px;font-size:38px;animation:plgShot .55s ease-in forwards}
+.plg-shot.back{left:auto;right:20%;animation-name:plgShotBack}
+@keyframes plgShot{to{transform:translateX(52vw) rotate(540deg) scale(1.4);opacity:.2}}
+@keyframes plgShotBack{to{transform:translateX(-52vw) rotate(-540deg) scale(1.4);opacity:.2}}
+@media(min-width:900px){@keyframes plgShot{to{transform:translateX(560px) rotate(540deg) scale(1.4);opacity:.2}}@keyframes plgShotBack{to{transform:translateX(-560px) rotate(-540deg) scale(1.4);opacity:.2}}}
+.plg-pop{position:absolute;right:14%;top:30px;font:800 26px var(--font-display);color:#ffd166;animation:plgFloatUp 1s forwards;text-shadow:0 2px 8px #000}
+@keyframes plgFloatUp{to{transform:translateY(-50px);opacity:0}}
+
+/* Kartu soal */
+.plg-card{background:rgba(255,255,255,.96);color:var(--ink);border-radius:22px;padding:20px;animation:plgIn .5s both}
+.plg-vis{min-height:84px;display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.plg-vis .pl-jar{min-height:90px;max-width:260px;padding:8px}
+.plg-vis .pl-die{width:46px;height:46px;transition:.3s}
+.plg-dice-i{animation:plgDrop .6s calc(var(--i)*.07s) both cubic-bezier(.3,1.6,.5,1)}
+.plg-dice-i.on .pl-die{filter:drop-shadow(0 0 8px #e33e57);transform:scale(1.18)}
+.plg-dice-i.off .pl-die{opacity:.3;filter:grayscale(1)}
+@keyframes plgDrop{from{opacity:0;transform:translateY(-40px) rotate(-90deg)}to{opacity:1;transform:none}}
+.plg-num{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;width:100%;max-width:420px}
+.plg-num span{aspect-ratio:1;display:grid;place-items:center;border-radius:8px;background:#f1ecfb;font:700 12px var(--font-mono);animation:plgDrop .5s calc(var(--i)*.03s) both}
+.plg-num span.a{background:#E33E57;color:#fff}.plg-num span.b{background:#17C3B2;color:#fff}.plg-num span.ab{background:linear-gradient(135deg,#E33E57 50%,#17C3B2 50%);color:#fff}
+.plg-coin{font-size:44px;animation:plgSpin 2s linear infinite}
+@keyframes plgSpin{to{transform:rotateY(360deg)}}
+.plg-q{font:700 19px/1.4 var(--font-display);margin:6px 0 12px;text-align:center}
+.plg-timer{height:10px;border-radius:99px;background:#eee7fa;overflow:hidden;margin-bottom:14px}
+.plg-timer i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#17c3b2,#ff9f1c,#e33e57);border-radius:99px}
+.plg-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.plg-opt{padding:14px;border-radius:16px;background:#fff;border:2px solid #e4dcf5;font:800 20px var(--font-display);color:var(--ink);transition:transform .2s,border-color .2s,background .3s;animation:plgDrop .5s calc(var(--i)*.08s) both}
+.plg-opt:hover:not(:disabled){transform:translateY(-3px) scale(1.03);border-color:var(--violet)}
+.plg-opt.ok{background:#d7fbea;border-color:#17c3b2;animation:plgBoom .5s}
+.plg-opt.no{background:#ffe3e8;border-color:#e33e57;animation:plgShake .5s}
+.plg-fb{margin-top:14px;padding:14px;border-radius:14px;background:#f6f1ff;animation:plgIn .4s both;line-height:1.6}
+.plg-fb .plg-btn{margin-top:10px;padding:10px 22px;font-size:15px}
+
+/* Banner level & hasil */
+.plg-banner{position:absolute;inset:0;z-index:20;display:grid;place-items:center;text-align:center;background:rgba(18,10,40,.86);animation:plgBanner 2s forwards}
+.plg-banner b{display:block;font:800 clamp(34px,7vw,60px) var(--font-display);animation:plgZoom 1.6s both}
+.plg-banner span{font-size:70px;display:block;animation:plgBob 1s infinite}
+@keyframes plgBanner{0%{opacity:0}12%,85%{opacity:1}100%{opacity:0;visibility:hidden}}
+@keyframes plgZoom{0%{transform:scale(.3);opacity:0}30%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
+.plg-stars{font-size:54px;letter-spacing:6px;display:flex;justify-content:center;gap:6px}
+.plg-stars span{display:inline-block;animation:plgStar .7s calc(var(--i)*.35s) both cubic-bezier(.3,1.8,.5,1)}
+.plg-stars span.dim{filter:grayscale(1) brightness(.5)}
+@keyframes plgStar{from{transform:scale(0) rotate(-180deg);opacity:0}to{transform:none;opacity:1}}
+.plg-final{font:800 64px var(--font-display);margin:4px 0}
+.plg-conf{position:absolute;top:30%;left:50%;width:10px;height:14px;border-radius:2px;z-index:30;pointer-events:none;animation:plgConf 1.8s ease-out forwards}
+@keyframes plgConf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+@media(max-width:640px){.plg-opts{grid-template-columns:1fr}.plg-hero,.plg-enemy{font-size:52px}.plg-screen{padding:16px}.plg-num{gap:3px}.plg-orbit{display:none}}
+@media(prefers-reduced-motion:reduce){.plg *,.plg::before{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
