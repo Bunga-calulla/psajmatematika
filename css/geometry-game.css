@@ -1,0 +1,34 @@
+/* ===== Game Geometri: "Insinyur Bangun Ruang" (prefix .ggm-) =====
+   Memakai kelas dasar .plg-* dari css/probability-game.css (HUD, kartu, tombol, banner, confetti). */
+.ggm .plg-bg{background:var(--bg,linear-gradient(160deg,#0b3b5c,#1b6ca8 55%,#7cc4f0))}
+.ggm-site{background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(0,0,0,.2))}
+.ggm-crane{position:absolute;left:12%;top:-6px;font-size:54px;transform-origin:50% 0;animation:ggmSwing 3.4s ease-in-out infinite;z-index:2}
+@keyframes ggmSwing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.ggm-worker{position:absolute;left:6%;bottom:26px;font-size:46px;z-index:3;animation:plgBob 2.2s ease-in-out infinite}
+.ggm-stack{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;flex-direction:column-reverse;align-items:center;z-index:2}
+.ggm-stack.shake{animation:plgShake .55s}
+.ggm-floor{position:relative;width:150px;height:32px;margin-top:2px;border-radius:5px;background:var(--fc,#f2c94c);box-shadow:inset 0 -6px 0 rgba(0,0,0,.18),0 4px 8px rgba(0,0,0,.25);display:flex;justify-content:space-evenly;align-items:center;animation:ggmDrop .8s cubic-bezier(.3,1.6,.5,1) both}
+.ggm-floor i{width:18px;height:14px;border-radius:3px;background:#fff8d6;box-shadow:0 0 8px #ffe58a;animation:ggmBlink 3s infinite}
+.ggm-floor i:nth-child(2){animation-delay:-1s}.ggm-floor i:nth-child(3){animation-delay:-2s}
+@keyframes ggmDrop{from{transform:translateY(-220px) rotate(-6deg);opacity:0}70%{opacity:1}to{transform:none;opacity:1}}
+@keyframes ggmBlink{0%,90%,100%{opacity:1}95%{opacity:.35}}
+.ggm-floor.crack::after{content:'⚡';position:absolute;inset:0;display:grid;place-items:center;font-size:22px;animation:plgFloatUp 1s forwards}
+.ggm-roof{font-size:40px;margin-bottom:-4px;animation:ggmDrop .9s cubic-bezier(.3,1.8,.5,1) both}
+.ggm-city{position:absolute;right:5%;bottom:30px;display:flex;gap:6px;font-size:34px;z-index:2}
+.ggm-city span{animation:plgDrop .8s both cubic-bezier(.3,1.6,.5,1)}
+.ggm-wrap{display:grid;place-items:center;gap:6px;width:100%}
+.ggm-wrap.solved .ggm-svg,.ggm-wrap.solved .ggm-box{filter:drop-shadow(0 0 14px #ffd166)}
+.ggm-svg{width:230px;max-width:100%;animation:ggmFloat 3.2s ease-in-out infinite}
+@keyframes ggmFloat{50%{transform:translateY(-8px) rotate(2deg)}}
+.ggm-svg text{font:700 12px var(--font-body);fill:#241B3A}
+.ggm-svg .dash{stroke:#241B3A;stroke-width:1.6;stroke-dasharray:4 3;fill:none}
+.ggm-3d{perspective:700px;height:150px;display:grid;place-items:center}
+.ggm-box{position:relative;transform-style:preserve-3d;animation:ggmSpin 8s linear infinite}
+.ggm-box b{position:absolute;border:2px solid #fff;background:linear-gradient(135deg,var(--c1,#7C3AED),var(--c2,#FF4D8D));opacity:.88;box-shadow:inset 0 0 20px rgba(255,255,255,.2)}
+@keyframes ggmSpin{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+.ggm-dim{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;font:700 13px var(--font-mono)}
+.ggm-dim span{padding:4px 10px;border-radius:99px;background:#f1ecfb}
+.ggm-hint{margin:0 0 10px;padding:7px 14px;border-radius:99px;background:#fff3cf;color:#7a5200;font-weight:800;font-size:13px;transition:transform .2s}
+.ggm-hint:hover{transform:translateY(-2px)}
+.ggm-hinttext{display:inline-block;margin-left:8px;padding:6px 12px;border-radius:12px;background:#fff3cf;font:700 14px var(--font-mono);animation:plgIn .4s both}
+@media(max-width:640px){.ggm-floor{width:110px}.ggm-city{display:none}}
