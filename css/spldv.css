@@ -1,0 +1,62 @@
+
+/* SPLDV — playful interactive lesson */
+.spldv-lesson{--sp:#3b82f6;--sp2:#8b5cf6;color:#24304a}
+.spldv-lesson .sp-hero{position:relative;overflow:hidden;background:linear-gradient(130deg,#edf5ff,#f4efff 65%,#fff7e8);border:1px solid #dce8ff}
+.sp-hero:before,.sp-hero:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.sp-hero:before{width:190px;height:190px;background:#b9d7ff66;right:-45px;top:-75px}
+.sp-hero:after{width:110px;height:110px;background:#d9c7ff88;right:110px;bottom:-65px}
+.sp-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:center}
+.sp-hero h3{font-size:clamp(23px,3vw,34px);line-height:1.2;margin:10px 0;color:#172554}
+.sp-hero p{max-width:600px}
+.sp-kicker{display:inline-flex;gap:7px;align-items:center;background:#fff;border:1px solid #dbeafe;border-radius:99px;padding:7px 12px;font-size:12px;font-weight:800;color:#3565bd}
+.sp-mascot{height:175px;display:grid;place-items:center;position:relative}
+.sp-mascot .bubble{position:absolute;right:0;top:8px;background:#fff;padding:9px 13px;border-radius:14px;box-shadow:0 8px 22px #20345b18;font-size:12px;font-weight:800;animation:spBob 3s ease-in-out infinite}
+.sp-character{width:112px;height:112px;border-radius:30px;background:linear-gradient(145deg,#60a5fa,#8b5cf6);box-shadow:0 14px 28px #5369bb35;display:grid;place-items:center;font-size:58px;transform:rotate(-7deg);animation:spFloat 3.2s ease-in-out infinite}
+.sp-spark{position:absolute;font-size:24px;animation:spTwinkle 2s ease-in-out infinite}
+.sp-spark.s1{left:12%;top:22%}.sp-spark.s2{right:18%;bottom:12%;animation-delay:.7s}
+@keyframes spFloat{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+@keyframes spBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes spTwinkle{0%,100%{opacity:.45;transform:scale(.8) rotate(-10deg)}50%{opacity:1;transform:scale(1.15) rotate(12deg)}}
+.sp-section{margin-top:20px}
+.sp-section-title{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.sp-section-title .sp-number{flex:0 0 38px;height:38px;border-radius:13px;background:#eaf2ff;color:#3565bd;display:grid;place-items:center;font-weight:900}
+.sp-section-title h3{margin:2px 0 4px}
+.sp-section-title p{margin:0;color:#68758d;font-size:14px}
+.sp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sp-card{background:#fff;border:1px solid #e7ebf3;border-radius:17px;padding:17px;box-shadow:0 7px 22px #1d35570a}
+.sp-card h4{margin:0 0 8px;color:#263657}
+.sp-card p{margin:0 0 8px}
+.sp-pill{display:inline-block;background:#eef4ff;color:#315eac;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:800}
+.sp-equation{font-family:'JetBrains Mono',monospace;font-weight:800;font-size:clamp(18px,2.6vw,25px);text-align:center;letter-spacing:.2px;color:#263b72;background:#f1f5ff;border:1px dashed #b8ccf5;border-radius:14px;padding:15px;margin:10px 0}
+.sp-equation small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;color:#77839a;margin-top:5px}
+.sp-steps{counter-reset:spstep;list-style:none;padding:0;margin:12px 0}
+.sp-steps li{counter-increment:spstep;position:relative;padding:10px 12px 10px 46px;margin:8px 0;background:#f8faff;border-radius:12px}
+.sp-steps li:before{content:counter(spstep);position:absolute;left:11px;top:9px;width:25px;height:25px;border-radius:9px;background:#dbeafe;color:#2456a6;display:grid;place-items:center;font-weight:900;font-size:12px}
+.sp-methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sp-method{border:1px solid #e3eafa;border-radius:16px;padding:16px;background:linear-gradient(145deg,#fff,#f8faff)}
+.sp-method .sp-icon{font-size:27px}
+.sp-method h4{margin:6px 0}
+.sp-note{padding:14px 16px;border-radius:14px;background:#fff8e8;border:1px solid #ffe6ad;color:#72521a}
+.sp-note strong{color:#60420f}
+.sp-visual-equations{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.sp-equation-chip{background:white;border:1px solid #dce7fa;border-radius:12px;padding:10px 14px;font-family:monospace;font-weight:800;color:#315eac;box-shadow:0 5px 12px #25436a0d}
+.sp-graph{width:100%;max-width:440px;display:block;margin:auto;background:#fbfdff;border:1px solid #e3eaf6;border-radius:14px}
+.sp-graph line{stroke:#dce5f2;stroke-width:1}.sp-graph .axis{stroke:#7789a6;stroke-width:1.6}.sp-graph .line-a{stroke:#3b82f6;stroke-width:3.5;stroke-linecap:round}.sp-graph .line-b{stroke:#f59e0b;stroke-width:3.5;stroke-linecap:round}.sp-graph .cross{fill:#8b5cf6;stroke:white;stroke-width:3}
+.sp-sim{border:1px solid #dce7fa;background:linear-gradient(135deg,#f7faff,#fbf8ff);overflow:hidden}
+.sp-sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
+.sp-field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sp-field label{display:block;font-size:11px;font-weight:800;color:#64748b;margin-bottom:5px}
+.sp-field input{width:100%;min-width:0;border:1px solid #d6dfef;border-radius:10px;padding:10px;background:white;font:700 15px 'JetBrains Mono',monospace;color:#263657}
+.sp-sim-result{background:#fff;border:1px solid #dce7fa;border-radius:15px;padding:13px;margin-top:12px;min-height:72px}
+.sp-sim-result strong{color:#315eac}
+.sp-btn{border:0;border-radius:11px;background:#315fbd;color:white;font-weight:800;padding:11px 16px;cursor:pointer;margin-top:12px;box-shadow:0 6px 14px #315fbd30}
+.sp-btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.sp-btn:active{transform:translateY(0)}
+.sp-feedback{font-size:13px;margin-top:8px;min-height:20px}
+.sp-real-life{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:center;background:#effaf7;border:1px solid #ccefe5;border-radius:16px;padding:15px}
+.sp-real-life .emoji{font-size:34px}
+.sp-real-life p{margin:4px 0 0}
+.sp-reveal{animation:spReveal .55s both}
+@keyframes spReveal{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:650px){.sp-hero-inner,.sp-sim-grid{grid-template-columns:1fr}.sp-mascot{height:130px}.sp-character{width:88px;height:88px;font-size:45px}.sp-grid,.sp-methods{grid-template-columns:1fr}.sp-field-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.spldv-lesson *, .spldv-lesson *:before,.spldv-lesson *:after{animation:none!important;transition:none!important}}

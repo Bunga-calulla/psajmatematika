@@ -1,7 +1,7 @@
 (function(){
 const modules=[
 {id:'persentase',name:'Persentase',case:'Diskon Kilat',accent:'#FF9F1C',icon:'🏷️',desc:'Hitung diskon, kenaikan harga, dan persentase yang sering muncul saat belanja.'},
-{id:'persamaan',name:'Persamaan',case:'Biaya Perjalanan',accent:'#3B82F6',icon:'🚌',desc:'Gunakan variabel dan persamaan untuk menghitung ongkos perjalanan.'},
+{id:'persamaan',name:'SPLDV',case:'Misi Detektif Harga',accent:'#3B82F6',icon:'🧩',desc:'Pecahkan dua informasi untuk menemukan dua nilai yang belum diketahui.'},
 {id:'geometri',name:'Geometri',case:'Studio Desain Rumah',accent:'#7C3AED',icon:'📐',desc:'Pakai luas, keliling, dan volume saat merancang ruang dan benda.'},
 {id:'statistik',name:'Statistik',case:'Data Pertandingan',accent:'#17C3B2',icon:'📊',desc:'Baca data pertandingan lewat mean, median, modus, dan range.'},
 {id:'trigonometri',name:'Trigonometri',case:'Tinggi Gedung',accent:'#F2C94C',icon:'🏙️',desc:'Perkirakan tinggi gedung dengan sudut dan perbandingan sisi.'},
