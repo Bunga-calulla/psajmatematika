@@ -182,7 +182,7 @@ window.bindSimulator = function(id) {
       if ($('trigLadderHeight')) $('trigLadderHeight').textContent = fmt(h) + ' m';
       if ($('trigLadderBase')) $('trigLadderBase').textContent = fmt(base) + ' m';
       if ($('trigLadderFormula')) $('trigLadderFormula').innerHTML = `<b>sin ${a}° = tinggi / ${l}</b> → tinggi = ${fmt(h)} m<br><b>cos ${a}° = jarak / ${l}</b> → jarak = ${fmt(base)} m`;
-      if ($('trigLadderVisual')) $('trigLadderVisual').style.transform = `rotate(${-a}deg)`;
+      if ($('trigLadderVisual')) $('trigLadderVisual').style.transform = `rotate(${90 - a}deg)`;
       if ($('trigLadderAngleVisual')) $('trigLadderAngleVisual').textContent = a + '°';
     }
     if (ll && la) {
