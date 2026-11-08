@@ -8,7 +8,14 @@
   const mark = () => window.Progress && Progress.setCoba && Progress.setCoba('peluang');
   const rnd = (n) => 1 + Math.floor(Math.random() * n);
   const gcd = (a, b) => (b ? gcd(b, a % b) : a);
-  const frac = (a, b) => { if (!a) return '0'; const g = gcd(a, b); return b / g === 1 ? '1' : `${a / g}/${b / g}`; };
+  const frac = (a, b) => { 
+    if (!a) return '0'; 
+    const g = gcd(a, b); 
+    const num = a / g;
+    const den = b / g;
+    if (den === 1) return '1'; 
+    return `<span class="frac"><span>${num}</span><span class="bottom">${den}</span></span>`; 
+  };
   const pct = (a, b) => (a / b * 100).toFixed(1).replace('.', ',') + '%';
 
   // ---------- Ilustrasi ----------
@@ -18,6 +25,51 @@
   const ball = (c, i = 0, size = '') => `<span class="pl-ball" style="--c:${c};--i:${i}${size ? ';width:' + size + 'px;height:' + size + 'px' : ''}"></span>`;
   const coinSvg = '<svg viewBox="0 0 60 60" class="pl-float f2"><circle cx="30" cy="30" r="26" fill="#f2c94c" stroke="#b8860b" stroke-width="4"/><text x="30" y="39" text-anchor="middle" font-size="26" font-weight="800" fill="#7a4b00">G</text></svg>';
 
+  // ---------- Bagian interaktif tambahan ----------
+  const SEC = ['merah', 'biru', 'hijau', 'merah', 'hijau', 'biru', 'merah', 'hijau'];
+  const COLS = { merah: '#E33E57', biru: '#3B82F6', hijau: '#17C3B2' };
+  const secPath = (i) => { const p = (t) => `${(100 + 90 * Math.sin(t)).toFixed(2)} ${(100 - 90 * Math.cos(t)).toFixed(2)}`, a = i * Math.PI / 4, b = (i + 1) * Math.PI / 4; return `M100 100L${p(a)}A90 90 0 0 1 ${p(b)}Z`; };
+  const wheelSvg = `<svg viewBox="0 0 200 200"><g id="plWheel" style="transform-origin:100px 100px;transition:transform 3.4s cubic-bezier(.15,.75,.1,1)">${SEC.map((c, i) => `<path d="${secPath(i)}" fill="${COLS[c]}" stroke="#fff" stroke-width="3"/>`).join('')}${SEC.map((c, i) => { const t = (i + .5) * Math.PI / 4; return `<text x="${(100 + 62 * Math.sin(t)).toFixed(1)}" y="${(104 - 62 * Math.cos(t)).toFixed(1)}" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">${i + 1}</text>`; }).join('')}</g><circle cx="100" cy="100" r="12" fill="#241B3A"/></svg>`;
+  const FLIPS = [['🎯', 'Peluang sederhana', '#dff3fb', 'P(A) = n(A) ÷ n(S)', 'Dadu genap: <span class="frac"><span>3</span><span class="bottom">6</span></span> = <span class="frac"><span>1</span><span class="bottom">2</span></span>'], ['🔄', 'Komplemen', '#fdf1b8', 'P(A′) = 1 − P(A)', 'Hujan 0,3 → tidak hujan 0,7'], ['🧲', 'Saling lepas', '#fbd5e3', 'P(A∪B) = P(A) + P(B)', 'Dadu 2 atau 5: <span class="frac"><span>1</span><span class="bottom">3</span></span>'], ['🔗', 'Tidak saling lepas', '#d5f5e6', 'P(A) + P(B) − P(A∩B)', 'Kartu genap atau ×3: <span class="frac"><span>7</span><span class="bottom">10</span></span>'], ['✖️', 'Saling bebas', '#e6dcff', 'P(A∩B) = P(A) × P(B)', 'Koin G & dadu 5: <span class="frac"><span>1</span><span class="bottom">12</span></span>'], ['📈', 'Frekuensi harapan', '#ffe2cf', 'Fh = P(A) × n', 'Dadu 60×, angka 3: 10 kali']];
+  const TIPS = ['Peluang selalu di antara 0 dan 1. Kalau hasilmu 1,5, pasti ada yang salah!', 'Ada kata “tidak” atau “minimal”? Coba komplemen dulu.', 'Kata “atau” berarti tambah. Jangan lupa kurangi irisannya.', 'Kata “dan” pada kejadian saling bebas berarti kali.', 'Tulis dulu ruang sampelnya supaya tidak ada yang terlewat.', 'Klik dadu atau bola di materi, mereka bisa berguling!'];
+  const mascot = (id, emoji, tips) => `<div class="pl-mascot" id="${id}" data-tips='${JSON.stringify(tips).replace(/'/g, '&#39;')}'><div class="pl-bubble">Halo! Klik aku untuk tips 😄</div><button type="button" class="pl-mas-btn" aria-label="Maskot">${emoji}</button></div>`;
+  
+  const pre = () => `
+  <div class="content-card pl-sec2 pl-rv">
+    <h3><span class="pl-n">1</span>Skala peluang 🐥</h3>
+    <p class="pl-sub">Geser nilai peluang atau pilih contoh. Lihat si ayam berjalan dari mustahil sampai pasti!</p>
+    <div class="pl-track"><i class="pl-fillbar" id="plFill"></i><span class="pl-chick" id="plChick">🐥</span></div>
+    <div class="pl-ticks"><span>0</span><span><span class="frac"><span>1</span><span class="bottom">4</span></span></span><span><span class="frac"><span>1</span><span class="bottom">2</span></span></span><span><span class="frac"><span>3</span><span class="bottom">4</span></span></span><span>1</span></div>
+    <input type="range" id="plPR" class="pl-range" min="0" max="100" value="50">
+    <div class="pl-readrow"><div class="pl-big2" id="plPV">0,50</div><div class="pl-tag" id="plPL">Sama mungkin</div><div class="pl-pctg" id="plPP">50%</div></div>
+    <div class="pl-neos" id="plEx">${[['Dadu muncul 7', 0], ['Dadu muncul 6', 17], ['Koin muncul gambar', 50], ['Dadu muncul 1–6', 100]].map((e) => `<button type="button" class="pl-neo" data-v="${e[1]}">${e[0]}</button>`).join('')}</div>
+  </div>
+  <div class="content-card pl-sec2 pl-rv">
+    <h3><span class="pl-n">2</span>Roda peluang 🎡</h3>
+    <p class="pl-sub">Putar roda berkali-kali. Garis pink (hasil percobaanmu) akan mendekati garis putus-putus (nilai teori).</p>
+    <div class="pl-sim"><div class="pl-stage"><div class="pl-wheelbox"><span class="pl-ptr">▼</span>${wheelSvg}</div><div class="pl-result" id="plWRes"></div>
+      <div class="pl-btns" style="justify-content:center"><button id="plSpin1">🎡 Putar 1×</button><button id="plSpin20">Putar 20×</button><button class="alt" id="plSpinR">Reset</button></div></div>
+    <div><p style="margin:0 0 6px;font-weight:800">Warna target (A):</p><div class="pl-neos" id="plWT">${Object.keys(COLS).map((k, i) => `<button type="button" class="pl-neo${i ? '' : ' on'}" data-c="${k}">${k}</button>`).join('')}</div>
+      <div class="pl-readout" id="plWRead"></div><svg class="pl-chart" viewBox="0 0 310 130" id="plChart"></svg></div></div>
+  </div>`;
+
+  const post = () => `
+  <div class="content-card pl-sec2 pl-rv">
+    <h3><span class="pl-n">3</span>Kartu rahasia ⭐</h3>
+    <div class="pl-tools"><span>Ketuk kartu untuk melihat rumusnya. Tips: hafalkan kata kunci dulu 😉</span><button type="button" class="pl-neo" id="plFlipAll">🔄 Balik semua</button></div>
+    <div class="pl-flips">${FLIPS.map((f) => `<div class="pl-flip"><div class="pl-fi"><div class="pl-ff" style="--fc:${f[2]}"><span class="e">${f[0]}</span><b>${f[1]}</b></div><div class="pl-fk"><b>${f[1]}</b><span class="f">${f[3]}</span><span>${f[4]}</span></div></div></div>`).join('')}</div>
+  </div>
+  <div class="content-card pl-sec2 pl-rv">
+    <h3><span class="pl-n">4</span>Jembatan keledai 🫏</h3>
+    <p class="pl-sub">Temukan kata kunci di soal, lalu pilih rumusnya.</p>
+    <div class="pl-neos" id="plBr">${['tidak', 'atau', 'dan'].map((k, i) => `<button type="button" class="pl-neo${i ? '' : ' on'}" data-k="${k}">“${k}”</button>`).join('')}</div>
+    <div class="pl-bridge">
+      <div class="pl-panel on" data-k="tidak"><h4>“tidak” / “minimal satu” → KURANGKAN dari 1</h4><div class="pl-split" style="--w:30%;flex-basis:auto"><div class="a" style="flex-basis:30%">A: 0,3</div><div class="c" style="flex-basis:70%">A′: 0,7</div></div><p>P(A′) = 1 − P(A)</p></div>
+      <div class="pl-panel" data-k="atau"><h4>“atau” → TAMBAH, lalu kurangi irisan</h4><div class="pl-mini"><svg class="pl-mg" viewBox="0 0 200 90"><circle cx="70" cy="45" r="32" fill="#E33E57"/><circle cx="130" cy="45" r="32" fill="#17C3B2"/></svg></div><p>P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</p></div>
+      <div class="pl-panel" data-k="dan"><h4>“dan” (saling bebas) → KALIKAN</h4><div class="pl-mini">${dieSvg(3)}<span class="pl-x">×</span>${dieSvg(2)}</div><p>P(A ∩ B) = P(A) × P(B)</p></div>
+    </div>
+  </div>`;
+
   // ---------- Materi ----------
   const materi = () => `
 <div class="lesson-sections pl">
@@ -26,8 +78,10 @@
     <h3>🎲 Peluang: seberapa mungkin sesuatu terjadi</h3>
     <p style="max-width:560px">Peluang dipakai saat hasil belum pasti: lempar dadu, undian, atau cuaca besok. Nilainya selalu antara <b>0 sampai 1</b> (0% sampai 100%).</p>
     <div class="pl-meter"><i>P</i></div>
-    <div class="pl-meter-l"><span>0 · mustahil</span><span>½ · sama mungkin</span><span>1 · pasti</span></div>
+    <div class="pl-meter-l"><span>0 · mustahil</span><span><span class="frac"><span>1</span><span class="bottom">2</span></span> · sama mungkin</span><span>1 · pasti</span></div>
   </div>
+
+  ${pre()}
 
   <div class="content-card pl-materi">
     <div class="pl-tabs">
@@ -41,13 +95,13 @@
       <div class="pl-rv">
         <h4>🎲 Dadu: kejadian A = muncul angka genap</h4>
         <div class="pl-row pl-faces pl-pop">${[1, 2, 3, 4, 5, 6].map((i) => `<div class="${i % 2 ? '' : 'on'}">${dieSvg(i)}</div>`).join('')}</div>
-        <p class="pl-cap">n(A) = 3 (2, 4, 6) · n(S) = 6 → P(A) = <span style="color:var(--pl)">3/6 = ½</span></p>
+        <p class="pl-cap">n(A) = 3 (2, 4, 6) · n(S) = 6 → P(A) = <span style="color:var(--pl)"><span class="frac"><span>3</span><span class="bottom">6</span></span> = <span class="frac"><span>1</span><span class="bottom">2</span></span></span></p>
       </div>
       <div class="pl-rv">
         <h4>🧺 Contoh: bola dalam kantong</h4>
         <p>Kantong berisi 3 bola merah dan 2 bola biru. Satu bola diambil acak. Berapa peluang terambil bola biru?</p>
         <div class="pl-row pl-pop">${[COL.merah, COL.merah, COL.merah, COL.biru, COL.biru].map((c) => ball(c, 0, 46)).join('')}</div>
-        <ol class="step-list"><li>Semua hasil: 3 + 2 = <b>5</b> bola → n(S) = 5.</li><li>Hasil yang diinginkan (biru): n(A) = <b>2</b>.</li><li>P(biru) = 2/5 = <b>0,4 = 40%</b>.</li></ol>
+        <ol class="step-list"><li>Semua hasil: 3 + 2 = <b>5</b> bola → n(S) = 5.</li><li>Hasil yang diinginkan (biru): n(A) = <b>2</b>.</li><li>P(biru) = <span class="frac"><span>2</span><span class="bottom">5</span></span> = <b>0,4 = 40%</b>.</li></ol>
       </div>
       <div class="tip">💡 Rumus ini hanya berlaku jika semua hasil <b>sama mungkin</b> (dadu dan koin yang adil). Tulis ruang sampel dulu sebelum menghitung.</div>
     </div>
@@ -63,30 +117,31 @@
       <div class="pl-rv">
         <h4>🎲 Contoh: dadu tidak muncul angka 6</h4>
         <div class="pl-row pl-faces pl-pop">${[1, 2, 3, 4, 5].map((i) => `<div class="on">${dieSvg(i)}</div>`).join('')}<div>${dieSvg(6)}</div></div>
-        <p class="pl-cap">P(6) = 1/6 → P(bukan 6) = 1 − 1/6 = <span style="color:var(--pl)">5/6</span></p>
+        <p class="pl-cap">P(6) = <span class="frac"><span>1</span><span class="bottom">6</span></span> → P(bukan 6) = 1 − <span class="frac"><span>1</span><span class="bottom">6</span></span> = <span style="color:var(--pl)"><span class="frac"><span>5</span><span class="bottom">6</span></span></span></p>
       </div>
-      <div class="pl-rv real-life" style="--accent:#E33E57"><b>Trik “minimal satu”</b><p>Tiga koin dilempar. Peluang muncul <b>minimal satu gambar</b>? Lawannya adalah “semuanya angka”: (½)³ = 1/8. Jadi P = 1 − 1/8 = <b>7/8</b>. Jauh lebih cepat daripada mendata satu per satu.</p></div>
+      <div class="pl-rv real-life" style="--accent:#E33E57"><b>Trik “minimal satu”</b><p>Tiga koin dilempar. Peluang muncul <b>minimal satu gambar</b>? Lawannya adalah “semuanya angka”: (<span class="frac"><span>1</span><span class="bottom">2</span></span>)³ = <span class="frac"><span>1</span><span class="bottom">8</span></span>. Jadi P = 1 − <span class="frac"><span>1</span><span class="bottom">8</span></span> = <b><span class="frac"><span>7</span><span class="bottom">8</span></span></b>. Jauh lebih cepat daripada mendata satu per satu.</p></div>
     </div>
 
     <div class="pl-panel" data-p="m">
       <p>Kejadian majemuk adalah gabungan dua kejadian: <b>A atau B</b> (gabungan, ∪) dan <b>A dan B</b> (irisan, ∩).</p>
       <div class="pl-rule pl-rv">
         <svg class="pl-venn" viewBox="0 0 280 140"><circle cx="85" cy="70" r="48" fill="#E33E57"/><circle cx="195" cy="70" r="48" fill="#17C3B2"/><text x="85" y="75" text-anchor="middle">A</text><text x="195" y="75" text-anchor="middle">B</text></svg>
-        <div><span class="pl-badge">Saling lepas</span><h4>Tidak punya anggota bersama</h4><div class="formula">P(A ∪ B) = P(A) + P(B)</div><p>Dadu: A = muncul 2, B = muncul 5. P = 1/6 + 1/6 = <b>1/3</b>.</p></div>
+        <div><span class="pl-badge">Saling lepas</span><h4>Tidak punya anggota bersama</h4><div class="formula">P(A ∪ B) = P(A) + P(B)</div><p>Dadu: A = muncul 2, B = muncul 5. P = <span class="frac"><span>1</span><span class="bottom">6</span></span> + <span class="frac"><span>1</span><span class="bottom">6</span></span> = <b><span class="frac"><span>1</span><span class="bottom">3</span></span></b>.</p></div>
       </div>
       <div class="pl-rule pl-rv">
         <svg class="pl-venn" viewBox="0 0 280 140"><circle cx="110" cy="70" r="52" fill="#E33E57"/><circle cx="170" cy="70" r="52" fill="#17C3B2"/><text x="85" y="75" text-anchor="middle">A</text><text x="195" y="75" text-anchor="middle">B</text><text x="140" y="75" text-anchor="middle">6</text></svg>
-        <div><span class="pl-badge">Tidak saling lepas</span><h4>Ada irisan, jangan dihitung dua kali</h4><div class="formula">P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</div><p>Kartu 1–10: A = genap {2,4,6,8,10}, B = kelipatan 3 {3,6,9}. Irisan {6}. P = 5/10 + 3/10 − 1/10 = <b>7/10</b>.</p></div>
+        <div><span class="pl-badge">Tidak saling lepas</span><h4>Ada irisan, jangan dihitung dua kali</h4><div class="formula">P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</div><p>Kartu 1–10: A = genap {2,4,6,8,10}, B = kelipatan 3 {3,6,9}. Irisan {6}. P = <span class="frac"><span>5</span><span class="bottom">10</span></span> + <span class="frac"><span>3</span><span class="bottom">10</span></span> − <span class="frac"><span>1</span><span class="bottom">10</span></span> = <b><span class="frac"><span>7</span><span class="bottom">10</span></span></b>.</p></div>
       </div>
       <div class="pl-rule pl-rv">
-        <svg class="pl-venn pl-tree" viewBox="0 0 360 180"><g fill="none"><path class="pl-line" pathLength="1" style="--i:0" d="M30 90 C80 90 90 40 140 40"/><path class="pl-line" pathLength="1" style="--i:0" d="M30 90 C80 90 90 140 140 140"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 40 C210 40 220 18 260 18"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 40 C210 40 220 66 260 66"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 140 C210 140 220 118 260 118"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 140 C210 140 220 166 260 166"/></g><circle r="6" fill="#E33E57" style="transform:none;opacity:1;animation:none"><animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" path="M30 90 C80 90 90 40 140 40 L170 40 C210 40 220 18 260 18"/></circle><text style="--i:0" x="4" y="94">Koin</text><text style="--i:0" x="145" y="44">G</text><text style="--i:0" x="145" y="144">A</text><text style="--i:1" x="265" y="22">5 (1/6)</text><text style="--i:1" x="265" y="70">bukan 5</text><text style="--i:1" x="265" y="122">5</text><text style="--i:1" x="265" y="170">bukan 5</text></svg>
-        <div><span class="pl-badge">Saling bebas</span><h4>Hasil yang satu tidak memengaruhi yang lain</h4><div class="formula">P(A ∩ B) = P(A) × P(B)</div><p>Koin dan dadu dilempar bersamaan. P(gambar dan angka 5) = 1/2 × 1/6 = <b>1/12</b>.</p></div>
+        <svg class="pl-venn pl-tree" viewBox="0 0 360 180"><g fill="none"><path class="pl-line" pathLength="1" style="--i:0" d="M30 90 C80 90 90 40 140 40"/><path class="pl-line" pathLength="1" style="--i:0" d="M30 90 C80 90 90 140 140 140"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 40 C210 40 220 18 260 18"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 40 C210 40 220 66 260 66"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 140 C210 140 220 118 260 118"/><path class="pl-line" pathLength="1" style="--i:1" d="M170 140 C210 140 220 166 260 166"/></g><circle r="6" fill="#E33E57" style="transform:none;opacity:1;animation:none"><animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" path="M30 90 C80 90 90 40 140 40 L170 40 C210 40 220 18 260 18"/></circle><text style="--i:0" x="4" y="94">Koin</text><text style="--i:0" x="145" y="44">G</text><text style="--i:0" x="145" y="144">A</text><text style="--i:1" x="265" y="22">5 (<span class="frac"><span>1</span><span class="bottom">6</span></span>)</text><text style="--i:1" x="265" y="70">bukan 5</text><text style="--i:1" x="265" y="122">5</text><text style="--i:1" x="265" y="170">bukan 5</text></svg>
+        <div><span class="pl-badge">Saling bebas</span><h4>Hasil yang satu tidak memengaruhi yang lain</h4><div class="formula">P(A ∩ B) = P(A) × P(B)</div><p>Koin dan dadu dilempar bersamaan. P(gambar dan angka 5) = <span class="frac"><span>1</span><span class="bottom">2</span></span> × <span class="frac"><span>1</span><span class="bottom">6</span></span> = <b><span class="frac"><span>1</span><span class="bottom">12</span></span></b>.</p></div>
       </div>
       <div class="tip">💡 Kata “<b>atau</b>” → jumlahkan (kurangi irisan). Kata “<b>dan</b>” pada kejadian saling bebas → kalikan.</div>
     </div>
   </div>
 
   ${materi2()}
+  ${post()}
 
   <div class="content-card" style="text-align:center">
     <h3>🎯 Materi Peluang</h3>
@@ -94,6 +149,7 @@
     <button type="button" id="completeMateriBtn" class="gradient-btn">Tandai Sudah Membaca dan Paham</button>
     <p style="margin-top:12px;font-size:13px;color:#888">Progres akan tersimpan setelah tombol diklik.</p>
   </div>
+  ${mascot('plMas', '🎲', TIPS)}
 </div>`;
 
   // ---------- Materi lanjutan ----------
@@ -112,12 +168,12 @@
     <div class="pl-rv">
       <h4>🪙 Dua koin dilempar</h4>
       <div class="pl-chips pl-pop"><span>GG</span><span class="hl">GA</span><span class="hl">AG</span><span>AA</span></div>
-      <p class="pl-cap">n(S) = 4 · tepat satu gambar = {GA, AG} → P = 2/4 = <span style="color:var(--pl)">½</span></p>
+      <p class="pl-cap">n(S) = 4 · tepat satu gambar = {GA, AG} → P = <span class="frac"><span>2</span><span class="bottom">4</span></span> = <span style="color:var(--pl)"><span class="frac"><span>1</span><span class="bottom">2</span></span></span></p>
     </div>
     <div class="pl-rv">
       <h4>🎲🎲 Dua dadu: jumlah mata = 7</h4>
       ${g36((i, j) => i + j === 7, (i, j) => i + '+' + j)}
-      <p class="pl-cap">n(S) = 6 × 6 = 36 · jumlah 7 ada 6 pasangan → P = 6/36 = <span style="color:var(--pl)">1/6</span></p>
+      <p class="pl-cap">n(S) = 6 × 6 = 36 · jumlah 7 ada 6 pasangan → P = <span class="frac"><span>6</span><span class="bottom">36</span></span> = <span style="color:var(--pl)"><span class="frac"><span>1</span><span class="bottom">6</span></span></span></p>
     </div>
     <div class="tip">💡 Banyak hasil dua percobaan = hasil percobaan 1 × hasil percobaan 2. Dua dadu → 36, tiga koin → 2×2×2 = 8.</div>
   </div>
@@ -129,7 +185,7 @@
     <div class="pl-rv">
       <h4>🎲 Dadu dilempar 60 kali</h4>
       <div class="pl-fhb">${[1, 2, 3, 4, 5, 6].map((i) => `<div style="--i:${i}"><i style="--h:10;--i:${i}"></i><span>${i}</span></div>`).join('')}</div>
-      <p class="pl-cap">Setiap sisi diharapkan muncul 1/6 × 60 = <span style="color:var(--pl)">10 kali</span></p>
+      <p class="pl-cap">Setiap sisi diharapkan muncul <span class="frac"><span>1</span><span class="bottom">6</span></span> × 60 = <span style="color:var(--pl)">10 kali</span></p>
     </div>
     <div class="pl-rv">
       <h4>🌧️ Peluang hujan 0,3 selama 30 hari</h4>
@@ -145,7 +201,7 @@
     <div class="pl-rv">
       ${g36((i, j) => i === 6 || j === 6, (i, j) => i + ',' + j)}
       <div class="pl-legend"><span><i style="background:var(--pl)"></i>minimal satu 6 (11 pasangan)</span><span><i style="background:#ddd"></i>tanpa 6 (25 pasangan)</span></div>
-      <ol class="step-list"><li>Tanpa 6 pada satu dadu: 5/6. Dua dadu: 5/6 × 5/6 = <b>25/36</b>.</li><li>Minimal satu 6 = 1 − 25/36 = <b>11/36</b>.</li></ol>
+      <ol class="step-list"><li>Tanpa 6 pada satu dadu: <span class="frac"><span>5</span><span class="bottom">6</span></span>. Dua dadu: <span class="frac"><span>5</span><span class="bottom">6</span></span> × <span class="frac"><span>5</span><span class="bottom">6</span></span> = <b><span class="frac"><span>25</span><span class="bottom">36</span></span></b>.</li><li>Minimal satu 6 = 1 − <span class="frac"><span>25</span><span class="bottom">36</span></span> = <b><span class="frac"><span>11</span><span class="bottom">36</span></span></b>.</li></ol>
     </div>
   </div>
 
@@ -155,9 +211,9 @@
     <div class="pl-rv">
       <div class="pl-deck pl-pop">${deck}</div>
       <div class="pl-legend"><span><i style="background:var(--pl)"></i>As (4)</span><span><i style="background:var(--pl-b)"></i>Hati (13)</span><span><i style="background:linear-gradient(135deg,var(--pl) 50%,var(--pl-b) 50%)"></i>As Hati (1)</span></div>
-      <ol class="step-list"><li>P(A) = 4/52, P(B) = 13/52, P(A ∩ B) = 1/52.</li><li>P(A ∪ B) = 4/52 + 13/52 − 1/52 = 16/52 = <b>4/13</b>.</li></ol>
+      <ol class="step-list"><li>P(A) = <span class="frac"><span>4</span><span class="bottom">52</span></span>, P(B) = <span class="frac"><span>13</span><span class="bottom">52</span></span>, P(A ∩ B) = <span class="frac"><span>1</span><span class="bottom">52</span></span>.</li><li>P(A ∪ B) = <span class="frac"><span>4</span><span class="bottom">52</span></span> + <span class="frac"><span>13</span><span class="bottom">52</span></span> − <span class="frac"><span>1</span><span class="bottom">52</span></span> = <span class="frac"><span>16</span><span class="bottom">52</span></span> = <b><span class="frac"><span>4</span><span class="bottom">13</span></span></b>.</li></ol>
     </div>
-    <div class="pl-rv"><h4>🎲🎲 Contoh saling bebas: dua dadu</h4><p>Peluang dadu pertama genap <b>dan</b> dadu kedua lebih dari 4: P = 3/6 × 2/6 = 6/36 = <b>1/6</b>.</p>
+    <div class="pl-rv"><h4>🎲🎲 Contoh saling bebas: dua dadu</h4><p>Peluang dadu pertama genap <b>dan</b> dadu kedua lebih dari 4: P = <span class="frac"><span>3</span><span class="bottom">6</span></span> × <span class="frac"><span>2</span><span class="bottom">6</span></span> = <span class="frac"><span>6</span><span class="bottom">36</span></span> = <b><span class="frac"><span>1</span><span class="bottom">6</span></span></b>.</p>
       <div class="pl-row pl-faces pl-pop"><div class="on">${dieSvg(4)}</div><div class="on">${dieSvg(6)}</div><span style="font-size:28px">×</span><div class="on">${dieSvg(5)}</div><div class="on">${dieSvg(6)}</div></div></div>
   </div>
 
@@ -176,7 +232,7 @@
     <h3><span class="pl-ic">🌍</span>Peluang di kehidupan nyata</h3>
     <div class="pl-apps pl-rv pl-pop">
       <div class="pl-app"><div class="pl-ic">⛅</div><b>Prakiraan cuaca</b><p>“Peluang hujan 70%” berarti P(hujan) = 0,7 dan P(tidak hujan) = 0,3.</p></div>
-      <div class="pl-app"><div class="pl-ic">🎟️</div><b>Undian</b><p>Dari 500 kupon, peluang satu kupon menang hadiah utama adalah 1/500.</p></div>
+      <div class="pl-app"><div class="pl-ic">🎟️</div><b>Undian</b><p>Dari 500 kupon, peluang satu kupon menang hadiah utama adalah <span class="frac"><span>1</span><span class="bottom">500</span></span>.</p></div>
       <div class="pl-app"><div class="pl-ic">🏭</div><b>Kontrol kualitas</b><p>Pabrik memperkirakan jumlah produk cacat memakai frekuensi harapan.</p></div>
       <div class="pl-app"><div class="pl-ic">🎮</div><b>Game</b><p>Peluang drop item langka dan serangan kritis dihitung dengan rumus yang sama.</p></div>
     </div>
@@ -243,7 +299,69 @@
   }
   const setDie = (el, n) => { el.innerHTML = dieSvg(n); const s = el.firstElementChild; s.classList.add('pl-big'); return s; };
 
-  // ---------- Simulator (logika) ----------
+  // ---------- Simulator & Fitur Pendukung (logika) ----------
+  function bindFun(root) {
+    // S1: skala + ayam
+    const pr = $('plPR'), chick = $('plChick'); let wt;
+    const lab = (p) => (p === 0 ? 'Mustahil' : p < 25 ? 'Sangat kecil kemungkinannya' : p < 50 ? 'Kecil tapi mungkin' : p === 50 ? 'Sama mungkin' : p < 75 ? 'Lebih mungkin' : p < 100 ? 'Hampir pasti' : 'Pasti terjadi');
+    const upd = () => {
+      const p = +pr.value; chick.style.left = p + '%'; $('plFill').style.width = p + '%';
+      $('plPV').textContent = (p / 100).toFixed(2).replace('.', ','); $('plPP').textContent = p + '%';
+      const t = $('plPL'); t.textContent = lab(p); t.style.background = `hsl(${p * 1.3},72%,42%)`;
+      chick.classList.remove('walk'); void chick.offsetWidth; chick.classList.add('walk'); clearTimeout(wt); wt = setTimeout(() => chick.classList.remove('walk'), 1100);
+    };
+    pr.oninput = upd;
+    $('plEx').querySelectorAll('.pl-neo').forEach((b) => (b.onclick = () => { pr.value = b.dataset.v; upd(); }));
+    upd();
+
+    // S2: roda peluang
+    let rot = 0, hist = [], hit = 0, n = 0, tgt = 'merah', busy = false;
+    const th = () => SEC.filter((c) => c === tgt).length;
+    const draw = () => {
+      const p = th() / 8, ty = 10 + (1 - p) * 100, L = hist.length;
+      const pts = hist.map((v, i) => `${(26 + (L > 1 ? i / (L - 1) : 0) * 270).toFixed(1)},${(10 + (1 - v) * 100).toFixed(1)}`).join(' ');
+      $('plChart').innerHTML = `<text x="2" y="14">1</text><text x="2" y="114">0</text><line x1="26" y1="110" x2="300" y2="110" stroke="#c9c3d9"/><line class="th" x1="26" y1="${ty}" x2="300" y2="${ty}"/><polyline class="ln" points="${pts}"/>${L ? `<circle cx="${L > 1 ? 296 : 26}" cy="${(10 + (1 - hist[L - 1]) * 100).toFixed(1)}" r="5" fill="#E33E57"/>` : ''}`;
+      $('plWRead').innerHTML = `Teori: P(${tgt}) = <b>${frac(th(), 8)} = ${pct(th(), 8)}</b><br>Percobaan: <b>${hit}/${n}</b> ${n ? '= ' + pct(hit, n) : ''}`;
+    };
+    const rec = (k) => { n++; if (SEC[k] === tgt) hit++; hist.push(hit / n); };
+    $('plSpin1').onclick = () => {
+      if (busy) return; busy = true; mark(); $('plWRes').innerHTML = '';
+      const k = Math.floor(Math.random() * 8), ang = k * 45 + 6 + Math.random() * 33;
+      rot = Math.ceil(rot / 360) * 360 + 360 * 4 + (360 - ang); $('plWheel').style.transform = `rotate(${rot}deg)`;
+      setTimeout(() => { if (!$('plWheel')) return; rec(k); draw(); $('plWRes').innerHTML = `<span style="background:${COLS[SEC[k]]}">${SEC[k]}!</span>`; busy = false; }, 3450);
+    };
+    $('plSpin20').onclick = () => { for (let i = 0; i < 20; i++) rec(Math.floor(Math.random() * 8)); draw(); mark(); };
+    $('plSpinR').onclick = () => { hist = []; hit = n = 0; $('plWRes').innerHTML = ''; draw(); };
+    $('plWT').querySelectorAll('.pl-neo').forEach((b) => (b.onclick = () => { tgt = b.dataset.c; $('plWT').querySelectorAll('.pl-neo').forEach((x) => x.classList.toggle('on', x === b)); hist = []; hit = n = 0; draw(); }));
+    draw();
+
+    // S3: kartu balik
+    const cards = root.querySelectorAll('.pl-flip');
+    cards.forEach((c) => (c.onclick = () => c.classList.toggle('on')));
+    $('plFlipAll').onclick = () => { const all = [...cards].every((c) => c.classList.contains('on')); cards.forEach((c, i) => setTimeout(() => c.classList.toggle('on', !all), i * 90)); };
+
+    // S4: jembatan keledai
+    $('plBr').querySelectorAll('.pl-neo').forEach((b) => (b.onclick = () => {
+      $('plBr').querySelectorAll('.pl-neo').forEach((x) => x.classList.toggle('on', x === b));
+      root.querySelectorAll('.pl-bridge .pl-panel').forEach((p) => p.classList.toggle('on', p.dataset.k === b.dataset.k));
+    }));
+
+    // Klik dadu / bola / chip untuk animasi guling
+    root.addEventListener('click', (e) => {
+      const el = e.target.closest('.pl-faces .pl-die, .pl-row .pl-ball, .pl-chips span');
+      if (!el) return;
+      el.classList.remove('roll'); void el.getBoundingClientRect(); el.classList.add('roll');
+      el.addEventListener('animationend', () => el.classList.remove('roll'), { once: true });
+    });
+  }
+
+  function bindMascot(id) {
+    const m = $(id); if (!m) return; const tips = JSON.parse(m.dataset.tips), bub = m.querySelector('.pl-bubble'); let i = -1;
+    const next = () => { i = (i + 1) % tips.length; bub.style.animation = 'none'; void bub.offsetWidth; bub.style.animation = ''; bub.textContent = tips[i]; };
+    m.querySelector('.pl-mas-btn').onclick = next;
+    const iv = setInterval(() => { if (!document.getElementById(id)) return clearInterval(iv); next(); }, 8000);
+  }
+
   function bindSim() {
     const root = document.getElementById('tab-coba');
     root.querySelectorAll('#plSimTabs .pl-tab').forEach((b) => (b.onclick = () => {
@@ -262,7 +380,7 @@
       const mx = Math.max(1, ...cnt);
       bars.querySelectorAll('.pl-bar').forEach((bar, k) => { bar.classList.toggle('t', T.has(k + 1)); bar.firstElementChild.style.height = (cnt[k + 1] / mx * 100) + '%'; });
       const hit = [...T].reduce((s, f) => s + cnt[f], 0);
-      $('plSRead').innerHTML = T.size ? `Teori: P(A) = <b>${T.size}/6 = ${pct(T.size, 6)}</b><br>Percobaan: <b>${hit}/${n}</b> ${n ? '= ' + pct(hit, n) : ''}` : 'Pilih minimal satu sisi dadu.';
+      $('plSRead').innerHTML = T.size ? `Teori: P(A) = <b>${frac(T.size, 6)} = ${pct(T.size, 6)}</b><br>Percobaan: <b>${hit}/${n}</b> ${n ? '= ' + pct(hit, n) : ''}` : 'Pilih minimal satu sisi dadu.';
     };
     faces.querySelectorAll('.pl-face').forEach((b) => (b.onclick = () => { const f = +b.dataset.f; T.has(f) ? T.delete(f) : T.add(f); drawS(); mark(); }));
     $('plRoll1').onclick = () => {
@@ -286,7 +404,8 @@
       $('plJar').innerHTML = Object.keys(COL).flatMap((k) => Array(cn[k]).fill(k)).map((k, i) => `<span class="pl-ball ${(comp ? k === tgt : k !== tgt) ? 'dim' : ''}" style="--c:${COL[k]};--i:${i}"></span>`).join('');
       const a = cn[tgt];
       $('plKa').style.flexBasis = (a / tot * 100) + '%'; $('plKc').style.flexBasis = ((tot - a) / tot * 100) + '%';
-      $('plKa').textContent = a ? `A: ${frac(a, tot)}` : ''; $('plKc').textContent = tot - a ? `A′: ${frac(tot - a, tot)}` : '';
+      $('plKa').innerHTML = a ? `A: ${frac(a, tot)}` : ''; 
+      $('plKc').innerHTML = tot - a ? `A′: ${frac(tot - a, tot)}` : '';
       $('plKRead').innerHTML = `Total kelereng: <b>${tot}</b><br>P(A) = <b>${frac(a, tot)}</b> (${pct(a, tot)})<br>P(A′) = 1 − ${frac(a, tot)} = <b>${frac(tot - a, tot)}</b> (${pct(tot - a, tot)})` + (drawsN ? `<br>Terambil target: <b>${drawsHit}/${drawsN}</b> kali` : '');
       $('plComp').textContent = comp ? 'Tampilkan A (target)' : 'Tampilkan komplemen A′';
     };
@@ -313,14 +432,14 @@
       });
       const u = a + b - ab;
       $('plMRead').innerHTML = `n(A) = ${a}, n(B) = ${b}, n(A ∩ B) = ${ab}<br><span class="pl-badge">${ab ? 'Tidak saling lepas' : 'Saling lepas'}</span><br>` +
-        (ab ? `P(A ∪ B) = ${a}/20 + ${b}/20 − ${ab}/20 = <b>${frac(u, 20)}</b>` : `P(A ∪ B) = ${a}/20 + ${b}/20 = <b>${frac(u, 20)}</b>`) + ` (${pct(u, 20)})`;
+        (ab ? `P(A ∪ B) = ${frac(a, 20)} + ${frac(b, 20)} − ${frac(ab, 20)} = <b>${frac(u, 20)}</b>` : `P(A ∪ B) = ${frac(a, 20)} + ${frac(b, 20)} = <b>${frac(u, 20)}</b>`) + ` (${pct(u, 20)})`;
     };
     $('plA').onchange = $('plBb').onchange = () => { drawM(); mark(); };
     drawM();
 
     // 3b) Koin & dadu (saling bebas)
     let bn = 0, bhit = 0, bbusy = false;
-    const bRead = () => { $('plBRead').innerHTML = `Teori: P = 1/2 × 1/6 = <b>1/12 = ${pct(1, 12)}</b><br>Percobaan: <b>${bhit}/${bn}</b> ${bn ? '= ' + pct(bhit, bn) : ''}`; };
+    const bRead = () => { $('plBRead').innerHTML = `Teori: P = <span class="frac"><span>1</span><span class="bottom">2</span></span> × <span class="frac"><span>1</span><span class="bottom">6</span></span> = <b><span class="frac"><span>1</span><span class="bottom">12</span></span> = ${pct(1, 12)}</b><br>Percobaan: <b>${bhit}/${bn}</b> ${bn ? '= ' + pct(bhit, bn) : ''}`; };
     $('plCoinT').onchange = $('plDieT').onchange = () => { bn = bhit = 0; bRead(); };
     $('plBothRoll').onclick = () => {
       if (bbusy) return; bbusy = true; mark();
@@ -336,32 +455,28 @@
     bRead(); setDie($('plDie2'), 1);
   }
 
-  // ---------- Hook ke sistem modul (chaining, sama seperti geometry.js) ----------
+  // ---------- Hook ke sistem modul ----------
   const prevMat = window.getModuleMaterial, prevSim = window.getModuleSimulator, prevBind = window.bindSimulator;
   window.getModuleMaterial = (id) => (id === 'peluang' ? materi() : prevMat(id));
   window.getModuleSimulator = (id) => (id === 'peluang' ? sim() : prevSim(id));
   window.bindSimulator = (id) => {
     if (id !== 'peluang') return prevBind(id);
     const m = document.getElementById('tab-materi'); materiTabs(m); reveal(m);
-    // Klik dadu / bola pada materi untuk animasi guling
-    m.addEventListener('click', (e) => {
-      const el = e.target.closest('.pl-faces .pl-die, .pl-row .pl-ball, .pl-chips span');
-      if (!el) return;
-      el.classList.remove('roll'); void el.getBoundingClientRect(); el.classList.add('roll');
-      el.addEventListener('animationend', () => el.classList.remove('roll'), { once: true });
-    });
+    bindFun(m); bindMascot('plMas');
     bindSim();
   };
 
-  // ---------- Bank soal (3 materi) ----------
+  // ---------- Bank soal (10 Soal) ----------
   if (window.quizBanks) window.quizBanks.peluang = [
-    ['Dadu dilempar sekali. Peluang muncul bilangan prima adalah…', ['1/6', '1/3', '1/2', '2/3'], 2, 'Prima: 2, 3, 5 → 3 hasil dari 6 → 3/6 = 1/2.'],
-    ['Kantong berisi 4 bola merah dan 6 bola putih. Peluang terambil bola merah…', ['1/4', '2/5', '3/5', '2/3'], 1, 'n(A) = 4, n(S) = 10 → 4/10 = 2/5.'],
+    ['Dadu dilempar sekali. Peluang muncul bilangan prima adalah…', ['<span class="frac"><span>1</span><span class="bottom">6</span></span>', '<span class="frac"><span>1</span><span class="bottom">3</span></span>', '<span class="frac"><span>1</span><span class="bottom">2</span></span>', '<span class="frac"><span>2</span><span class="bottom">3</span></span>'], 2, 'Prima: 2, 3, 5 → 3 hasil dari 6 → 3/6 = 1/2.'],
+    ['Kantong berisi 4 bola merah dan 6 bola putih. Peluang terambil bola merah…', ['<span class="frac"><span>1</span><span class="bottom">4</span></span>', '<span class="frac"><span>2</span><span class="bottom">5</span></span>', '<span class="frac"><span>3</span><span class="bottom">5</span></span>', '<span class="frac"><span>2</span><span class="bottom">3</span></span>'], 1, 'n(A) = 4, n(S) = 10 → 4/10 = 2/5.'],
     ['Peluang hujan besok 0,35. Peluang tidak hujan…', ['0,35', '0,55', '0,65', '0,75'], 2, 'P(A′) = 1 − P(A) = 1 − 0,35 = 0,65.'],
-    ['Dadu dilempar. Peluang tidak muncul mata 6…', ['1/6', '1/2', '2/3', '5/6'], 3, 'P(6) = 1/6, komplemennya 1 − 1/6 = 5/6.'],
-    ['Tiga koin dilempar. Peluang muncul minimal satu gambar…', ['1/8', '3/8', '1/2', '7/8'], 3, 'Komplemen: semua angka = 1/8. Jadi 1 − 1/8 = 7/8.'],
-    ['Dadu dilempar. Peluang muncul genap atau 5 (saling lepas)…', ['1/2', '3/5', '2/3', '5/6'], 2, 'Genap {2,4,6} + {5} = 4 hasil → 4/6 = 2/3.'],
-    ['Kartu 1–10. Peluang terambil genap atau kelipatan 3…', ['8/10', '7/10', '6/10', '5/10'], 1, '5/10 + 3/10 − 1/10 (angka 6) = 7/10.'],
-    ['Koin dan dadu dilempar bersamaan. Peluang gambar dan angka 5…', ['1/12', '1/8', '1/6', '1/2'], 0, 'Saling bebas: 1/2 × 1/6 = 1/12.']
+    ['Dadu dilempar. Peluang tidak muncul mata 6…', ['<span class="frac"><span>1</span><span class="bottom">6</span></span>', '<span class="frac"><span>1</span><span class="bottom">2</span></span>', '<span class="frac"><span>2</span><span class="bottom">3</span></span>', '<span class="frac"><span>5</span><span class="bottom">6</span></span>'], 3, 'P(6) = 1/6, komplemennya 1 − 1/6 = 5/6.'],
+    ['Tiga koin dilempar. Peluang muncul minimal satu gambar…', ['<span class="frac"><span>1</span><span class="bottom">8</span></span>', '<span class="frac"><span>3</span><span class="bottom">8</span></span>', '<span class="frac"><span>1</span><span class="bottom">2</span></span>', '<span class="frac"><span>7</span><span class="bottom">8</span></span>'], 3, 'Komplemen: semua angka = 1/8. Jadi 1 − 1/8 = 7/8.'],
+    ['Dadu dilempar. Peluang muncul genap atau 5 (saling lepas)…', ['<span class="frac"><span>1</span><span class="bottom">2</span></span>', '<span class="frac"><span>3</span><span class="bottom">5</span></span>', '<span class="frac"><span>2</span><span class="bottom">3</span></span>', '<span class="frac"><span>5</span><span class="bottom">6</span></span>'], 2, 'Genap {2,4,6} + {5} = 4 hasil → 4/6 = 2/3.'],
+    ['Kartu 1–10. Peluang terambil genap atau kelipatan 3…', ['<span class="frac"><span>8</span><span class="bottom">10</span></span>', '<span class="frac"><span>7</span><span class="bottom">10</span></span>', '<span class="frac"><span>6</span><span class="bottom">10</span></span>', '<span class="frac"><span>5</span><span class="bottom">10</span></span>'], 1, '5/10 + 3/10 − 1/10 (angka 6) = 7/10.'],
+    ['Koin dan dadu dilempar bersamaan. Peluang gambar dan angka 5…', ['<span class="frac"><span>1</span><span class="bottom">12</span></span>', '<span class="frac"><span>1</span><span class="bottom">8</span></span>', '<span class="frac"><span>1</span><span class="bottom">6</span></span>', '<span class="frac"><span>1</span><span class="bottom">2</span></span>'], 0, 'Saling bebas: 1/2 × 1/6 = 1/12.'],
+    ['Dua dadu dilempar bersamaan. Peluang muncul jumlah mata dadu sama dengan 7 adalah…', ['<span class="frac"><span>1</span><span class="bottom">12</span></span>', '<span class="frac"><span>1</span><span class="bottom">6</span></span>', '<span class="frac"><span>5</span><span class="bottom">36</span></span>', '<span class="frac"><span>7</span><span class="bottom">36</span></span>'], 1, 'Pasangan berjumlah 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) → 6 pasangan dari 36 → 6/36 = 1/6.'],
+    ['Sebuah dadu dilempar sebanyak 120 kali. Frekuensi harapan muncul mata dadu faktor dari 6 adalah…', ['20 kali', '40 kali', '60 kali', '80 kali'], 3, 'Faktor dari 6 pada dadu: {1, 2, 3, 6} (4 anggota). P(A) = 4/6 = 2/3. Fh = (2/3) × 120 = 80 kali.']
   ];
 })();

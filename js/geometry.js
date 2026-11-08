@@ -3,6 +3,9 @@
   Simulasi: Kubus & Balok 3D, Tabung, Kerucut, Bola, dan Misi Tangki Air.
 */
 
+// Helper pecahan vertikal HTML
+const fFrac = (num, den) => `<span class="frac"><span>${num}</span><span class="bottom">${den}</span></span>`;
+
 // ===== Override materi (tab 📖 Materi): gabungkan rumus + contoh jadi panel interaktif =====
 window._prevGeoGetModuleMaterial = window.getModuleMaterial;
 
@@ -15,19 +18,19 @@ const GEO_SHAPES = {
     example:`<h4>📦 Contoh: Kardus kemasan</h4><p>Kardus berukuran panjang 30 cm, lebar 20 cm, tinggi 15 cm.</p><ol class="step-list"><li>Volume = p × l × t = 30 × 20 × 15 = <b>9.000 cm³</b> (9 liter).</li><li>Luas permukaan = 2(pl+pt+lt) = 2(600+450+300) = <b>2.700 cm²</b> — inilah luas kardus yang perlu dicetak.</li></ol>` },
   prisma: { icon:'🔺', name:'Prisma',
     formula:`<div class="formula-stack"><div class="formula">Volume = luas alas × tinggi prisma</div><div class="formula">Luas permukaan = (2 × luas alas) + (keliling alas × tinggi prisma)</div></div>`,
-    example:`<h4>🍫 Contoh: Cokelat batangan segitiga</h4><p>Prisma segitiga siku-siku dengan alas 6 cm, tinggi segitiga 8 cm, sisi miring 10 cm, dan panjang prisma 15 cm.</p><ol class="step-list"><li>Luas alas segitiga = ½ × 6 × 8 = <b>24 cm²</b>.</li><li>Volume = luas alas × tinggi prisma = 24 × 15 = <b>360 cm³</b>.</li><li>Keliling alas = 6+8+10 = 24 cm.</li><li>Luas permukaan = (2×24) + (24×15) = 48+360 = <b>408 cm²</b>.</li></ol>` },
+    example:`<h4>🍫 Contoh: Cokelat batangan segitiga</h4><p>Prisma segitiga siku-siku dengan alas 6 cm, tinggi segitiga 8 cm, sisi miring 10 cm, dan panjang prisma 15 cm.</p><ol class="step-list"><li>Luas alas segitiga = ${fFrac(1,2)} × 6 × 8 = <b>24 cm²</b>.</li><li>Volume = luas alas × tinggi prisma = 24 × 15 = <b>360 cm³</b>.</li><li>Keliling alas = 6+8+10 = 24 cm.</li><li>Luas permukaan = (2×24) + (24×15) = 48+360 = <b>408 cm²</b>.</li></ol>` },
   limas: { icon:'🏔️', name:'Limas',
-    formula:`<div class="formula-stack"><div class="formula">Volume = ⅓ × luas alas × tinggi</div><div class="formula">Luas permukaan = luas alas + jumlah luas sisi tegak</div></div>`,
-    example:`<h4>🏠 Contoh: Atap rumah limas</h4><p>Limas segiempat beralas persegi sisi 10 cm dengan tinggi 12 cm.</p><ol class="step-list"><li>Luas alas = 10 × 10 = <b>100 cm²</b>.</li><li>Volume = ⅓ × 100 × 12 = <b>400 cm³</b>.</li><li>Tinggi sisi tegak (apotema) = √(12²+5²) = √169 = <b>13 cm</b>.</li><li>Luas satu sisi tegak = ½×10×13 = 65 cm²; 4 sisi tegak = 260 cm².</li><li>Luas permukaan = 100+260 = <b>360 cm²</b>.</li></ol>` },
+    formula:`<div class="formula-stack"><div class="formula">Volume = ${fFrac(1,3)} × luas alas × tinggi</div><div class="formula">Luas permukaan = luas alas + jumlah luas sisi tegak</div></div>`,
+    example:`<h4>🏠 Contoh: Atap rumah limas</h4><p>Limas segiempat beralas persegi sisi 10 cm dengan tinggi 12 cm.</p><ol class="step-list"><li>Luas alas = 10 × 10 = <b>100 cm²</b>.</li><li>Volume = ${fFrac(1,3)} × 100 × 12 = <b>400 cm³</b>.</li><li>Tinggi sisi tegak (apotema) = √(12²+5²) = √169 = <b>13 cm</b>.</li><li>Luas satu sisi tegak = ${fFrac(1,2)}×10×13 = 65 cm²; 4 sisi tegak = 260 cm².</li><li>Luas permukaan = 100+260 = <b>360 cm²</b>.</li></ol>` },
   tabung: { icon:'🥫', name:'Tabung',
     formula:`<div class="formula-stack"><div class="formula">Volume = πr²t</div><div class="formula">Luas permukaan = 2πr(r + t)</div></div>`,
     example:`<h4>🥛 Contoh: Kaleng susu</h4><p>Kaleng susu berjari-jari 4 cm dan tinggi 12 cm. Gunakan π ≈ 3,14.</p><ol class="step-list"><li>Volume = πr²t = 3,14 × 16 × 12 = <b>602,88 cm³</b>.</li><li>Luas permukaan = 2πr(r+t) = 2×3,14×4×16 = <b>401,92 cm²</b>.</li></ol>` },
   kerucut: { icon:'🍦', name:'Kerucut',
-    formula:`<div class="formula-stack"><div class="formula">Volume = ⅓πr²t</div><div class="formula">Luas permukaan = πr(r + s), dengan s = √(r² + t²)</div></div>`,
-    example:`<h4>🎉 Contoh: Topi ulang tahun</h4><p>Topi kerucut punya jari-jari alas 7 cm dan tinggi 24 cm.</p><ol class="step-list"><li>Garis pelukis s = √(7²+24²) = √625 = <b>25 cm</b>.</li><li>Volume = ⅓πr²t = ⅓×(22/7)×49×24 = <b>1.232 cm³</b>.</li><li>Luas selimut = πrs = (22/7)×7×25 = <b>550 cm²</b> (tanpa alas, karena topi terbuka di bawah).</li></ol>` },
+    formula:`<div class="formula-stack"><div class="formula">Volume = ${fFrac(1,3)}πr²t</div><div class="formula">Luas permukaan = πr(r + s), dengan s = √(r² + t²)</div></div>`,
+    example:`<h4>🎉 Contoh: Topi ulang tahun</h4><p>Topi kerucut punya jari-jari alas 7 cm dan tinggi 24 cm.</p><ol class="step-list"><li>Garis pelukis s = √(7²+24²) = √625 = <b>25 cm</b>.</li><li>Volume = ${fFrac(1,3)}πr²t = ${fFrac(1,3)}×(${fFrac(22,7)})×49×24 = <b>1.232 cm³</b>.</li><li>Luas selimut = πrs = (${fFrac(22,7)})×7×25 = <b>550 cm²</b> (tanpa alas, karena topi terbuka di bawah).</li></ol>` },
   bola: { icon:'⚽', name:'Bola',
-    formula:`<div class="formula-stack"><div class="formula">Volume = 4∕3 πr³</div><div class="formula">Luas permukaan = 4πr²</div></div>`,
-    example:`<h4>🏀 Contoh: Bola basket</h4><p>Bola basket punya jari-jari 12 cm. Gunakan π ≈ 3,14.</p><ol class="step-list"><li>Volume = 4∕3πr³ = 1,33×3,14×1.728 ≈ <b>7.234 cm³</b>.</li><li>Luas permukaan = 4πr² = 4×3,14×144 = <b>1.808,64 cm²</b>.</li></ol>` }
+    formula:`<div class="formula-stack"><div class="formula">Volume = ${fFrac(4,3)} πr³</div><div class="formula">Luas permukaan = 4πr²</div></div>`,
+    example:`<h4>🏀 Contoh: Bola basket</h4><p>Bola basket punya jari-jari 12 cm. Gunakan π ≈ 3,14.</p><ol class="step-list"><li>Volume = ${fFrac(4,3)}πr³ = 1,33×3,14×1.728 ≈ <b>7.234 cm³</b>.</li><li>Luas permukaan = 4πr² = 4×3,14×144 = <b>1.808,64 cm²</b>.</li></ol>` }
 };
 
 window.selectGeoShape = function(shape) {
@@ -36,7 +39,7 @@ window.selectGeoShape = function(shape) {
   const panel = document.getElementById('geoShapePanel');
   if (panel) {
     panel.classList.remove('geo-fade-in');
-    void panel.offsetWidth; // reflow, biar animasinya bisa diulang tiap klik
+    void panel.offsetWidth;
     panel.innerHTML = data.formula + data.example;
     panel.classList.add('geo-fade-in');
   }
@@ -88,7 +91,7 @@ window.getModuleMaterial = function(id) {
 </svg>
 </div>
 <div>
-<h4>Contoh: Silo penyimpanan gandum</h4><p>Sebuah silo berbentuk tabung dengan atap kerucut. Jari-jari 3 m, tinggi tabung 8 m, tinggi kerucut 2 m. Gunakan π ≈ 3,14.</p><ol class="step-list"><li>Volume tabung = πr²t = 3,14 × 9 × 8 = <b>226,08 m³</b>.</li><li>Volume kerucut = ⅓πr²t = ⅓ × 3,14 × 9 × 2 = <b>18,84 m³</b>.</li><li>Volume total silo = 226,08 + 18,84 = <b>244,92 m³</b>.</li></ol>
+<h4>Contoh: Silo penyimpanan gandum</h4><p>Sebuah silo berbentuk tabung dengan atap kerucut. Jari-jari 3 m, tinggi tabung 8 m, tinggi kerucut 2 m. Gunakan π ≈ 3,14.</p><ol class="step-list"><li>Volume tabung = πr²t = 3,14 × 9 × 8 = <b>226,08 m³</b>.</li><li>Volume kerucut = ${fFrac(1,3)}πr²t = ${fFrac(1,3)} × 3,14 × 9 × 2 = <b>18,84 m³</b>.</li><li>Volume total silo = 226,08 + 18,84 = <b>244,92 m³</b>.</li></ol>
 </div>
 </div>
 <div class="geo-combo-grid geo-reveal">
@@ -250,7 +253,6 @@ window.bindSimulator = function(id) {
   if (id === 'geometri') {
     const PI = Math.PI;
 
-    // ===== 0. Animasi reveal untuk ilustrasi "Gabungan bangun ruang" =====
     const geoRevealEls = document.querySelectorAll('#tab-materi .geo-reveal');
     if (geoRevealEls.length) {
       const geoObserver = new IntersectionObserver((entries) => {
@@ -264,12 +266,12 @@ window.bindSimulator = function(id) {
       geoRevealEls.forEach(el => { el.classList.remove('geo-in'); geoObserver.observe(el); });
     }
 
-    // ===== 1. Kubus & Balok =====
     const bLen = document.getElementById('geoBoxLen');
     const bWid = document.getElementById('geoBoxWid');
     const bHgt = document.getElementById('geoBoxHgt');
     const cube = document.getElementById('geoCube');
 
+    // ===== Perbaikan Posisi & Ukuran Sisi Balok 3D (Rapat Sempurna Tanpa Celah) =====
     function updateBox() {
       const p = +bLen.value, l = +bWid.value, t = +bHgt.value;
       document.getElementById('geoBoxLenOut').textContent = p + ' cm';
@@ -286,11 +288,17 @@ window.bindSimulator = function(id) {
         ? 'Panjang, lebar, dan tinggi sama besar → ini <b>kubus</b>.'
         : 'Panjang, lebar, dan tinggi berbeda → ini <b>balok</b>.';
 
-      // Skala visual (px per cm)
-      const scale = 9;
+      const scale = 11;
       const w = p * scale, h = t * scale, d = l * scale;
+
+      // Matikan animasi CSS geoSpin agar tidak menimpa posisi manual
+      cube.style.animation = 'none';
+      cube.style.transformStyle = 'preserve-3d';
+      cube.style.transform = 'rotateX(-25deg) rotateY(-35deg)';
       cube.style.width = w + 'px';
       cube.style.height = h + 'px';
+      cube.style.position = 'relative';
+      cube.style.margin = '30px auto';
 
       const front = cube.querySelector('.geo-front');
       const back = cube.querySelector('.geo-back');
@@ -299,27 +307,49 @@ window.bindSimulator = function(id) {
       const top = cube.querySelector('.geo-top');
       const bottom = cube.querySelector('.geo-bottom');
 
-      front.style.width = back.style.width = w + 'px';
-      front.style.height = back.style.height = h + 'px';
-      front.style.transform = `translateZ(${d/2}px)`;
-      back.style.transform = `translateZ(${-d/2}px) rotateY(180deg)`;
+      const commonStyle = `
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        box-sizing: border-box !important;
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.75), rgba(255, 77, 141, 0.85)) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
+        box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4) !important;
+        backface-visibility: visible !important;
+      `;
 
-      right.style.width = left.style.width = d + 'px';
-      right.style.height = left.style.height = h + 'px';
-      right.style.transform = `rotateY(90deg) translateZ(${w/2}px)`;
-      left.style.transform = `rotateY(-90deg) translateZ(${w/2}px)`;
+      // Front & Back (Ukuran: w x h)
+      [front, back].forEach(face => {
+        if (!face) return;
+        face.style.cssText = commonStyle + `width: ${w}px; height: ${h}px; margin-top: ${-h/2}px; margin-left: ${-w/2}px;`;
+      });
+      front.style.transform = `translateZ(${d / 2}px)`;
+      back.style.transform  = `rotateY(180deg) translateZ(${d / 2}px)`;
 
-      top.style.width = bottom.style.width = w + 'px';
-      top.style.height = bottom.style.height = d + 'px';
-      top.style.transform = `rotateX(90deg) translateZ(${h/2}px)`;
-      bottom.style.transform = `rotateX(-90deg) translateZ(${h/2}px)`;
+      // Right & Left (Ukuran: d x h)
+      [right, left].forEach(face => {
+        if (!face) return;
+        face.style.cssText = commonStyle + `width: ${d}px; height: ${h}px; margin-top: ${-h/2}px; margin-left: ${-d/2}px;`;
+      });
+      right.style.transform = `rotateY(90deg) translateZ(${w / 2}px)`;
+      left.style.transform  = `rotateY(-90deg) translateZ(${w / 2}px)`;
+
+      // Top & Bottom (Ukuran: w x d)
+      [top, bottom].forEach(face => {
+        if (!face) return;
+        face.style.cssText = commonStyle + `width: ${w}px; height: ${d}px; margin-top: ${-d/2}px; margin-left: ${-w/2}px;`;
+      });
+      top.style.transform    = `rotateX(90deg) translateZ(${h / 2}px)`;
+      bottom.style.transform = `rotateX(-90deg) translateZ(${h / 2}px)`;
 
       Progress.setCoba(id);
+    
+    
+    
     }
     bLen.oninput = bWid.oninput = bHgt.oninput = updateBox;
     updateBox();
 
-    // ===== 2. Tabung =====
     const cRad = document.getElementById('geoCylRad');
     const cHgt = document.getElementById('geoCylHgt');
     const cylinder = document.getElementById('geoCylinder');
@@ -345,7 +375,6 @@ window.bindSimulator = function(id) {
     cRad.oninput = cHgt.oninput = updateCylinder;
     updateCylinder();
 
-    // ===== 3. Kerucut =====
     const knRad = document.getElementById('geoConeRad');
     const knHgt = document.getElementById('geoConeHgt');
     const cone = document.getElementById('geoCone');
@@ -375,7 +404,6 @@ window.bindSimulator = function(id) {
     knRad.oninput = knHgt.oninput = updateCone;
     updateCone();
 
-    // ===== 4. Bola =====
     const spRad = document.getElementById('geoSphereRad');
     const sphere = document.getElementById('geoSphere');
 
@@ -398,7 +426,6 @@ window.bindSimulator = function(id) {
     spRad.oninput = updateSphere;
     updateSphere();
 
-    // ===== 5. Misi Tangki Air =====
     let mission = {};
     function newMission() {
       const r = rndInt(2, 5);
@@ -438,3 +465,17 @@ window.bindSimulator = function(id) {
   }
   return window._prevGeoBindSimulator(id);
 };
+
+// ===== Bank Soal Geometri (10 Soal Lengkap) =====
+if (window.quizBanks) window.quizBanks.geometri = [
+  ['Sebuah kubus memiliki panjang rusuk 6 cm. Volume kubus tersebut adalah…', ['108 cm³', '216 cm³', '36 cm³', '1.296 cm³'], 1, 'Volume kubus = s³ = 6³ = 216 cm³.'],
+  ['Sebuah balok berukuran panjang 10 cm, lebar 5 cm, dan tinggi 4 cm. Luas permukaan balok adalah…', ['200 cm²', '220 cm²', '180 cm²', '400 cm²'], 1, 'Luas permukaan = 2(pl + pt + lt) = 2(50 + 40 + 20) = 2(110) = 220 cm².'],
+  ['Sebuah tabung memiliki jari-jari alas 7 cm dan tinggi 10 cm (gunakan π = 22/7). Volume tabung adalah…', ['1.540 cm³', '770 cm³', '3.080 cm³', '1.078 cm³'], 0, 'Volume = πr²t = (22/7) × 7² × 10 = 22 × 7 × 10 = 1.540 cm³.'],
+  ['Sebuah kerucut mempunyai jari-jari 6 cm dan garis pelukis 10 cm (gunakan π = 3,14). Luas selimut kerucut adalah…', ['188,4 cm²', '376,8 cm²', '94,2 cm²', '282,6 cm²'], 0, 'Luas selimut = πrs = 3,14 × 6 × 10 = 188,4 cm².'],
+  ['Sebuah bola memiliki jari-jari 7 cm (gunakan π = 22/7). Luas permukaan bola tersebut adalah…', ['616 cm²', '1.437,3 cm²', '308 cm²', '4.312 cm²'], 0, 'Luas permukaan = 4πr² = 4 × (22/7) × 7² = 4 × 22 × 7 = 616 cm².'],
+  ['Sebuah prisma segitiga memiliki luas alas 24 cm² dan tinggi prisma 15 cm. Volume prisma tersebut adalah…', ['360 cm³', '180 cm³', '720 cm³', '90 cm³'], 0, 'Volume = luas alas × tinggi = 24 × 15 = 360 cm³.'],
+  ['Sebuah limas segiempat beraturan memiliki luas alas 64 cm² dan tinggi 6 cm. Volume limas tersebut adalah…', ['384 cm³', '128 cm³', '192 cm³', '96 cm³'], 1, 'Volume = 1/3 × luas alas × tinggi = 1/3 × 64 × 6 = 64 × 2 = 128 cm³.'],
+  ['Bak mandi berbentuk kubus berisi penuh air. Jika panjang rusuk bak 1 meter, berapa liter volume air dalam bak tersebut?', ['1.000 liter', '100 liter', '10 liter', '1.000.000 liter'], 0, '1 m³ = 1.000 liter. Volume = 1³ = 1 m³ = 1.000 liter.'],
+  ['Sebuah bola memiliki jari-jari 3 cm (gunakan π = 3,14). Volume bola tersebut adalah…', ['113,04 cm³', '339,12 cm³', '56,52 cm²', '28,26 cm³'], 0, 'Volume = 4/3 × πr³ = 4/3 × 3,14 × 27 = 4 × 3,14 × 9 = 113,04 cm³.'],
+  ['Sebuah kerucut memiliki jari-jari alas 3 cm dan tinggi 4 cm. Volume kerucut tersebut adalah…', ['37,68 cm³', '113,04 cm³', '75,36 cm³', '18,84 cm³'], 0, 'Volume = 1/3 × πr²t = 1/3 × 3,14 × 3² × 4 = 3,14 × 3 × 4 = 37,68 cm³.']
+];
