@@ -64,15 +64,78 @@
   ];
   const QN = 4, TIME = 40, MAXH = 3;
 
+  // ---------- Bagian interaktif Geometri (gaya modul Trigonometri) ----------
+  const GFLIPS = [['🧊', 'Kubus', '#dff3fb', 'V = s³', 'L = 6s²'], ['📦', 'Balok', '#fdf1b8', 'V = p × l × t', 'L = 2(pl + pt + lt)'], ['🥫', 'Tabung', '#fbd5e3', 'V = πr²t', 'L = 2πr(r + t)'], ['🍦', 'Kerucut', '#d5f5e6', 'V = ⅓πr²t', 'L = πr(r + s)'], ['⚽', 'Bola', '#e6dcff', 'V = 4⁄3 πr³', 'L = 4πr²'], ['🔺', 'Limas', '#ffe2cf', 'V = ⅓ × L alas × t', 'L = alas + sisi tegak'], ['🏠', 'Prisma', '#e0f2ff', 'V = L alas × t', 'L = 2·L alas + K alas × t'], ['💧', 'Satuan', '#d9f2ff', '1 liter = 1.000 cm³', '1 m³ = 1.000 liter']];
+  const GTIPS = ['Volume itu ruang yang bisa diisi. Luas permukaan itu bungkusnya.', 'Kerucut dan limas selalu punya faktor ⅓ pada volumenya.', 'Cek satuan dulu: 1 liter = 1.000 cm³.', 'Gambar bangunnya dan tulis ukuran di dekat sisinya.', 'Kalau dibuka, selimut tabung berbentuk persegi panjang!'];
+  const extra = () => `
+  <div class="content-card pl-sec2 ggm-sec">
+    <h3><span class="pl-n">1</span>Tuang air: 3 kerucut = 1 tabung 🫗</h3>
+    <p class="pl-sub">Kerucut dan tabung punya alas dan tinggi yang sama. Tuang air dari kerucut ke tabung, lalu hitung berapa kali sampai penuh!</p>
+    <svg viewBox="0 -50 360 260" class="ggm-pour"><defs><clipPath id="ggCC"><path d="M20 70L120 70L70 180Z"/></clipPath><clipPath id="ggCY"><rect x="232" y="70" width="96" height="110"/></clipPath></defs>
+      <g id="ggConeG" style="transform-origin:70px 70px;transition:transform .8s ease"><g clip-path="url(#ggCC)"><rect id="ggCW" x="20" y="70" width="100" height="110" fill="#3b9cff" style="transform-box:fill-box;transform-origin:50% 100%;transition:transform 1.3s ease"/></g><path d="M20 70L120 70L70 180Z" fill="none" stroke="#7C3AED" stroke-width="3" stroke-linejoin="round"/></g>
+      <g clip-path="url(#ggCY)"><rect id="ggYW" x="232" y="70" width="96" height="110" fill="#3b9cff" style="transform:scaleY(0);transform-box:fill-box;transform-origin:50% 100%;transition:transform 1.3s ease"/></g>
+      <path d="M230 70V176a4 4 0 0 0 4 4H326a4 4 0 0 0 4-4V70" fill="none" stroke="#7C3AED" stroke-width="3"/>
+      <path d="M232 143H328M232 107H328" stroke="#7C3AED" stroke-dasharray="3 4" opacity=".6"/><text x="334" y="147">⅓</text><text x="334" y="111">⅔</text><text x="334" y="74">1</text>
+      <path id="ggStream" class="stream" d="M184 58Q252 44 276 112"/><text x="40" y="198">kerucut</text><text x="262" y="198">tabung</text></svg>
+    <div class="ggm-dots" id="ggDots"><span>1</span><span>2</span><span>3</span></div><div class="ggm-msg" id="ggPMsg">Tekan tombol untuk mulai menuang.</div>
+    <div class="pl-neos" style="justify-content:center"><button type="button" class="pl-neo" id="ggPour">🫗 Tuang!</button><button type="button" class="pl-neo" id="ggPourR">↺ Ulang</button></div>
+  </div>
+  <div class="content-card pl-sec2 ggm-sec">
+    <h3><span class="pl-n">2</span>Jaring-jaring kubus: lipat! 🧊</h3>
+    <p class="pl-sub">Geser penggeser atau tekan tombol. Enam persegi yang tersambung akan terlipat menjadi sebuah kubus.</p>
+    <div class="ggm-netstage"><div class="ggm-netspin"><div class="ggm-net" id="ggNet" style="--a:0deg"><div class="nf nf0">1<div class="nf nn">2</div><div class="nf ns">3<div class="nf ns2">6</div></div><div class="nf nw">4</div><div class="nf ne">5</div></div></div></div></div>
+    <div class="ggm-netctl"><button type="button" class="pl-neo" id="ggFold">▶ Lipat jadi kubus</button><button type="button" class="pl-neo" id="ggUnfold">⟲ Buka lagi</button><input type="range" id="ggNetR" min="0" max="100" value="0"></div>
+    <div class="ggm-msg" id="ggNMsg"></div>
+  </div>
+  <div class="content-card pl-sec2 ggm-sec">
+    <h3><span class="pl-n">3</span>Kartu rumus bangun ruang ⭐</h3>
+    <div class="pl-tools"><span>Ketuk kartu untuk melihat rumus volume dan luas permukaan.</span><button type="button" class="pl-neo" id="ggFlipAll">🔄 Balik semua</button></div>
+    <div class="pl-flips ggm-flips">${GFLIPS.map((f) => `<div class="pl-flip"><div class="pl-fi"><div class="pl-ff" style="--fc:${f[2]}"><span class="e">${f[0]}</span><b>${f[1]}</b></div><div class="pl-fk"><b>${f[1]}</b><span class="f">${f[3]}</span><span class="f" style="color:#7C3AED">${f[4]}</span></div></div></div>`).join('')}</div>
+  </div>`;
+
+  function bindGeo() {
+    // 1) Tuang air
+    let k = 0, busy = false; const pt = [], pl = (f, ms) => pt.push(setTimeout(() => live() && f(), ms));
+    const cw = $('ggCW'), yw = $('ggYW'), cg = $('ggConeG'), stm = $('ggStream');
+    $('ggPour').onclick = () => {
+      if (busy || k >= 3) return; busy = true; k++;
+      $('ggPMsg').textContent = `Menuang kerucut ke-${k}…`;
+      cg.style.transform = 'translate(70px,-45px) rotate(38deg)'; pl(() => stm.classList.add('on'), 700);
+      pl(() => { cw.style.transform = 'scaleY(.02)'; yw.style.transform = `scaleY(${k / 3})`; }, 800);
+      pl(() => { stm.classList.remove('on'); cg.style.transform = ''; }, 2300);
+      pl(() => { cw.style.transform = 'scaleY(1)'; }, 3100);
+      pl(() => {
+        $('ggDots').children[k - 1].classList.add('on'); busy = false;
+        $('ggPMsg').innerHTML = k < 3 ? `Tabung terisi ${k}/3. Tuang lagi!` : '<b>🎉 Penuh! 3 kerucut = 1 tabung, jadi V kerucut = ⅓πr²t</b>';
+      }, 4100);
+    };
+    $('ggPourR').onclick = () => {
+      k = 0; busy = false; pt.forEach(clearTimeout); pt.length = 0; yw.style.transform = 'scaleY(0)'; cw.style.transform = 'scaleY(1)'; cg.style.transform = ''; stm.classList.remove('on');
+      [...$('ggDots').children].forEach((d) => d.classList.remove('on')); $('ggPMsg').textContent = 'Tekan tombol untuk mulai menuang.';
+    };
+    // 2) Jaring-jaring kubus
+    const net = $('ggNet'), rng = $('ggNetR'); let raf;
+    const setA = (v) => { net.style.setProperty('--a', (v * 0.9) + 'deg'); rng.value = v; $('ggNMsg').innerHTML = v >= 100 ? '<b>🎉 Kubus! 6 sisi · 12 rusuk · 8 titik sudut</b>' : ''; };
+    const go = (to) => { cancelAnimationFrame(raf); const from = +rng.value, t0 = performance.now(), d = 2200 * Math.abs(to - from) / 100 + 200; (function f(n) { const p = Math.min(1, (n - t0) / d), e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; setA(from + (to - from) * e); if (p < 1 && live()) raf = requestAnimationFrame(f); })(t0); };
+    rng.oninput = () => { cancelAnimationFrame(raf); setA(+rng.value); };
+    $('ggFold').onclick = () => go(100); $('ggUnfold').onclick = () => go(0);
+    // 3) Kartu balik
+    const cards = document.querySelectorAll('.ggm-flips .pl-flip');
+    cards.forEach((c) => (c.onclick = () => c.classList.toggle('on')));
+    $('ggFlipAll').onclick = () => { const all = [...cards].every((c) => c.classList.contains('on')); cards.forEach((c, i) => setTimeout(() => c.classList.toggle('on', !all), i * 90)); };
+    if (window.__plMascot) window.__plMascot.bindMascot('ggMas');
+  }
+
   // ---------- Pasang ke bawah materi Geometri ----------
   const prevMat = window.getModuleMaterial, prevBind = window.bindSimulator;
   window.getModuleMaterial = (id) => {
     const html = prevMat(id);
     if (id !== 'geometri') return html;
     const k = html.lastIndexOf('</div>');
-    return html.slice(0, k) + '<div class="content-card plg ggm" id="ggm"><div class="plg-bg" id="ggBg"></div><div id="ggBox"></div></div>' + html.slice(k);
+    const mas = window.__plMascot ? window.__plMascot.mascot('ggMas', '📐', GTIPS) : '';
+    return html.slice(0, k) + extra() + '<div class="content-card plg ggm" id="ggm"><div class="plg-bg" id="ggBg"></div><div id="ggBox"></div></div>' + mas + html.slice(k);
   };
-  window.bindSimulator = (id) => { prevBind(id); if (id === 'geometri') init(); };
+  window.bindSimulator = (id) => { prevBind(id); if (id === 'geometri') { init(); bindGeo(); } };
 
   // ---------- Mesin game ----------
   let tms = [], st, muted = false;
