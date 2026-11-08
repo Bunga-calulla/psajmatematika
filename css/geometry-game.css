@@ -32,3 +32,31 @@
 .ggm-hint:hover{transform:translateY(-2px)}
 .ggm-hinttext{display:inline-block;margin-left:8px;padding:6px 12px;border-radius:12px;background:#fff3cf;font:700 14px var(--font-mono);animation:plgIn .4s both}
 @media(max-width:640px){.ggm-floor{width:110px}.ggm-city{display:none}}
+
+/* ===== Bagian interaktif Geometri (memakai .pl-sec2, .pl-n, .pl-neo, .pl-flip*, .pl-mascot dari probability.css) ===== */
+.ggm-flips{grid-template-columns:repeat(4,1fr)!important}
+@media(max-width:760px){.ggm-flips{grid-template-columns:repeat(2,1fr)!important}}
+.ggm-sec{animation:plgIn .6s both}
+.ggm-pour{width:100%;max-width:460px;display:block;margin:6px auto}
+.ggm-pour .stream{fill:none;stroke:#3b9cff;stroke-width:6;stroke-linecap:round;stroke-dasharray:9 7;opacity:0;transition:opacity .3s}
+.ggm-pour .stream.on{opacity:1;animation:ggmFlow .5s linear infinite}
+@keyframes ggmFlow{to{stroke-dashoffset:-16}}
+.ggm-pour text{font:700 11px var(--font-mono);fill:#7a7396}
+.ggm-dots{display:flex;gap:12px;justify-content:center;margin:8px 0}
+.ggm-dots span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px solid #241B3A;background:#fff;font:800 16px var(--font-display);transition:background .4s,transform .4s}
+.ggm-dots span.on{background:#3b9cff;color:#fff;transform:scale(1.15) rotate(-6deg)}
+.ggm-msg{min-height:30px;text-align:center;font-weight:800;margin:6px 0}
+.ggm-msg b{display:inline-block;padding:6px 16px;border-radius:99px;background:#17C3B2;color:#fff;animation:plPop .5s both cubic-bezier(.3,1.6,.5,1)}
+.ggm-netstage{perspective:1000px;height:340px;display:grid;place-items:center;background:var(--surface-2);border-radius:20px;overflow:hidden}
+.ggm-netspin{transform-style:preserve-3d;transform:rotateX(60deg) rotateZ(0deg);animation:ggmNetZ 18s linear infinite}
+@keyframes ggmNetZ{to{transform:rotateX(60deg) rotateZ(360deg)}}
+.ggm-net{--S:100px;position:relative;width:var(--S);height:var(--S);transform-style:preserve-3d}
+.ggm-net .nf{position:absolute;width:var(--S);height:var(--S);display:grid;place-items:center;font:800 22px var(--font-display);color:#fff;background:var(--c);box-shadow:inset 0 0 0 3px #fff;transform-style:preserve-3d}
+.ggm-net .nf0{left:0;top:0;--c:#7C3AED}
+.ggm-net .nn{left:0;top:calc(var(--S)*-1);--c:#E33E57;transform-origin:50% 100%;transform:rotateX(calc(var(--a)*-1))}
+.ggm-net .ns{left:0;top:var(--S);--c:#17C3B2;transform-origin:50% 0;transform:rotateX(var(--a))}
+.ggm-net .ns2{left:0;top:var(--S);--c:#FF9F1C;transform-origin:50% 0;transform:rotateX(var(--a))}
+.ggm-net .nw{left:calc(var(--S)*-1);top:0;--c:#3B82F6;transform-origin:100% 50%;transform:rotateY(var(--a))}
+.ggm-net .ne{left:var(--S);top:0;--c:#ec4899;transform-origin:0 50%;transform:rotateY(calc(var(--a)*-1))}
+.ggm-netctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.ggm-netctl input{flex:1;min-width:160px;accent-color:var(--violet)}
