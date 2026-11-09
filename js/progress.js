@@ -249,7 +249,7 @@
 
         const names = {
             persentase: 'Persentase',
-            persamaan: 'Persamaan',
+            persamaan: 'SPLDV (Sistem Persamaan Linear Dua Variabel)',
             geometri: 'Geometri',
             statistik: 'Statistik',
             trigonometri: 'Trigonometri',
