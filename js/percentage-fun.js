@@ -29,6 +29,7 @@
   const rp = n => 'Rp' + nf.format(Math.round(n));
   const dec = n => String(n).replace('.', ',');
   const num = n => nf.format(Math.round(n));
+  const F = (n, d) => `<span class="pf-frac"><i>${n}</i><i>${d}</i></span>`;
   const pctTxt = n => dec(Math.round(n * 10) / 10) + '%';
 
   function countTo(el, to, fmt) {
@@ -257,7 +258,7 @@
         <button type="button" data-p="10">10%</button><button type="button" data-p="25">25%</button><button type="button" data-p="50">50%</button><button type="button" data-p="75">75%</button><button type="button" data-p="100">100%</button>
       </div>
       <div class="pf-eqrow">
-        <div><small>pecahan</small><b id="pfFrac">35/100</b></div>
+        <div><small>pecahan</small><b id="pfFrac">${F(35, 100)}</b></div>
         <div><small>desimal</small><b id="pfDec">0,35</b></div>
       </div>
       <label class="pf-ctl">Jumlah awal <output id="pfBaseOut">Rp200.000</output>
@@ -430,7 +431,7 @@
       $('#pfPctOut', root).textContent = p + '%';
       $('#pfHundredNote', root).textContent = notes[p] || (p + ' dari 100 kotak menyala');
       $('#pfFrac', root).textContent = p + '/100';
-      $('#pfDec', root).textContent = dec(p / 100);
+      $('#pfDec', root).innerHTML = F(p, 100);
       $('#pfBaseOut', root).textContent = rp(b);
       $('#pfOfTxt', root).textContent = p + '% dari ' + rp(b);
       countTo($('#pfOfVal', root), b * p / 100, rp);
@@ -802,7 +803,7 @@
         const p = pick([150, 200, 250, 300, 350, 400, 500, 600]) * 1000, d = pick([10, 15, 20, 25, 30, 40, 50]);
         const disc = p * d / 100, ans = p - disc;
         return { q: `Sepatu seharga <b>${rp(p)}</b> mendapat diskon <b>${d}%</b>. Berapa yang harus kamu bayar?`, ans, unit: 'rp', icon: '👟',
-          hint: `Bayar = harga × (1 − ${d}/100) = ${rp(p)} × ${dec((100 - d) / 100)}.`,
+          hint: `Bayar = harga × (1 − ${F(d, 100)}) = ${rp(p)} × ${dec((100 - d) / 100)}.`,
           sol: [`Diskon = ${d}% × ${rp(p)} = ${rp(disc)}`, `Bayar = ${rp(p)} − ${rp(disc)} = <b>${rp(ans)}</b>`] };
       },
       chain() {
@@ -823,7 +824,7 @@
         const o = pick([100, 200, 300, 400, 500]) * 1000, x = pick([10, 15, 20, 25, 50]);
         const ans = o * (100 + x) / 100;
         return { q: `Harga sepeda <b>${rp(o)}</b> naik <b>${x}%</b>. Berapa harga barunya?`, ans, unit: 'rp', icon: '🚲',
-          hint: `Kenaikan = tambah. Harga baru = harga lama × (1 + ${x}/100) = ${rp(o)} × ${dec((100 + x) / 100)}.`,
+          hint: `Kenaikan = tambah. Harga baru = harga lama × (1 + ${F(x, 100)}) = ${rp(o)} × ${dec((100 + x) / 100)}.`,
           sol: [`Kenaikan = ${x}% × ${rp(o)} = ${rp(o * x / 100)}`, `Harga baru = ${rp(o)} + ${rp(o * x / 100)} = <b>${rp(ans)}</b>`] };
       },
       eff() {
@@ -869,7 +870,7 @@
       input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
       $('#pfMCheck', body).addEventListener('click', check);
       $('#pfMHint', body).addEventListener('click', () => {
-        hinted = true; $('#pfMHintTxt', body).textContent = q.hint; retrigger($('#pfMHintTxt', body), 'pf-pop');
+        hinted = true; $('#pfMHintTxt', body).innerHTML = q.hint; retrigger($('#pfMHintTxt', body), 'pf-pop');
       });
     }
     function check() {

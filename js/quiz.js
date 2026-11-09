@@ -3,10 +3,10 @@ const banks={
 persentase:[
 ["Harga jaket Rp240.000 mendapat diskon 25%. Harga setelah diskon adalah…",["Rp160.000","Rp180.000","Rp200.000","Rp210.000"],1,"25% × 240.000 = 60.000, jadi 240.000 − 60.000 = Rp180.000."],
 ["Sebuah barang Rp80.000 naik 10%. Harga barunya…",["Rp84.000","Rp86.000","Rp88.000","Rp90.000"],2,"10% × 80.000 = 8.000, jadi Rp88.000."],
-["Dari 40 siswa, 30 membawa bekal. Persentasenya…",["65%","70%","75%","80%"],2,"30/40 × 100% = 75%."],
+["Dari 40 siswa, 30 membawa bekal. Persentasenya…",["65%","70%","75%","80%"],2,"  <span class='pf-frac'><i>30</i><i>40</i></span> × 100% = 75%."],
 ["Diskon 20% dari Rp350.000 adalah…",["Rp50.000","Rp60.000","Rp70.000","Rp80.000"],2,"20% × 350.000 = Rp70.000."],
 ["Harga Rp150.000 didiskon 10%, lalu menjadi…",["Rp125.000","Rp130.000","Rp135.000","Rp140.000"],2,"90% × 150.000 = Rp135.000."],
-["Nilai naik dari 60 menjadi 72. Persentase kenaikannya…",["12%","15%","20%","25%"],2,"Kenaikan 12; 12/60 × 100% = 20%."]],
+["Nilai naik dari 60 menjadi 72. Persentase kenaikannya…",["12%","15%","20%","25%"],2,"  Kenaikan 12; <span class='pf-frac'><i>12</i><i>60</i></span> × 100% = 20%."]],
 persamaan:[
 ["Ongkos ojek Rp5.000 + Rp3.000 tiap km. Untuk 8 km totalnya…",["Rp24.000","Rp27.000","Rp29.000","Rp32.000"],2,"5.000 + 3.000(8) = Rp29.000."],
 ["Tiket bus Rp10.000 + Rp2.500/km. Jika total Rp25.000, jaraknya…",["4 km","5 km","6 km","8 km"],2,"10.000 + 2.500x = 25.000 → x = 6 km."],

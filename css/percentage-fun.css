@@ -309,3 +309,8 @@ body.pct-mode .explanation{animation:pfPop .35s both}
   .pf-acc-body,.pf-flip-in{transition:none}
 }
 body.pf-reduce .pf-reveal{opacity:1;transform:none}
+/* ---------- pecahan bertumpuk ---------- */
+.pf-frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .12em;line-height:1.15;text-align:center;white-space:nowrap}
+.pf-frac i{font-style:normal;padding:0 .25em}
+.pf-frac i:first-child{border-bottom:.095em solid currentColor;padding-bottom:.08em}
+.pf-frac i:last-child{padding-top:.08em}
