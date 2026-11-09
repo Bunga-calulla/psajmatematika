@@ -29,12 +29,16 @@ statistik:[
 ["Rata-rata 5 pemain adalah 8 poin. Total poin mereka…",["13","30","40","45"],2,"Total = rata-rata × banyak data = 8 × 5 = 40."],
 ["Data 10, 12, 14, 16. Rata-ratanya…",["12","13","14","15"],1,"(10+12+14+16)/4 = 13."]],
 trigonometri:[
-["Tangga 5 m bersandar, jarak kaki 3 m dari dinding. Tinggi yang dicapai…",["3 m","4 m","5 m","6 m"],1,"3²+h²=5² → h=4 m."],
-["Segitiga siku-siku memiliki sin θ = 3/5. Jika sisi miring 10 cm, sisi depan…",["4 cm","5 cm","6 cm","8 cm"],2,"sin θ = depan/miring → depan = 3/5 × 10 = 6 cm."],
-["Jika tan θ = tinggi/jarak = 1, sudut θ adalah…",["30°","45°","60°","90°"],1,"tan 45° = 1."],
-["Tiang 8 m memiliki bayangan 8 m. Sudut elevasi matahari…",["30°","45°","60°","90°"],1,"tan θ = 8/8 = 1 → θ = 45°."],
-["Sisi depan 6 dan sisi miring 10. cos θ = …",["0,4","0,6","0,8","1"],2,"Sisi samping = 8 (Pythagoras), jadi cos = 8/10 = 0,8."],
-["Jarak 12 m, sudut elevasi 45°. Tinggi gedung kira-kira…",["6 m","10 m","12 m","24 m"],2,"tan 45° = tinggi/12 → tinggi = 12 m."]],
+["Pada segitiga siku-siku, sisi depan sudut θ = 5 dan sisi samping = 12. Nilai sin θ adalah…",["12/13","5/13","5/12","13/5"],1,"Sisi miring dicari dengan Pythagoras: √(5² + 12²) = √169 = 13. Karena sin θ = depan/miring, maka sin θ = 5/13."],
+["Sudut 150° jika dinyatakan dalam radian sama dengan…",["2π/3","3π/4","5π/6","7π/6"],2,"Derajat → radian: kalikan π/180. Jadi 150° × π/180 = 5π/6 rad."],
+["Nilai cos 120° adalah…",["−1/2","1/2","√3/2","−√3/2"],0,"120° berada di kuadran II dengan sudut acuan 180° − 120° = 60°. Cos negatif di kuadran II, sehingga cos 120° = −cos 60° = −1/2."],
+["Jika sin x = 8/17 dan x berada di kuadran I, nilai cos x adalah…",["9/17","8/15","17/15","15/17"],3,"Gunakan sin²x + cos²x = 1. Maka cos²x = 1 − 64/289 = 225/289, sehingga cos x = 15/17 (positif karena di kuadran I)."],
+["Rumus yang benar untuk cos(a + b) adalah…",["cos a cos b + sin a sin b","cos a cos b − sin a sin b","sin a cos b + cos a sin b","sin a sin b − cos a cos b"],1,"cos(a + b) = cos a cos b − sin a sin b. Rumus dengan tanda + (cos a cos b + sin a sin b) adalah untuk cos(a − b), sedangkan sin a cos b + cos a sin b adalah rumus sin(a + b)."],
+["Jika sin x = 1/2, nilai cos 2x adalah…",["0","1/2","√3/2","1"],1,"Gunakan cos 2x = 1 − 2sin²x. Maka cos 2x = 1 − 2(1/2)² = 1 − 2(1/4) = 1/2."],
+["Pada segitiga ABC diketahui b = 5, c = 8, dan ∠A = 60°. Panjang sisi a adalah…",["5","6","7","9"],2,"Dua sisi dan sudut apit diketahui, jadi gunakan aturan cosinus: a² = b² + c² − 2bc cos A = 25 + 64 − 2(5)(8)(1/2) = 49. Maka a = 7."],
+["Fungsi y = 3 sin 2x memiliki amplitudo dan periode berturut-turut…",["2 dan 360°","3 dan 720°","2 dan 180°","3 dan 180°"],3,"Untuk y = A sin(Bx): amplitudo = |A| = 3 dan periode = 360°/|B| = 360°/2 = 180°."],
+["Himpunan penyelesaian cos x = 1/2 pada 0° ≤ x ≤ 360° adalah…",["{60°, 300°}","{30°, 150°}","{60°, 120°}","{120°, 240°}"],0,"Sudut acuan dengan cos = 1/2 adalah 60°. Cos positif di kuadran I dan IV, sehingga x = 60° dan x = 360° − 60° = 300°."],
+["Seseorang berdiri 10 m dari kaki gedung dan mengukur sudut elevasi puncak gedung 60° (tinggi mata diabaikan). Tinggi gedung adalah…",["5√3 m","10 m","10√3 m","20 m"],2,"Sisi samping = 10 m dan sisi depan = h. tan 60° = h/10, dengan tan 60° = √3. Maka h = 10√3 m ≈ 17,3 m."]],
 peluang:[
 ["Peluang muncul angka genap pada dadu fair adalah…",["1/6","1/3","1/2","2/3"],2,"Ada 3 angka genap dari 6 sisi → 3/6 = 1/2."],
 ["Peluang mendapat kepala saat koin fair dilempar…",["0","1/4","1/2","1"],2,"Ada 1 hasil yang diinginkan dari 2 kemungkinan → 1/2."],
@@ -47,7 +51,7 @@ window.quizBanks=banks;
 window.renderQuiz=function(topic){
 const el=document.getElementById('tab-latihan');const qs=banks[topic];let i=0,score=0;
 function draw(){const q=qs[i];el.innerHTML=`<div class="content-card"><div class="quiz-score">Soal ${i+1}/${qs.length} · Skor ${score}</div><div class="quiz-q">${q[0]}</div><div class="option-grid">${q[1].map((o,j)=>`<button class="option" data-i="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}</div><div id="explain"></div></div>`;el.querySelectorAll('.option').forEach(b=>b.onclick=()=>answer(+b.dataset.i));}
-function answer(choice){const q=qs[i];const buttons=[...el.querySelectorAll('.option')];buttons.forEach(b=>b.disabled=true);buttons[q[2]].classList.add('correct');if(choice!==q[2])buttons[choice].classList.add('wrong');else score++;document.getElementById('explain').innerHTML=`<div class="explanation"><strong>${choice===q[2]?'✅ Benar!':'❌ Belum tepat.'}</strong><br>${q[3]}</div><button class="gradient-btn" id="nextQ" style="margin-top:14px">${i===qs.length-1?'Lihat hasil':'Soal berikutnya →'}</button>`;document.getElementById('nextQ').onclick=()=>{if(i===qs.length-1){el.innerHTML=`<div class="content-card" style="text-align:center"><div class="eyebrow">HASIL LATIHAN</div><h2>${score}/${qs.length}</h2><p>${score>=5?'Mantap! Pemahamanmu sudah kuat.':score>=3?'Bagus, tinggal perkuat beberapa konsep lagi.':'Tidak apa-apa, baca materi lalu coba lagi ya!'}</p><button class="gradient-btn" id="retry">Coba Lagi</button></div>`;Progress.setLatihan(topic,score,qs.length);document.getElementById('retry').onclick=()=>window.renderQuiz(topic)}else{i++;draw()}}}
+function answer(choice){const q=qs[i];const buttons=[...el.querySelectorAll('.option')];buttons.forEach(b=>b.disabled=true);buttons[q[2]].classList.add('correct');if(choice!==q[2])buttons[choice].classList.add('wrong');else score++;document.getElementById('explain').innerHTML=`<div class="explanation"><strong>${choice===q[2]?'✅ Benar!':'❌ Belum tepat.'}</strong><br>${q[3]}</div><button class="gradient-btn" id="nextQ" style="margin-top:14px">${i===qs.length-1?'Lihat hasil':'Soal berikutnya →'}</button>`;document.getElementById('nextQ').onclick=()=>{if(i===qs.length-1){el.innerHTML=`<div class="content-card" style="text-align:center"><div class="eyebrow">HASIL LATIHAN</div><h2>${score}/${qs.length}</h2><p>${score/qs.length>=0.8?'Mantap! Pemahamanmu sudah kuat.':score/qs.length>=0.5?'Bagus, tinggal perkuat beberapa konsep lagi.':'Tidak apa-apa, baca materi lalu coba lagi ya!'}</p><button class="gradient-btn" id="retry">Coba Lagi</button></div>`;Progress.setLatihan(topic,score,qs.length);document.getElementById('retry').onclick=()=>window.renderQuiz(topic)}else{i++;draw()}}}
 draw();
 };
 })();

@@ -786,10 +786,10 @@
       }
       if ($('#retry', el) && !$('.tf-trophy', el)) {
         const h = $('h2', el), m = h && h.textContent.match(/(\d+)\s*\/\s*(\d+)/);
-        const score = m ? +m[1] : 0;
-        h.insertAdjacentHTML('beforebegin', `<span class="tf-trophy" aria-hidden="true">${score >= 5 ? '🏆' : score >= 3 ? '🌟' : '💪'}</span>`);
-        if (score >= 5) { setTimeout(() => confetti(undefined, undefined, 140), 250); say('Luar biasa! Kamu jagoan trigonometri 🏆', 5000); }
-        else if (score >= 3) say('Bagus! Sedikit lagi sempurna 🌟', 4200);
+        const score = m ? +m[1] : 0, total = m ? +m[2] : 6;
+        h.insertAdjacentHTML('beforebegin', `<span class="tf-trophy" aria-hidden="true">${score / total >= 0.8 ? '🏆' : score / total >= 0.5 ? '🌟' : '💪'}</span>`);
+        if (score / total >= 0.8) { setTimeout(() => confetti(undefined, undefined, 140), 250); say('Luar biasa! Kamu jagoan trigonometri 🏆', 5000); }
+        else if (score / total >= 0.5) say('Bagus! Sedikit lagi sempurna 🌟', 4200);
         else say('Tidak apa-apa, baca materinya lalu coba lagi ya. Aku temani! 💪', 4800);
       }
     };
