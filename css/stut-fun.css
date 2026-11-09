@@ -1,0 +1,147 @@
+/* STAT FUN — gaya tambahan untuk bagian baru modul Statistika (median, modus, mini-game) */
+
+/* ---------- Median: kartu yang bisa berpindah ---------- */
+.sf-deck{position:relative;height:118px;margin:8px 10px}
+.sf-card{position:absolute;top:18px;left:calc(var(--i,0) * (100% / var(--n,5)) + 4px);width:calc(100% / var(--n,5) - 8px);height:76px;display:grid;place-items:center;background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:3px 3px 0 var(--ink);font:800 24px var(--font-mono);transition:left .65s cubic-bezier(.3,1.25,.5,1),transform .45s cubic-bezier(.3,1.4,.5,1),opacity .35s,background .3s,filter .35s;animation:fxPop .45s both}
+.sf-card.cut{opacity:.28;filter:grayscale(1);transform:translateY(26px) scale(.82) rotate(5deg)}
+.sf-card.mid{background:#FFE08A;transform:translateY(-12px) scale(1.1);box-shadow:4px 5px 0 var(--ink);z-index:2}
+.sf-card.mid:after{content:'👑';position:absolute;top:-24px;font-size:20px;animation:fxBob 1.6s ease-in-out infinite}
+
+/* ---------- Modus: survei jajan ---------- */
+.sf-vote{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:10px 8px 4px}
+.sf-vcol{display:flex;flex-direction:column;align-items:stretch;gap:8px;min-width:0}
+.sf-vtrack{position:relative;height:170px;display:flex;align-items:flex-end;border-bottom:3px solid var(--ink)}
+.sf-vbar{position:relative;width:100%;height:var(--h,0%);min-height:4px;background:linear-gradient(180deg,#9CE8DC,#17C3B2);border:2px solid var(--ink);border-bottom:0;border-radius:12px 12px 0 0;transition:height .55s cubic-bezier(.3,1.35,.5,1),background .3s;transform-origin:bottom}
+.sf-vbar b{position:absolute;top:-2px;left:0;right:0;text-align:center;transform:translateY(-100%);font:800 16px var(--font-mono);color:var(--ink);padding-bottom:3px}
+.sf-vbar.hit{animation:sfJelly .5s}
+.sf-vcol.hot .sf-vbar{background:linear-gradient(180deg,#FFE9A3,#F2C94C)}
+.sf-vcrown{position:absolute;left:50%;top:0;font-size:22px;opacity:0;transform:translate(-50%,10px) scale(.4);transition:opacity .3s,transform .4s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.sf-vcol.hot .sf-vcrown{opacity:1;transform:translate(-50%,-4px) scale(1);animation:fxBob 1.6s ease-in-out infinite}
+.sf-vbtn{display:grid;gap:2px;place-items:center;padding:8px 4px;background:#fff;border:2px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.sf-vbtn span{font-size:26px;line-height:1}
+.sf-vbtn small{font:800 11px var(--font-body);color:var(--ink-soft)}
+.sf-vbtn:hover{transform:translate(-2px,-3px) rotate(-2deg);box-shadow:5px 6px 0 var(--ink)}
+.sf-vbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+@keyframes sfJelly{0%{transform:scale(1,1)}30%{transform:scale(1.18,.92)}60%{transform:scale(.94,1.06)}100%{transform:scale(1,1)}}
+
+/* ---------- Mini-game ---------- */
+.sf-game{background:linear-gradient(180deg,var(--fs2,#E4F4FF),#fff 70%);border:2px solid var(--ink);border-radius:22px;padding:16px;box-shadow:4px 4px 0 var(--ink)}
+.sf-gbar{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;font-weight:800;margin-bottom:10px}
+.sf-gbar b{display:inline-block;font:800 18px var(--font-mono);margin-left:2px}
+.sf-dots{display:flex;gap:8px;margin:0 0 12px}
+.sf-dots span{width:16px;height:16px;border-radius:50%;border:2px solid var(--ink);background:#fff;transition:background .3s,transform .3s}
+.sf-dots span.now{background:#FFE08A;transform:scale(1.25)}
+.sf-dots span.ok{background:#4ADE80}.sf-dots span.bad{background:#FF8FA3}
+.sf-kind{display:inline-block;background:var(--kc,var(--fa));color:#fff;font:800 12px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.sf-nums{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.sf-num{min-width:46px;text-align:center;padding:9px 12px;background:#fff;border:2px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);font:800 20px var(--font-mono);animation:fxPop .45s both;animation-delay:calc(var(--j,0) * 70ms)}
+.sf-ask{font-size:18px;margin:10px 0 12px}
+.sf-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sf-opt{padding:14px 8px;background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:3px 3px 0 var(--ink);font:800 22px var(--font-mono);color:var(--ink);cursor:pointer;transition:transform .15s,box-shadow .15s,background .25s,opacity .25s}
+.sf-opt:hover:not(:disabled){transform:translate(-2px,-3px) rotate(-1.5deg);box-shadow:5px 6px 0 var(--ink)}
+.sf-opt:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.sf-opt:disabled{cursor:default}
+.sf-opt.ok{background:#B9F2C9;animation:fxBump .5s}
+.sf-opt.bad{background:#FFC2D1}
+.sf-opt.dim{opacity:.45}
+.sf-result{text-align:center;padding:10px 0 4px}
+.sf-result h4{margin:6px 0;font-size:26px}
+.sf-result p{margin:0 0 14px;color:var(--ink-soft);font-weight:700}
+.sf-trophy{display:inline-block;font-size:64px;animation:fxHop 1.4s ease-in-out infinite}
+
+@media (max-width:640px){
+  .sf-opts{grid-template-columns:repeat(2,1fr)}
+  .sf-card{font-size:19px;height:64px;border-radius:12px}
+  .sf-vote{gap:6px}.sf-vtrack{height:140px}.sf-vbtn small{font-size:10px}
+  .sf-game{padding:12px}
+}
+
+/* ---------- Catatan lengkap: akordeon + elemen interaktif ---------- */
+.sf-notes{display:grid;gap:14px}
+.sf-acc-tools{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.sf-acc-tools p{margin:0;color:var(--ink-soft);font-weight:700}
+.sf-acc{--c:var(--fa,#17C3B2);background:#fff;border:1px solid var(--line);border-left:7px solid var(--c);border-radius:20px;box-shadow:0 8px 20px rgba(36,27,58,.05);overflow:hidden}
+.sf-acc-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:transparent;border:0;padding:16px 20px;text-align:left;font:800 17px var(--font-display);color:var(--ink);cursor:pointer;transition:background .2s}
+.sf-acc-head:hover{background:color-mix(in srgb,var(--c) 9%,#fff)}
+.sf-acc-chev{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:50%;background:color-mix(in srgb,var(--c) 18%,#fff);color:var(--c);transition:transform .3s}
+.sf-acc.open .sf-acc-chev{transform:rotate(180deg)}
+.sf-acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.sf-acc.open .sf-acc-body{grid-template-rows:1fr}
+.sf-acc-inner{overflow:hidden;min-height:0;padding:0 20px}
+.sf-acc.open .sf-acc-inner{padding:0 20px 20px}
+.sf-acc-inner>*:first-child{margin-top:0}
+
+/* istilah */
+.sf-acc .concept-box{cursor:pointer;background:#fff;border:2px solid var(--ink);box-shadow:4px 4px 0 var(--bc,var(--c));transition:transform .18s,box-shadow .18s;outline-offset:3px}
+.sf-acc .concept-box:hover{transform:translate(-2px,-3px) rotate(-.6deg);box-shadow:6px 7px 0 var(--bc,var(--c))}
+.sf-acc .concept-box:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--bc,var(--c))}
+.sf-cemo{display:inline-block;margin-right:8px;animation:fxBob 2.6s ease-in-out infinite}
+.sf-acc.open .concept-box{animation:fxPop .5s both}
+.sf-acc.open .concept-box:nth-child(2){animation-delay:.06s}.sf-acc.open .concept-box:nth-child(3){animation-delay:.12s}
+.sf-acc.open .concept-box:nth-child(4){animation-delay:.18s}.sf-acc.open .concept-box:nth-child(5){animation-delay:.24s}.sf-acc.open .concept-box:nth-child(6){animation-delay:.3s}
+
+/* rumus */
+.sf-acc .formula{cursor:pointer;border-left-color:var(--c);transition:transform .18s,background .2s}
+.sf-acc .formula:hover{transform:translateX(6px);background:color-mix(in srgb,var(--c) 10%,#fff)}
+.sf-acc .formula.pulse{animation:sfPulse .6s}
+@keyframes sfPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--c) 55%,transparent)}100%{box-shadow:0 0 0 18px transparent}}
+
+/* langkah contoh */
+.sf-hint{background:#FFF8DC;border:2px dashed #E5B93A;border-radius:14px;padding:10px 14px;font-weight:700;margin:0 0 14px}
+.sf-acc .step-list li{cursor:pointer;transition:background .25s,border-color .25s,transform .15s;outline-offset:3px}
+.sf-acc .step-list li:hover{transform:translateX(4px);border-color:var(--c)}
+.sf-acc .step-list li.done{background:#E9FBF1;border-color:#4ADE80}
+.sf-acc .step-list li.done:before{content:'✓';background:#16A34A;animation:fxPop .4s}
+
+/* tabel & kotak contoh nyata */
+.sf-acc .mini-table tr:not(:first-child){transition:background .2s}
+.sf-acc .mini-table tr:not(:first-child):hover{background:color-mix(in srgb,var(--c) 10%,#fff)}
+.sf-acc .real-life{position:relative;overflow:hidden}
+.sf-acc .real-life:after{content:'💡';position:absolute;right:14px;top:8px;font-size:26px;animation:fxBob 2.2s ease-in-out infinite}
+
+@media (max-width:640px){.sf-acc-head{padding:14px 14px;font-size:16px}.sf-acc.open .sf-acc-inner{padding:0 14px 16px}.sf-acc-inner{padding:0 14px}}
+
+/* ---------- Simulasi bawaan "Data Pertandingan" ---------- */
+.sf-sim{border:2px solid var(--ink)!important;box-shadow:5px 5px 0 var(--fa,#17C3B2)!important;background:linear-gradient(180deg,var(--fs2,#E4F4FF),#fff 38%)!important}
+.sf-sim h3{font-size:24px}
+.sf-simchart{margin:14px 0 8px;background:#fff;border:2px solid var(--ink);border-radius:20px;padding:34px 14px 10px;box-shadow:3px 3px 0 var(--ink)}
+.sf-splot{position:relative;height:170px;display:flex;align-items:flex-end;gap:10px;border-bottom:3px solid var(--ink)}
+.sf-scol{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;min-width:0;position:relative}
+.sf-sbar{position:relative;height:var(--h,0%);min-height:4px;background:linear-gradient(180deg,#9CE8DC,#17C3B2);border:2px solid var(--ink);border-bottom:0;border-radius:10px 10px 0 0;transition:height .5s cubic-bezier(.3,1.35,.5,1),background .3s}
+.sf-sbar b{position:absolute;left:0;right:0;top:-2px;transform:translateY(-100%);text-align:center;font:800 14px var(--font-mono);padding-bottom:2px}
+.sf-scol.hot .sf-sbar{background:linear-gradient(180deg,#FFE9A3,#F2C94C)}
+.sf-scol.hot .sf-sbar:after{content:'👑';position:absolute;left:50%;top:-44px;transform:translateX(-50%);font-size:16px;animation:fxBob 1.6s ease-in-out infinite}
+.sf-sx{position:absolute;left:0;right:0;bottom:-26px;text-align:center;font:800 11px var(--font-mono);color:var(--muted)}
+.sf-sline{position:absolute;left:0;right:0;height:0;border-top:3px dashed;pointer-events:none;transition:bottom .5s cubic-bezier(.3,1.2,.5,1)}
+.sf-sline em{position:absolute;right:0;top:-20px;font:800 11px var(--font-mono);font-style:normal;padding:1px 8px;border-radius:99px;color:#fff;border:2px solid var(--ink)}
+.sf-sline.mean{border-color:#E0306F}.sf-sline.mean em{background:#E0306F}
+.sf-sline.med{border-color:#7C3AED}.sf-sline.med em{background:#7C3AED;top:2px}
+.sf-simchart{padding-bottom:34px}
+.sf-sim .control input[type=range],.sf-sim .scoreRange{accent-color:var(--fa,#17C3B2)}
+.sf-sim .control select{padding:7px 10px;border-radius:12px;border:2px solid var(--ink);font-weight:700;background:#fff}
+.sf-sim .result-big{border:2px dashed var(--ink);border-radius:16px;padding:12px 16px;background:#fff;margin-top:14px}
+.sf-simvals{margin-top:10px}
+
+/* ---------- Tab Latihan ---------- */
+.sf-lat{background:linear-gradient(120deg,#D5F6EC,#E9DEFF);border:2px solid var(--ink);border-radius:24px;padding:18px 20px;box-shadow:5px 5px 0 var(--ink);margin-bottom:16px;animation:fxPop .5s both}
+.sf-lat-head{display:flex;align-items:center;gap:14px}
+.sf-lat-head b{display:block;font:800 22px var(--font-display)}
+.sf-lat-head small{color:var(--ink-soft);font-weight:700}
+.sf-lat-emo{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:#fff;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font-size:28px;animation:fxHop 2.2s ease-in-out infinite}
+.sf-lat-chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 8px}
+.sf-lat-chips span{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:6px 12px;font:800 13px var(--font-body);box-shadow:2px 2px 0 var(--k,var(--ink));transition:transform .15s}
+.sf-lat-chips span:hover{transform:translate(-2px,-3px) rotate(-2deg)}
+.sf-lat-tip{margin:6px 0 0;font-weight:700;color:var(--ink-soft)}
+body.fx-statistik #tab-latihan .content-card{border:2px solid var(--ink);box-shadow:5px 5px 0 var(--fb,#7C3AED);border-radius:24px}
+body.fx-statistik #tab-latihan .quiz-q{font-size:20px;font-weight:800}
+body.fx-statistik #tab-latihan .option{border:2px solid var(--ink);border-radius:16px;box-shadow:3px 3px 0 var(--ink);font-weight:800;transition:transform .15s,box-shadow .15s,background .25s}
+body.fx-statistik #tab-latihan .option:not(:disabled):hover{transform:translate(-2px,-3px);box-shadow:5px 6px 0 var(--ink)}
+body.fx-statistik #tab-latihan .option.correct{background:#B9F2C9!important;animation:fxBump .5s}
+body.fx-statistik #tab-latihan .option.wrong{background:#FFC2D1!important;animation:fxShake .5s}
+body.fx-statistik #tab-latihan .explanation{background:#FFF8DC;border:2px dashed #E5B93A;border-radius:16px;padding:14px;animation:fxPop .4s both}
+
+/* tombol penyelesaian materi */
+body.fx-statistik #completeMateriBtn:not(:disabled){animation:sfBtn 2s ease-in-out infinite}
+@keyframes sfBtn{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+@media (max-width:640px){.sf-splot{gap:6px;height:150px}.sf-sline em{font-size:10px}.sf-lat{padding:14px}.sf-lat-head b{font-size:19px}}

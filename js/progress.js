@@ -251,7 +251,7 @@
             persentase: 'Persentase',
             persamaan: 'SPLDV (Sistem Persamaan Linear Dua Variabel)',
             geometri: 'Geometri',
-            statistik: 'Statistik',
+            statistik: 'Statistika',
             trigonometri: 'Trigonometri',
             peluang: 'Peluang'
         };
