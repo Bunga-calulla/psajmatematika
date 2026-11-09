@@ -165,14 +165,48 @@ ${window.NRADV ? window.NRADV.html() : ''}
   <p style="margin-top:16px">Cara cepat mengecek tanpa menggambar, untuk a₁x + b₁y = c₁ dan a₂x + b₂y = c₂:</p>
   <table class="mini-table">
     <tr><th>Kondisi</th><th>Hasil</th></tr>
-    <tr><td>a₁/a₂ ≠ b₁/b₂</td><td>Tepat satu solusi</td></tr>
-    <tr><td>a₁/a₂ = b₁/b₂ = c₁/c₂</td><td>Tak hingga solusi</td></tr>
-    <tr><td>a₁/a₂ = b₁/b₂ ≠ c₁/c₂</td><td>Tidak ada solusi</td></tr>
+    <tr>
+  <td>
+    <span class="sx-frac"><span>a₁</span><span>a₂</span></span>
+    ≠
+    <span class="sx-frac"><span>b₁</span><span>b₂</span></span>
+  </td>
+  <td>Tepat satu solusi</td>
+</tr>
+<tr>
+  <td>
+    <span class="sx-frac"><span>a₁</span><span>a₂</span></span>
+    =
+    <span class="sx-frac"><span>b₁</span><span>b₂</span></span>
+    =
+    <span class="sx-frac"><span>c₁</span><span>c₂</span></span>
+  </td>
+  <td>Tak hingga solusi</td>
+</tr>
+<tr>
+  <td>
+    <span class="sx-frac"><span>a₁</span><span>a₂</span></span>
+    =
+    <span class="sx-frac"><span>b₁</span><span>b₂</span></span>
+    ≠
+    <span class="sx-frac"><span>c₁</span><span>c₂</span></span>
+  </td>
+  <td>Tidak ada solusi</td>
+</tr>
   </table>
   <h4 style="margin-top:18px">Contoh</h4>
   <ol class="step-list">
-    <li><b>x + y = 4</b> dan <b>2x + 2y = 8</b>: 1/2 = 1/2 = 4/8, jadi garis berimpit dan solusinya <b>tak hingga</b>. Saat dieliminasi (kalikan persamaan pertama dengan 2, lalu kurangkan) hasilnya 0 = 0.</li>
-    <li><b>x + y = 4</b> dan <b>x + y = 6</b>: 1/1 = 1/1 tetapi 4/6 ≠ 1, jadi garis sejajar dan <b>tidak ada solusi</b>. Saat dieliminasi hasilnya 0 = 2, yang jelas mustahil.</li>
+    <li><b>x + y = 4</b> dan <b>2x + 2y = 8</b>: <span class="sx-frac"><span>1</span><span>2</span></span>
+=
+<span class="sx-frac"><span>1</span><span>2</span></span>
+=
+<span class="sx-frac"><span>4</span><span>8</span></span>, jadi garis berimpit dan solusinya <b>tak hingga</b>. Saat dieliminasi (kalikan persamaan pertama dengan 2, lalu kurangkan) hasilnya 0 = 0.</li>
+    <li><b>x + y = 4</b> dan <b>x + y = 6</b>: <span class="sx-frac"><span>1</span><span>1</span></span>
+=
+<span class="sx-frac"><span>1</span><span>1</span></span>
+tetapi
+<span class="sx-frac"><span>4</span><span>6</span></span>
+≠ 1, jadi garis sejajar dan <b>tidak ada solusi</b>. Saat dieliminasi hasilnya 0 = 2, yang jelas mustahil.</li>
   </ol>
 </div>
 

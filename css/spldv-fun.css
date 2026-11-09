@@ -179,3 +179,22 @@
 .sx-presets label{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:13px}
 .sx-presets select{padding:9px 12px;border-radius:12px;border:2px solid var(--sx-ink);background:#fff;font:700 13px var(--font-mono);color:var(--sx-ink);box-shadow:2px 2px 0 var(--sx-ink);cursor:pointer}
 .sx-presets select:focus{outline:none;border-color:var(--sx-violet)}
+/* Format pecahan bertingkat SPLDV */
+.sx-frac {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0 3px;
+  font-size: 0.95em;
+}
+
+.sx-frac span:first-child {
+  padding: 0 4px 2px;
+}
+
+.sx-frac span:last-child {
+  border-top: 1.5px solid currentColor;
+  padding: 2px 4px 0;
+}
