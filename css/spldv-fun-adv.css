@@ -198,12 +198,7 @@ body.nr-mode .nr-mascot{display:flex}
   .nr-reveal{opacity:1;transform:none}
 }
 body.nr-reduce .nr-reveal{opacity:1;transform:none}
-/* ---------- header modul SPLDV (judul gradasi orange + latar berkilau) ---------- */
-body.nr-mode .module-head{background:linear-gradient(90deg,#fff 0%,#FFF1D6 25%,#fff 50%,#FFE9F2 75%,#fff 100%);background-size:200% 100%;animation:nrShine 9s linear infinite;position:relative;overflow:hidden}
-body.nr-mode .module-head .eyebrow{display:inline-block;animation:nrBob2 2.4s ease-in-out infinite}
-body.nr-mode .module-head h2{background:linear-gradient(90deg,#F27D00,#FF4D8D);-webkit-background-clip:text;background-clip:text;color:transparent}
-body.nr-mode .tab{transition:transform .2s,background .2s,box-shadow .2s}
-body.nr-mode .tab:hover{transform:translateY(-3px) rotate(-1.5deg);box-shadow:0 8px 18px rgba(255,159,28,.22)}
-body.nr-mode .tab.active{background:linear-gradient(100deg,#FF9F1C,#FF4D8D);color:#fff;box-shadow:0 8px 20px rgba(255,159,28,.32)}
-@keyframes nrShine{from{background-position:0 0}to{background-position:-200% 0}}
-@keyframes nrBob2{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+/* ---------- pita "SERU!" di kartu modul SPLDV (beranda) ---------- */
+.module-card.nr-card-fun{overflow:visible}
+.nr-ribbon{position:absolute;top:-10px;right:14px;background:linear-gradient(100deg,#FF4D8D,#FF9F1C);color:#fff;font:800 11px 'JetBrains Mono',monospace;letter-spacing:.06em;padding:5px 10px;border-radius:999px;box-shadow:0 6px 14px rgba(255,77,141,.35);animation:nrRibbon 2s ease-in-out infinite;z-index:2}
+@keyframes nrRibbon{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-4px) rotate(2deg)}}

@@ -145,6 +145,17 @@
       return r;
     };
   }
+    /* pita "SERU!" di kartu modul SPLDV pada beranda */
+  const mark = () => {
+    const btn = $('#moduleCards [data-open="' + MOD + '"]');
+    const card = btn && btn.closest('.module-card');
+    if (card && !card.classList.contains('nr-card-fun')) {
+      card.classList.add('nr-card-fun');
+      card.insertAdjacentHTML('afterbegin', '<span class="nr-ribbon">✨ SERU!</span>');
+    }
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(mark, 0));
+  else mark();
   window.NRADV_RUN = { enhance };
   install();
 })();
