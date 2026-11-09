@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kasir Kilat — Matematika di Dunia Nyata</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kasir.css">
+</head>
+<body>
+<script>
+  // Periksa status login sebelum game ditampilkan
+  if (!localStorage.getItem('mdny_current_user')) {
+    alert('Silakan login terlebih dahulu untuk memainkan game!');
+    window.location.replace('index.html');
+  }
+</script>
+
+<div id="app">
+
+  <!-- ================= MENU ================= -->
+  <section id="screen-menu" class="screen active">
+    <div class="menu-wrap">
+      <a class="back-home" href="index.html">← Beranda</a>
+
+      <div class="logo">
+        <div class="logo-badge">🛒</div>
+        <h1>KASIR <span>KILAT</span></h1>
+        <p>Hitung cepat. Layani semua. Kejar omzet.</p>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-top">
+          <div class="rank-ico" id="rankIcon">🛒</div>
+          <div>
+            <small>Halo, <b id="menuName">Tamu</b></small>
+            <h3 id="rankName">Pedagang Kaki Lima</h3>
+          </div>
+        </div>
+        <div class="bar"><i id="rankBar"></i></div>
+        <div class="rank-sub"><span id="rankSub"></span><span id="rankNext"></span></div>
+      </div>
+
+      <div class="stats">
+        <div><b id="stBestScore">Rp0</b><small>Rekor omzet</small></div>
+        <div><b id="stBestDay">0</b><small>Hari terjauh</small></div>
+        <div><b id="stServed">0</b><small>Pelanggan dilayani</small></div>
+      </div>
+
+      <div class="menu-btns">
+        <button class="btn primary big" id="btnStart">▶ Buka Toko</button>
+        <button class="btn" id="btnAch">🏅 Achievement <em id="achCount">0/11</em></button>
+        <button class="btn" id="btnLB">👑 Leaderboard</button>
+        <button class="btn ghost" id="btnHow">❓ Cara Main</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INTRO HARI (diisi JS) ================= -->
+  <section id="screen-intro" class="screen"></section>
+
+  <!-- ================= PERMAINAN ================= -->
+  <section id="screen-play" class="screen">
+    <header class="hud">
+      <div class="hud-day">
+        <b id="hudDay">Hari 1</b>
+        <small id="hudMod">Hari Biasa</small>
+      </div>
+
+      <div class="hud-goal">
+        <div class="goal-label"><b id="hudEarned">Rp0</b><span id="hudTarget">/ Rp0</span></div>
+        <div class="bar goal"><i id="goalBar"></i></div>
+      </div>
+
+      <div class="hud-stat"><b id="hudTime">60</b><small>detik</small></div>
+      <div class="hud-stat" id="hudHearts"></div>
+      <div class="hud-stat combo" id="hudCombo"></div>
+
+      <div class="hud-btns">
+        <button id="btnPause" title="Jeda (P)">⏸</button>
+        <button id="btnMute" title="Suara">🔊</button>
+      </div>
+    </header>
+
+    <div id="banner" class="banner hidden"></div>
+
+    <main class="stage">
+      <aside id="queue" class="queue"></aside>
+
+      <section class="desk" id="desk">
+        <div class="desk-left">
+          <div id="receipt" class="receipt"></div>
+          <div class="display"><small id="dispUnit">JAWABAN</small><span id="dispVal">0</span></div>
+          <div id="hintBox" class="hintbox hidden"></div>
+          <button id="btnHint" class="btn hintbtn">💡 Bantuan <em id="hintLeft">1</em></button>
+        </div>
+        <div class="numpad" id="numpad">
+          <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button data-k="back" class="fn">⌫</button>
+          <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="clear" class="fn">C</button>
+          <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="000" class="fn">000</button>
+          <button data-k="0">0</button><button data-k="pay" class="pay">✔ BAYAR</button>
+        </div>
+      </section>
+    </main>
+
+    <div id="fx" class="fx"></div>
+  </section>
+
+  <!-- ================= RINGKASAN / TOKO / GAME OVER (diisi JS) ================= -->
+  <section id="screen-shop" class="screen"></section>
+  <section id="screen-over" class="screen"></section>
+</div>
+
+<!-- Modal umum -->
+<div id="modal" class="modal hidden">
+  <div class="modal-card" id="modalCard"></div>
+</div>
+
+<!-- Toast achievement -->
+<div id="toasts"></div>
+
+<script src="js/kasir.js"></script>
+</body>
+</html>
