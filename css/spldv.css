@@ -60,3 +60,4 @@
 @keyframes spReveal{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:650px){.sp-hero-inner,.sp-sim-grid{grid-template-columns:1fr}.sp-mascot{height:130px}.sp-character{width:88px;height:88px;font-size:45px}.sp-grid,.sp-methods{grid-template-columns:1fr}.sp-field-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.spldv-lesson *, .spldv-lesson *:before,.spldv-lesson *:after{animation:none!important;transition:none!important}}
+.sp-quiz-topic{margin:8px 0 12px}

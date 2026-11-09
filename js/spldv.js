@@ -221,22 +221,29 @@
     solve();
   };
 
-  const questions=[
-    ['SPLDV memiliki ... variabel dan ... persamaan linear.', ['Dua dan dua','Dua dan satu','Tiga dan dua','Satu dan dua'],0,'SPLDV terdiri atas dua persamaan linear dengan dua variabel yang sama.'],
-    ['Pada 4x + 3y = 18, koefisien y adalah ...', ['4','3','18','−3'],1,'Koefisien adalah angka pengali variabel. Angka yang mengalikan y adalah 3.'],
-    ['Jika x = 2 dan y = 3, nilai 2x + y adalah ...', ['5','6','7','8'],2,'2(2) + 3 = 4 + 3 = 7.'],
-    ['Penyelesaian 2x + y = 11 dan x + 2y = 10 adalah ...', ['(3, 4)','(4, 3)','(5, 1)','(2, 5)'],1,'Substitusi x=4 dan y=3: 8+3=11 serta 4+6=10.'],
-    ['Metode yang menghilangkan salah satu variabel dengan menjumlahkan atau mengurangkan persamaan disebut ...', ['Grafik','Substitusi','Eliminasi','Faktorisasi'],2,'Eliminasi menghilangkan salah satu variabel setelah koefisiennya disamakan.'],
-    ['Jika y = 8 − 2x, lalu x = 3, nilai y adalah ...', ['2','3','4','5'],0,'y = 8 − 2(3) = 2. Jawaban yang benar adalah 2.',],
-    ['Dua garis sejajar dan berbeda menunjukkan SPLDV ...', ['Satu solusi','Tidak ada solusi','Tak hingga solusi','Selalu x = y'],1,'Garis sejajar tidak memiliki titik potong, sehingga tidak ada pasangan (x,y) yang memenuhi keduanya.'],
-    ['Harga 2 roti dan 1 susu Rp17.000. Jika x harga roti dan y harga susu (ribuan rupiah), modelnya adalah ...', ['2x + y = 17','x + 2y = 17','2x − y = 17','x + y = 17'],0,'Dua roti berarti 2x dan satu susu berarti y, sehingga 2x + y = 17.']
+    // Bank soal latihan SPLDV. Urutan dan label mengikuti bagian pada tab Materi.
+  // Format: [pertanyaan, pilihan, indeks jawaban benar, pembahasan, label materi]
+  const bank=[
+    ['Manakah pasangan persamaan berikut yang merupakan SPLDV?',['x² + y = 5 dan x − y = 1','2x + y = 7 dan x − y = 2','xy = 6 dan x + y = 5','x + y + z = 9 dan x − y = 1'],1,'SPLDV harus memiliki dua variabel (x dan y), berpangkat satu, dan tanpa perkalian antarvariabel. Pasangan dengan x² memuat pangkat 2, pasangan dengan xy memuat perkalian variabel, dan pasangan dengan z memuat tiga variabel. Hanya 2x + y = 7 dan x − y = 2 yang memenuhi.','1. Apa itu SPLDV?'],
+    ['Pada persamaan 5x − 4y = 20, koefisien y dan konstantanya berturut-turut adalah ...',['4 dan 20','−4 dan 20','5 dan 20','−4 dan 5'],1,'Koefisien adalah angka yang menempel pada variabel beserta tandanya, sehingga koefisien y adalah −4. Konstanta adalah bilangan tanpa variabel, yaitu 20.','2. Unsur-unsur SPLDV'],
+    ['Manakah pasangan (x, y) yang merupakan penyelesaian dari x + y = 7 dan x − y = 3?',['(4, 3)','(5, 2)','(6, 1)','(2, 5)'],1,'Cek ke kedua persamaan: 5 + 2 = 7 ✓ dan 5 − 2 = 3 ✓. Pilihan lain hanya benar pada persamaan pertama: (4, 3) → 4 − 3 = 1, (6, 1) → 6 − 1 = 5, (2, 5) → 2 − 5 = −3.','3. Penyelesaian SPLDV'],
+    ['Penyelesaian dari y = x + 3 dan 2x + y = 12 dengan metode substitusi adalah ...',['(6, 3)','(3, 6)','(4, 7)','(2, 5)'],1,'Substitusikan y = x + 3 ke 2x + y = 12: 2x + (x + 3) = 12, sehingga 3x = 9 dan x = 3. Maka y = 3 + 3 = 6. Cek: 2(3) + 6 = 12 ✓. Penyelesaiannya (3, 6).','4. Metode substitusi'],
+    ['Penyelesaian 2x + y = 10 dan x + 3y = 15 dengan metode gabungan adalah ...',['(4, 3)','(3, 4)','(5, 0)','(2, 6)'],1,'Eliminasi y: kalikan persamaan pertama dengan 3 (seluruh suku, termasuk konstanta) menjadi 6x + 3y = 30. Kurangkan dengan x + 3y = 15, diperoleh 5x = 15, sehingga x = 3. Substitusi ke 2x + y = 10: 6 + y = 10, sehingga y = 4. Penyelesaiannya (3, 4).','4. Metode gabungan'],
+    ['Pada metode grafik, garis x + y = 6 memotong sumbu x dan sumbu y berturut-turut di titik ...',['(0, 6) dan (6, 0)','(6, 0) dan (0, 6)','(3, 3) dan (6, 6)','(6, 6) dan (0, 0)'],1,'Memotong sumbu x berarti y = 0, sehingga x = 6, yaitu titik (6, 0). Memotong sumbu y berarti x = 0, sehingga y = 6, yaitu titik (0, 6). Titik potong dua garis nantinya menjadi penyelesaian SPLDV.','4. Metode grafik'],
+    ['Saat dieliminasi, sebuah SPLDV menghasilkan 0 = 0. Artinya sistem tersebut memiliki ...',['Tepat satu solusi','Tidak ada solusi','Tak hingga solusi','Dua solusi'],2,'Hasil 0 = 0 selalu benar. Kedua persamaan sebenarnya sama, hanya ditulis berbeda, sehingga garisnya berimpit dan solusinya tak hingga banyak. Jika hasilnya mustahil seperti 0 = 2, maka tidak ada solusi.','5. Banyak penyelesaian'],
+    ['SPLDV x + 2y = 3 dan 2x + ky = 6 memiliki tak hingga solusi jika k = ...',['2','3','4','6'],2,'Syarat tak hingga solusi: a₁/a₂ = b₁/b₂ = c₁/c₂. Di sini 1/2 = 2/k = 3/6. Karena 1/2 = 3/6, maka 2/k = 1/2, sehingga k = 4.','5. Banyak penyelesaian'],
+    ['Di sebuah kandang ada bebek dan sapi, jumlahnya 30 ekor dan jumlah kakinya 84. Jika x = banyak bebek dan y = banyak sapi, model matematikanya adalah ...',['x + y = 30 dan 2x + 4y = 84','x + y = 84 dan 2x + 4y = 30','x + y = 30 dan 4x + 2y = 84','x + y = 30 dan 2x + 2y = 84'],0,'Jumlah kepala: x + y = 30. Jumlah kaki: bebek berkaki 2 dan sapi berkaki 4, sehingga 2x + 4y = 84. Selesaikan: 2x + 2y = 60, lalu 2y = 24, y = 12 sapi dan x = 18 bebek.','6. Soal cerita'],
+    ['Harga 3 pensil dan 2 buku Rp13.000, sedangkan harga 1 pensil dan 3 buku Rp9.000. Harga satu buku adalah ...',['Rp1.000','Rp2.000','Rp3.000','Rp4.000'],1,'Misalkan pensil = x dan buku = y (ribuan rupiah): 3x + 2y = 13 dan x + 3y = 9. Kalikan persamaan kedua dengan 3: 3x + 9y = 27. Kurangkan dengan persamaan pertama: 7y = 14, sehingga y = 2. Jadi satu buku Rp2.000 (dan satu pensil Rp3.000).','6. Soal cerita']
   ];
+    const passMark=Math.ceil(bank.length*0.6);
+  // Acak urutan pilihan jawaban setiap latihan dimulai agar jawaban benar tidak selalu di posisi yang sama.
+    const shuffled=()=>bank.map(q=>{const order=q[1].map((_,k)=>k).sort(()=>Math.random()-.5);return [q[0],order.map(k=>q[1][k]),order.indexOf(q[2]),q[3],q[4]];});
   window.renderQuiz=function(topic){
     if(topic!=='persamaan') return previousQuizRenderer(topic);
-    const el=$('tab-latihan');let i=0,score=0,answered=false;
+    const el=$('tab-latihan');let i=0,score=0,answered=false;let questions=shuffled();
     function draw(){
       const q=questions[i];answered=false;
-      el.innerHTML=`<div class="content-card spldv-lesson"><div class="quiz-score">🧩 Soal ${i+1}/${questions.length} · Skor ${score}</div><div class="quiz-q">${q[0]}</div><div class="option-grid">${q[1].map((o,j)=>`<button class="option" data-i="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}</div><div id="spQuizExplain"></div></div>`;
+      el.innerHTML=`<div class="content-card spldv-lesson"><div class="quiz-score">🧩 Soal ${i+1}/${questions.length} · Skor ${score}</div><div class="sp-quiz-topic"><span class="sp-kicker">📖 Materi ${q[4]}</span></div><div class="quiz-q">${q[0]}</div><div class="option-grid">${q[1].map((o,j)=>`<button class="option" data-i="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}</div><div id="spQuizExplain"></div></div>`;
       el.querySelectorAll('.option').forEach(b=>b.onclick=()=>answer(Number(b.dataset.i)));
     }
     function answer(choice){
@@ -244,7 +251,7 @@
       buttons.forEach(b=>b.disabled=true);buttons[q[2]].classList.add('correct');
       if(choice===q[2])score++;else buttons[choice].classList.add('wrong');
       $('spQuizExplain').innerHTML=`<div class="explanation"><strong>${choice===q[2]?'✅ Benar!':'❌ Belum tepat.'}</strong><br>${q[3]}</div><button class="gradient-btn" id="spNext" style="margin-top:14px">${i===questions.length-1?'Lihat hasil':'Soal berikutnya →'}</button>`;
-      $('spNext').onclick=()=>{if(i<questions.length-1){i++;draw();}else{el.innerHTML=`<div class="content-card" style="text-align:center"><div style="font-size:42px">🏆</div><h3>Latihan selesai!</h3><p>Skor kamu: <b>${score} dari ${questions.length}</b>.</p><p>${score===questions.length?'Sempurna! Kamu sudah menguasai dasar SPLDV.':score>=5?'Bagus! Ulangi bagian yang masih membingungkan.':'Yuk, baca kembali materi dan coba lagi.'}</p><button class="gradient-btn" id="spRetry">Ulangi latihan</button></div>`;$('spRetry').onclick=()=>{i=0;score=0;draw();};if(window.Progress&&Progress.setLatihan&&score>=5)Progress.setLatihan('persamaan',score,questions.length);}};
+      $('spNext').onclick=()=>{if(i<questions.length-1){i++;draw();}else{el.innerHTML=`<div class="content-card" style="text-align:center"><div style="font-size:42px">🏆</div><h3>Latihan selesai!</h3><p>Skor kamu: <b>${score} dari ${questions.length}</b>.</p><p>${score===questions.length?'Sempurna! Kamu sudah menguasai SPLDV.':score>=passMark?'Bagus! Ulangi bagian materi yang masih membingungkan.':'Yuk, baca kembali materi dan coba lagi.'}</p><button class="gradient-btn" id="spRetry">Ulangi latihan</button></div>`;$('spRetry').onclick=()=>{i=0;score=0;questions=shuffled();draw();};if(window.Progress&&Progress.setLatihan&&score>=passMark)Progress.setLatihan('persamaan',score,questions.length);}};
     }
     draw();
   };

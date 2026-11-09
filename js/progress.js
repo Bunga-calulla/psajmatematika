@@ -13,7 +13,7 @@
         persamaan: {
             materi: false,
             coba: false,
-            latihan: { score: 0, total: 6, completed: false }
+            latihan: { score: 0, total: 10, completed: false }
         },
         geometri: {
             materi: false,
