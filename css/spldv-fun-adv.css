@@ -202,3 +202,19 @@ body.nr-reduce .nr-reveal{opacity:1;transform:none}
 .module-card.nr-card-fun{overflow:visible}
 .nr-ribbon{position:absolute;top:-10px;right:14px;background:linear-gradient(100deg,#FF4D8D,#FF9F1C);color:#fff;font:800 11px 'JetBrains Mono',monospace;letter-spacing:.06em;padding:5px 10px;border-radius:999px;box-shadow:0 6px 14px rgba(255,77,141,.35);animation:nrRibbon 2s ease-in-out infinite;z-index:2}
 @keyframes nrRibbon{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-4px) rotate(2deg)}}
+/* ---------- tab latihan: bar progres bermaskot (sama seperti modul lain) ---------- */
+@keyframes nrQBob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-4px)}}
+@keyframes nrQBump{0%{transform:scale(1)}35%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes nrQShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes nrQPop{0%{transform:scale(.92);opacity:0}60%{transform:scale(1.02);opacity:1}100%{transform:scale(1)}}
+@keyframes nrQHop{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+.nr-qbar{position:relative;height:12px;margin:16px 0 22px;border-radius:99px;background:#EAE3F8}
+.nr-qbar span{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p)*1%);border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--violet));transition:width .6s cubic-bezier(.2,.9,.3,1)}
+.nr-qbar i{position:absolute;top:-14px;left:calc(var(--p)*1%);transform:translateX(-50%);font-style:normal;font-size:24px;transition:left .6s cubic-bezier(.2,.9,.3,1);animation:nrQBob 1.6s ease-in-out infinite}
+body.nr-mode #tab-latihan .option{transition:transform .15s,box-shadow .15s,background .2s,border-color .2s}
+body.nr-mode #tab-latihan .option:not(:disabled):hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(23,195,178,.2);border-color:var(--teal)}
+body.nr-mode #tab-latihan .option.correct{animation:nrQBump .5s}
+body.nr-mode #tab-latihan .option.wrong{animation:nrQShake .5s}
+body.nr-mode #spQuizExplain .explanation{animation:nrQPop .35s both}
+.nr-trophy{display:inline-block;animation:nrQHop 1.6s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.nr-qbar i,.nr-trophy,body.nr-mode #tab-latihan .option,body.nr-mode #spQuizExplain .explanation{animation:none!important;transition:none!important}.nr-qbar span{transition:none}}

@@ -113,6 +113,43 @@
     });
   }
 
+  /* ---------------- 6. tab latihan: bar progres bermaskot, konfeti, piala ---------------- */
+  function bindQuiz() {
+    const el = $('#tab-latihan');
+    if (!el || el.dataset.nrQuiz) return;
+    el.dataset.nrQuiz = '1';
+    const on = () => document.body.classList.contains('nr-mode');
+    const apply = () => {
+      if (!on()) return;
+      const sc = $('.quiz-score', el);
+      if (sc && !$('.nr-qbar', el)) {
+        const m = sc.textContent.match(/Soal\s+(\d+)\s*\/\s*(\d+)/);
+        if (m) sc.insertAdjacentHTML('afterend', '<div class="nr-qbar" data-i="' + m[1] + '" data-n="' + m[2] + '" style="--p:' + ((m[1] - 1) / m[2] * 100).toFixed(1) + '"><span></span><i aria-hidden="true">⚖️</i></div>');
+      }
+      const done = $('#spRetry', el);
+      if (done && !done.dataset.nrDone) {
+        done.dataset.nrDone = '1';
+        const card = done.closest('.content-card'), b = card && $('b', card);
+        const m = b && b.textContent.match(/(\d+)\s*dari\s*(\d+)/);
+        const r = m ? +m[1] / +m[2] : 0;
+        const ic = card && card.firstElementChild;
+        if (ic) { ic.textContent = r >= 0.8 ? '🏆' : r >= 0.5 ? '🌟' : '💪'; ic.classList.add('nr-trophy'); }
+        if (r >= 0.8) { setTimeout(confetti, 250); say('Luar biasa! Kamu jagoan SPLDV 🏆', 5000); }
+        else if (r >= 0.5) say('Bagus! Sedikit lagi sempurna 🌟', 4200);
+        else say('Tidak apa-apa, baca materinya lalu coba lagi ya. Aku temani! 💪', 4800);
+      }
+    };
+    new MutationObserver(apply).observe(el, { childList: true, subtree: true });
+    el.addEventListener('click', e => {
+      if (!on()) return;
+      const o = e.target.closest && e.target.closest('.option');
+      if (!o) return;
+      const bar = $('.nr-qbar', el);
+      if (bar) bar.style.setProperty('--p', (+bar.dataset.i / +bar.dataset.n * 100).toFixed(1));
+    });
+    apply();
+  }
+
   /* ---------------- pemasangan ---------------- */
   function enhance() {
     document.body.classList.toggle('nr-reduce', reduce);
@@ -125,6 +162,7 @@
       W.wireStepper(wrap, 'nrMagic', W.MAGIC); W.wireStepper(wrap, 'nrSwap', W.SWAP);
       wireGraph(wrap); wireCards(wrap);
     }
+    bindQuiz();
     bindOthers();
     setTimeout(() => say('Halo! Aku Nera ⚖️ Yuk seimbangkan persamaan bersama!', 4200), 900);
   }
